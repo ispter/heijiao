@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>传承经典黑胶原声唱片数据库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Loading页面样式 */
+        #loading-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: url('images/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 9999;
+            transition: transform 1s ease-in-out;
+        }
+
+        #loading-page.slide-up {
+            transform: translateY(-100%);
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-logo {
+            width: 646px;
+            height: auto;
+            max-width: 90%;
+            margin-bottom: 100px;
+            object-fit: contain;
+            transform: translateY(-50px);
+        }
+
+        .loading-footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            height: 176px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .enter-text {
+            font-size: 18px;
+            font-weight: 500;
+            font-style: italic;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 50px;
+            padding: 6px 20px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: transparent;
+            letter-spacing: 4px;
+        }
+
+        .enter-text:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .arrow-icon {
+            width: 40px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounce 2s infinite;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .arrow-icon:hover {
+            opacity: 0.7;
+        }
+
+        .arrow-icon svg {
+            width: 30px;
+            height: 20px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(5px);
+            }
+            60% {
+                transform: translateY(2px);
+            }
+        }
+
+        /* 主页面样式 */
+        #main-page {
+            width: 100%;
+            min-height: 100vh;
+            background: #FFFFFF;
+        }
+
+        /* 导航栏 */
+        .nav-header {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(90deg, #B91C1C 0%, #991B1B 50%, #7F1D1D 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-link {
+            z-index: 2;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            display: block;
+        }
+
+        .nav-logo-link:hover {
+            opacity: 0.9;
+        }
+
+        .nav-logo {
+            width: 250px;
+            height: auto;
+            max-width: 90%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-menu {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 80px;
+        }
+
+        .nav-menu-left {
+            display: flex;
+            gap: 30px;
+            margin-right: auto;
+            padding-left: 120px;
+        }
+
+        .nav-menu-right {
+            display: flex;
+            gap: 30px;
+            margin-left: auto;
+            padding-right: 120px;
+        }
+
+        .nav-button {
+            font-size: 16px;
+            font-weight: bold;
+            color: #FFE489;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 8px 30px;
+            position: relative;
+            display: inline-block;
+            background: transparent;
+            border: none;
+        }
+
+        /* 使用SVG背景创建装饰性边框 */
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='146' height='40' viewBox='0 0 146 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.78095 7.08425L5.43617 5.76923L6.50288 3.12775C7.2662 1.23755 9.1006 0 11.1391 0L136.194 0C138.341 0 140.248 1.37051 140.933 3.40526L141.34 4.61538L142.568 5.02057C144.616 5.69697 146 7.61108 146 9.76847V29.7314C146 31.756 144.779 33.5808 142.908 34.3532L141.34 35L140.88 36.4833C140.23 38.5747 138.295 40 136.105 40H10.9523C9.00864 40 7.2411 38.8736 6.42017 37.1118L5.43617 35L3.33249 34.2558C1.33519 33.5493 0 31.6607 0 29.5421V11.5649C0 9.66415 1.07768 7.92781 2.78095 7.08425Z' fill='url(%23grad1)' /%3E%3Cpath d='M1 29.5421Q1 32.37 3.66599 33.3131L6.16534 34.1972L7.3266 36.6894Q8.40323 39 10.9523 39H136.105Q137.419 39 138.477 38.2208Q139.535 37.4415 139.925 36.1866L140.525 34.2548L142.526 33.4289Q145 32.4078 145 29.7314V9.76847Q145 8.47403 144.242 7.42501Q143.483 6.37599 142.254 5.97015L140.552 5.40821L139.985 3.7242Q139.575 2.50336 138.529 1.75168Q137.482 1 136.194 1H11.1391Q8.44059 1 7.43013 3.5022L6.22094 6.49649L3.22476 7.98037Q1 9.0822 1 11.5649V29.5421Z' stroke='%23D4AF37' stroke-width='1'/%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0' y1='0' x2='146' y2='40'%3E%3Cstop offset='0' stop-color='rgba(212,175,55,0.1)'/%3E%3Cstop offset='1' stop-color='rgba(255,228,137,0.05)'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .nav-button::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background-image: url("data:image/svg+xml,%3Csvg width='150' height='44' viewBox='0 0 150 44' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 9L7 7L8 4C9 2 10 1 13 1H138C140 1 142 2 143 4L144 6L146 7C147 8 148 9 148 11V31C148 33 147 35 145 36L143 37L142 38C141 40 139 41 137 41H12C10 41 8 40 7 38L6 36L4 35C2 34 1 32 1 30V12C1 10 2 8 4 9Z' stroke='rgba(255,228,137,0.3)' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .nav-button.active {
+            color: #921B1B;
+        }
+
+        .nav-button.active::before {
+            background-image: url("data:image/svg+xml,%3Csvg width='146' height='40' viewBox='0 0 146 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.78095 7.08425L5.43617 5.76923L6.50288 3.12775C7.2662 1.23755 9.1006 0 11.1391 0L136.194 0C138.341 0 140.248 1.37051 140.933 3.40526L141.34 4.61538L142.568 5.02057C144.616 5.69697 146 7.61108 146 9.76847V29.7314C146 31.756 144.779 33.5808 142.908 34.3532L141.34 35L140.88 36.4833C140.23 38.5747 138.295 40 136.105 40H10.9523C9.00864 40 7.2411 38.8736 6.42017 37.1118L5.43617 35L3.33249 34.2558C1.33519 33.5493 0 31.6607 0 29.5421V11.5649C0 9.66415 1.07768 7.92781 2.78095 7.08425Z' fill='url(%23grad2)' /%3E%3Cpath d='M1 29.5421Q1 32.37 3.66599 33.3131L6.16534 34.1972L7.3266 36.6894Q8.40323 39 10.9523 39H136.105Q137.419 39 138.477 38.2208Q139.535 37.4415 139.925 36.1866L140.525 34.2548L142.526 33.4289Q145 32.4078 145 29.7314V9.76847Q145 8.47403 144.242 7.42501Q143.483 6.37599 142.254 5.97015L140.552 5.40821L139.985 3.7242Q139.575 2.50336 138.529 1.75168Q137.482 1 136.194 1H11.1391Q8.44059 1 7.43013 3.5022L6.22094 6.49649L3.22476 7.98037Q1 9.0822 1 11.5649V29.5421Z' stroke='%23D4AF37' stroke-width='1'/%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0' y1='0' x2='146' y2='40'%3E%3Cstop offset='0' stop-color='rgba(255,228,137,0.5)'/%3E%3Cstop offset='1' stop-color='rgba(255,228,137,0.3)'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+        }
+
+        .nav-button:hover {
+            color: #921B1B;
+            transform: translateY(-2px);
+        }
+
+        .nav-button:hover::before {
+            background-image: url("data:image/svg+xml,%3Csvg width='146' height='40' viewBox='0 0 146 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.78095 7.08425L5.43617 5.76923L6.50288 3.12775C7.2662 1.23755 9.1006 0 11.1391 0L136.194 0C138.341 0 140.248 1.37051 140.933 3.40526L141.34 4.61538L142.568 5.02057C144.616 5.69697 146 7.61108 146 9.76847V29.7314C146 31.756 144.779 33.5808 142.908 34.3532L141.34 35L140.88 36.4833C140.23 38.5747 138.295 40 136.105 40H10.9523C9.00864 40 7.2411 38.8736 6.42017 37.1118L5.43617 35L3.33249 34.2558C1.33519 33.5493 0 31.6607 0 29.5421V11.5649C0 9.66415 1.07768 7.92781 2.78095 7.08425Z' fill='url(%23grad2)' /%3E%3Cpath d='M1 29.5421Q1 32.37 3.66599 33.3131L6.16534 34.1972L7.3266 36.6894Q8.40323 39 10.9523 39H136.105Q137.419 39 138.477 38.2208Q139.535 37.4415 139.925 36.1866L140.525 34.2548L142.526 33.4289Q145 32.4078 145 29.7314V9.76847Q145 8.47403 144.242 7.42501Q143.483 6.37599 142.254 5.97015L140.552 5.40821L139.985 3.7242Q139.575 2.50336 138.529 1.75168Q137.482 1 136.194 1H11.1391Q8.44059 1 7.43013 3.5022L6.22094 6.49649L3.22476 7.98037Q1 9.0822 1 11.5649V29.5421Z' stroke='%23D4AF37' stroke-width='1'/%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0' y1='0' x2='146' y2='40'%3E%3Cstop offset='0' stop-color='rgba(255,228,137,0.5)'/%3E%3Cstop offset='1' stop-color='rgba(255,228,137,0.3)'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+        }
+
+        /* 标签页 */
+        .tab-section {
+            width: 100%;
+            background: #F8F8F8;
+            padding: 48px 0;
+            margin-top: 120px;
+        }
+
+        .tab-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .tab-button {
+            padding: 12px 32px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #1A1A1A;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .tab-button:hover {
+            background: rgba(185, 28, 28, 0.05);
+        }
+
+        .tab-button.active {
+            color: #E60010;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #E60010;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 内容展示区域 */
+        .content-section {
+            width: 100%;
+            background: #F8F8F8;
+            padding: 24px 0 48px;
+        }
+
+        .content-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+        }
+
+        .content-grid.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .role-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.3s ease-in-out;
+            animation: fadeInUp 0.4s ease-out;
+            cursor: pointer;
+        }
+
+        .role-card.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        .role-card:hover .role-image {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0px 8px 16px -4px rgba(0, 0, 0, 0.2), 0px 20px 30px -6px rgba(0, 0, 0, 0.2);
+        }
+
+        .role-card:hover .role-title {
+            color: #FFE489;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .role-card:hover .role-overlay {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .role-image-container {
+            width: 284px;
+            height: 284px;
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .role-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 9999px;
+            object-fit: cover;
+            border: 8px solid #FFFFFF;
+            box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .role-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 9999px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .role-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+            letter-spacing: 6px;
+            line-height: 1.5;
+            transition: all 0.3s ease-in-out;
+            font-family: 'KaiTi', 'STKaiti', 'Kaiti SC', '楷体', 'SimKai', cursive;
+        }
+
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #FFFFFF;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, #B91C1C 0%, #991B1B 50%, #7F1D1D 100%);
+            padding: 24px;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: #FFFFFF;
+            font-size: 32px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 24px;
+            max-height: calc(80vh - 100px);
+            overflow-y: auto;
+        }
+
+        .track-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .track-item {
+            padding: 16px;
+            margin-bottom: 12px;
+            background: #F8F8F8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .track-item:hover {
+            background: #FFE489;
+            border-left-color: #B91C1C;
+            transform: translateX(5px);
+        }
+
+        .track-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1A1A1A;
+            margin-bottom: 4px;
+        }
+
+        .track-info {
+            font-size: 14px;
+            color: #666666;
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            background: linear-gradient(90deg, #991B1B 0%, #7F1D1D 100%);
+            padding: 48px 0;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            align-items: start;
+        }
+
+        .footer-qr {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-qr h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 16px;
+        }
+
+        .footer-contact h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            color: #E5E7EB;
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+            fill: #E5E7EB;
+        }
+
+        .footer-visitor {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 16px;
+        }
+
+        .footer-visitor h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .count-display {
+            display: flex;
+            gap: 10px;
+        }
+
+        .digit {
+            width: 20px;
+            height: 25px;
+            background: rgba(216, 216, 216, 0.3);
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: #FFE489;
+            margin: 32px 0;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 0;
+        }
+
+        .footer-bottom p {
+            font-size: 16px;
+            color: #E5E7EB;
+            margin: 8px 0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1280px) {
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav-menu-left,
+            .nav-menu-right {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .loading-logo {
+                width: 400px;
+                height: auto;
+            }
+            
+            .nav-logo-link {
+                width: 200px;
+            }
+            
+            .nav-logo {
+                width: 100%;
+                height: auto;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-menu-left,
+            .nav-menu-right {
+                padding: 0;
+                gap: 10px;
+            }
+            
+            .nav-button {
+                font-size: 14px;
+                padding: 6px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" preload="auto">
+        <source src="bg.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+
+    <!-- Loading页面 -->
+    <div id="loading-page">
+        <div class="loading-overlay">
+            <img src="images/logo.png" alt="Logo" class="loading-logo">
+            <div class="loading-footer">
+                <div class="enter-text" onclick="enterSite()">欢迎进入</div>
+                <div class="arrow-icon" onclick="enterSite()">
+                    <svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 第一条折线 -->
+                        <polyline points="5,2 15,12 25,2" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- 第二条折线 -->
+                        <polyline points="5,8 15,18 25,8" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主页面 -->
+    <div id="main-page">
+        <!-- 导航栏 -->
+        <nav class="nav-header">
+            <div class="nav-menu">
+            <div class="nav-menu-left">
+                <button class="nav-button active" onclick="showMainContent()">经典专辑</button>
+                <a href="masters.html" class="nav-button">名家风采</a>
+            </div>
+                <div class="nav-menu-right">
+                    <a href="science.html" class="nav-button">京剧科普</a>
+                    <a href="search.html" class="nav-button">曲目搜索</a>
+                </div>
+            </div>
+            <a href="#" class="nav-logo-link" onclick="goToMainPage(); return false;">
+                <img src="images/logo2.png" alt="Logo" class="nav-logo">
+            </a>
+        </nav>
+
+        <!-- 标签页 -->
+        <section class="tab-section">
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-button active">全部</button>
+                    <button class="tab-button">行当</button>
+                    <button class="tab-button">科班</button>
+                    <button class="tab-button">名家</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 内容展示区域 -->
+        <section class="content-section">
+            <div class="content-container">
+                <!-- 全部内容展示区域 -->
+                <div id="all-content" class="content-grid">
+                    <!-- 行当 - 排在最前面 -->
+                    <div class="role-card" data-category="role" data-name="乾旦" onclick="showTracks('乾旦')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="乾旦" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">乾旦</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="role" data-name="坤旦" onclick="showTracks('坤旦')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="坤旦" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">坤旦</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="role" data-name="坤生" onclick="showTracks('坤生')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="坤生" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">坤生</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="role" data-name="武生" onclick="showTracks('武生')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="武生" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">武生</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="role" data-name="旦行" onclick="showTracks('旦行')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="旦行" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">旦行</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="role" data-name="净行" onclick="showTracks('净行')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="净行" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">净行</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="role" data-name="丑行" onclick="showTracks('丑行')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="丑行" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">丑行</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- 科班 -->
+                    <div class="role-card" data-category="ke-ban" data-name="承华社" onclick="showTracks('承华社')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="承华社" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">承华社</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="ke-ban" data-name="斌庆社" onclick="showTracks('斌庆社')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="斌庆社" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">斌庆社</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="ke-ban" data-name="庆生社" onclick="showTracks('庆生社')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="庆生社" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">庆生社</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="ke-ban" data-name="春庆社" onclick="showTracks('春庆社')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="春庆社" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">春庆社</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="ke-ban" data-name="富连成社" onclick="showTracks('富连成社')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="富连成社" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">富连<br>成社</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- 名家 -->
+                    <div class="role-card" data-category="ming-jia" data-name="梅兰芳" onclick="showTracks('梅兰芳')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="梅兰芳" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">梅兰芳</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="ming-jia" data-name="杨小楼" onclick="showTracks('杨小楼')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="杨小楼" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">杨小楼</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="ming-jia" data-name="周信芳" onclick="showTracks('周信芳')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="周信芳" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">周信芳</h3>
+                        </div>
+                    </div>
+                    <div class="role-card" data-category="ming-jia" data-name="郝寿臣" onclick="showTracks('郝寿臣')">
+                        <div class="role-image-container">
+                            <img src="images/disk_ws.png" alt="郝寿臣" class="role-image">
+                            <div class="role-overlay"></div>
+                            <h3 class="role-title">郝寿臣</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 分类内容展示区域 -->
+                <div id="category-content" class="content-grid hidden">
+                    <!-- 动态内容将在这里显示 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 曲目弹窗 -->
+        <div id="trackModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalTitle">曲目列表</h2>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <ul class="track-list" id="trackList">
+                        <!-- 曲目列表将在这里动态生成 -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-qr">
+                        <h4>手机聆听曲目</h4>
+                        <div class="qr-code">
+                            <img src="images/qrcode.png" alt="二维码">
+                        </div>
+                    </div>
+                    <div class="footer-contact">
+                        <h4>联系我们</h4>
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <svg class="contact-icon" viewBox="0 0 16 16">
+                                    <path d="M1.5 12Q0.875 11.9688 0.4375 11.5625Q0.03125 11.125 0 10.5Q0.03125 9.75 0.59375 9.3125L7.40625 4.1875Q8 3.8125 8.59375 4.1875L15.4062 9.3125Q15.9688 9.75 16 10.5Q15.9688 11.125 15.5625 11.5625Q15.125 11.9688 14.5 12L1.5 12ZM0 8.5L0 2L0 8.5L0 2Q0.03125 1.15625 0.59375 0.59375Q1.15625 0.03125 2 0L14 0Q14.8438 0.03125 15.4062 0.59375Q15.9688 1.15625 16 2L16 8.5L9.1875 3.40625Q8.65625 3 8 3Q7.34375 3 6.8125 3.40625L0 8.5Z" fill="#E5E7EB"/>
+                                </svg>
+                                <span>contact@pekingopera.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <svg class="contact-icon" viewBox="0 0 12 16">
+                                    <path d="M6.75 0.375Q7.59375 1.40625 8.8125 3.15625Q10.0312 4.875 11 6.71875Q11.9375 8.5625 12 9.96875Q11.9375 12.5312 10.25 14.2188Q8.5625 15.9062 6 15.9688Q3.4375 15.9062 1.75 14.2188Q0.0625 12.5312 0 9.96875Q0.0625 8.5625 1 6.71875Q1.96875 4.875 3.1875 3.15625Q4.40625 1.40625 5.25 0.375Q5.5625 0 6 0Q6.4375 0 6.75 0.375ZM6 11.9688Q7.125 11.9375 7.71875 10.9688Q8.28125 9.96875 7.71875 8.96875Q7.125 8 6 7.96875Q4.875 8 4.28125 8.96875Q3.71875 9.96875 4.28125 10.9688Q4.875 11.9375 6 11.9688Z" fill="#E5E7EB"/>
+                                </svg>
+                                <span>北京市西城区前门大街</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-visitor">
+                        <h4>网站访问量</h4>
+                        <div class="count-display">
+                            <span class="digit">0</span>
+                            <span class="digit">0</span>
+                            <span class="digit">1</span>
+                            <span class="digit">4</span>
+                            <span class="digit">6</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-divider"></div>
+                <div class="footer-bottom">
+                    <p>© 2025 传承经典—黑胶原声唱片数据库. 版权所有.</p>
+                    <p>中国大百科全书出版社 出品</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+        const loadingPage = document.getElementById('loading-page');
+        
+        // 设置音乐属性（不循环）
+        bgMusic.loop = false;
+        bgMusic.volume = 0.6;
+        
+        // 监听音频事件
+        bgMusic.addEventListener('canplay', () => {
+            console.log('✓ 音频已准备好可以播放');
+        });
+        
+        bgMusic.addEventListener('playing', () => {
+            console.log('✓ 音乐正在播放中...');
+        });
+        
+        bgMusic.addEventListener('ended', () => {
+            console.log('✓ 音乐播放完毕');
+        });
+        
+        bgMusic.addEventListener('error', (e) => {
+            console.error('✗ 音频错误:', bgMusic.error ? bgMusic.error.message : e);
+        });
+
+        // 检查是否需要跳过loading页面
+        // 如果用户已经访问过（sessionStorage标记），或者URL中有跳过标记，则自动跳过loading
+        const hasVisited = sessionStorage.getItem('hasVisited');
+        const skipLoading = new URLSearchParams(window.location.search).get('skip') === 'true';
+        
+        if (hasVisited || skipLoading) {
+            // 自动跳过loading页面，直接显示主内容
+            console.log('>>> 检测到站内跳转，自动跳过loading页面');
+            loadingPage.style.display = 'none';
+        }
+        
+        // 页面加载完成后自动播放音乐
+        window.addEventListener('load', () => {
+            // 如果已经跳过loading，不播放音乐
+            if (hasVisited || skipLoading) {
+                return;
+            }
+            
+            console.log('========================================');
+            console.log('>>> 页面加载完成，开始播放音乐（只播放一遍）');
+            console.log('音频文件路径:', bgMusic.currentSrc || 'bg.mp3');
+            console.log('========================================');
+            
+            // 延迟一点点再播放，确保资源加载完成
+            setTimeout(() => {
+                bgMusic.play()
+                    .then(() => {
+                        console.log('✓✓✓ 音乐自动播放成功！音量:', Math.round(bgMusic.volume * 100) + '%');
+                        console.log('✓✓✓ 循环播放:', bgMusic.loop);
+                    })
+                    .catch(error => {
+                        console.log('⚠ 自动播放被浏览器阻止:', error.message);
+                        console.log('请点击页面任意位置启动音乐');
+                        
+                        // 添加一次性点击事件来启动音乐
+                        document.addEventListener('click', function startMusic() {
+                            bgMusic.play()
+                                .then(() => console.log('✓ 点击后音乐开始播放'))
+                                .catch(e => console.error('✗ 点击后仍无法播放:', e.message));
+                        }, { once: true });
+                    });
+            }, 100);
+        });
+
+        // 进入网站函数 - 停止音乐
+        function enterSite() {
+            console.log('========================================');
+            console.log('>>> 用户点击"欢迎进入"，停止音乐');
+            console.log('========================================');
+            
+            // 停止音乐
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+            console.log('✓ 音乐已停止');
+            
+            // 设置已访问标记，下次进入时跳过loading
+            sessionStorage.setItem('hasVisited', 'true');
+            console.log('✓ 已设置访问标记');
+            
+            // 页面滑动动画
+            loadingPage.classList.add('slide-up');
+            
+            setTimeout(() => {
+                loadingPage.style.display = 'none';
+            }, 1000);
+        }
+
+        // 点击logo跳转到主页面
+        function goToMainPage() {
+            console.log('>>> 点击logo，跳转到主页');
+            
+            // 如果loading页面还在显示，直接进入主页
+            if (loadingPage && loadingPage.style.display !== 'none') {
+                // 停止音乐
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+                
+                // 设置已访问标记
+                sessionStorage.setItem('hasVisited', 'true');
+                
+                // 隐藏loading页面
+                loadingPage.classList.add('slide-up');
+                setTimeout(() => {
+                    loadingPage.style.display = 'none';
+                }, 1000);
+            } else {
+                // 如果已经在主页，滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // 显示主页面内容（经典专辑）
+        function showMainContent() {
+            console.log('>>> 点击经典专辑按钮，显示主页内容');
+            
+            // 如果loading页面还在显示，先隐藏它
+            if (loadingPage && loadingPage.style.display !== 'none') {
+                // 停止音乐
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+                
+                // 设置已访问标记
+                sessionStorage.setItem('hasVisited', 'true');
+                
+                // 隐藏loading页面
+                loadingPage.classList.add('slide-up');
+                
+                setTimeout(() => {
+                    loadingPage.style.display = 'none';
+                }, 1000);
+            }
+            
+            // 确保主页面内容显示
+            const allContent = document.getElementById('all-content');
+            const categoryContent = document.getElementById('category-content');
+            
+            if (allContent && categoryContent) {
+                // 隐藏分类内容，显示全部内容
+                categoryContent.classList.add('hidden');
+                allContent.classList.remove('hidden');
+            }
+        }
+
+        // 曲目数据
+        const tracksData = {
+            '乾旦': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' },
+                { name: '虹霓关', info: '【1925年高亭唱片】陈德霖饰东方氏' },
+                { name: '祭江', info: '【1908年百代唱片】陈德霖饰孙尚香' },
+                { name: '锯大缸', info: '【1938年国乐唱片】宋德珠饰王大娘' },
+                { name: '狸猫换太子(九曲桥)', info: '【1929年胜利唱片】刘筱衡饰寇珠' },
+                { name: '清风亭', info: '【1936年丽歌唱片】张君秋饰周桂英' },
+                { name: '四郎探母', info: '【1929年蓓开唱片】陈德霖饰萧太后、铁镜公主' },
+                { name: '缇萦救父', info: '【1938年丽歌唱片】张君秋饰淳于缇萦' },
+                { name: '头本开天辟地（洞房）', info: '【1929年胜利唱片】刘筱衡饰嫘祖' },
+                { name: '孝感天', info: '【1925年高亭唱片】陈德霖饰卫氏' },
+                { name: '醉酒', info: '【1908年百代唱片】路玉珊饰杨玉环' }
+            ],
+            '坤旦': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '坤生': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '武生': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '旦行': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '净行': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '丑行': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '承华社': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '斌庆社': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '庆生社': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '春庆社': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '富连成社': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '梅兰芳': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '杨小楼': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '周信芳': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ],
+            '郝寿臣': [
+                { name: '飞龙传', info: '【1928年胜利唱片】赵君玉饰韩素梅' }
+            ]
+        };
+
+        // 显示曲目列表
+        function showTracks(roleName) {
+            const modal = document.getElementById('trackModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const trackList = document.getElementById('trackList');
+            
+            // 设置标题
+            modalTitle.textContent = roleName + ' - 曲目列表';
+            
+            // 清空列表
+            trackList.innerHTML = '';
+            
+            // 获取对应的曲目数据
+            const tracks = tracksData[roleName] || [];
+            
+            // 生成曲目列表
+            tracks.forEach(track => {
+                const li = document.createElement('li');
+                li.className = 'track-item';
+                li.onclick = () => playTrack(track.name, track.info);
+                li.innerHTML = `
+                    <div class="track-name">${track.name}</div>
+                    <div class="track-info">${track.info}</div>
+                `;
+                trackList.appendChild(li);
+            });
+            
+            // 显示弹窗
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭弹窗
+        function closeModal() {
+            const modal = document.getElementById('trackModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 点击弹窗外部关闭
+        document.getElementById('trackModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // 播放曲目（跳转到播放页面）
+        function playTrack(trackName, trackInfo) {
+            // 跳转到播放页面，传递曲目标题和信息
+            const url = 'play.html?title=' + encodeURIComponent(trackName) + '&info=' + encodeURIComponent(trackInfo);
+            window.open(url, '_blank');
+        }
+
+        // 标签切换功能
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // 移除所有按钮的active状态
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // 添加当前按钮的active状态
+                this.classList.add('active');
+                
+                const buttonText = this.textContent.trim();
+                const allContent = document.getElementById('all-content');
+                const categoryContent = document.getElementById('category-content');
+                
+                // 根据按钮文本显示对应内容
+                if (buttonText === '全部') {
+                    // 先隐藏分类内容
+                    categoryContent.classList.add('hidden');
+                    
+                    // 显示全部内容
+                    allContent.classList.remove('hidden');
+                } else {
+                    // 先隐藏全部内容
+                    allContent.classList.add('hidden');
+                    
+                    // 清空分类内容
+                    categoryContent.innerHTML = '';
+                    
+                    // 根据分类筛选并添加对应的卡片
+                    let targetCategory = '';
+                    if (buttonText === '行当') targetCategory = 'role';
+                    else if (buttonText === '科班') targetCategory = 'ke-ban';
+                    else if (buttonText === '名家') targetCategory = 'ming-jia';
+                    
+                    // 从全部内容中筛选对应分类的卡片
+                    const allCards = allContent.querySelectorAll('.role-card');
+                    const filteredCards = [];
+                    
+                    // 按照在HTML中的顺序筛选卡片
+                    allCards.forEach(card => {
+                        if (card.getAttribute('data-category') === targetCategory) {
+                            const clonedCard = card.cloneNode(true);
+                            // 重新绑定点击事件
+                            const roleName = clonedCard.getAttribute('data-name');
+                            if (roleName) {
+                                clonedCard.onclick = () => showTracks(roleName);
+                            }
+                            filteredCards.push(clonedCard);
+                        }
+                    });
+                    
+                    // 将所有筛选的卡片添加到分类内容中
+                    filteredCards.forEach(card => {
+                        categoryContent.appendChild(card);
+                    });
+                    
+                    // 显示分类内容
+                    setTimeout(() => {
+                        categoryContent.classList.remove('hidden');
+                    }, 50);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

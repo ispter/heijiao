@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>传承经典黑胶原声唱片数据库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            overflow-x: hidden;
+            background: #F8F9FA;
+        }
+
+        /* 导航栏 */
+        .nav-header {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(90deg, #B91C1C 0%, #991B1B 50%, #7F1D1D 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-link {
+            z-index: 2;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            display: block;
+        }
+
+        .nav-logo-link:hover {
+            opacity: 0.9;
+        }
+
+        .nav-logo {
+            width: 250px;
+            height: auto;
+            max-width: 90%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-menu {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 80px;
+        }
+
+        .nav-menu-left {
+            display: flex;
+            gap: 30px;
+            margin-right: auto;
+            padding-left: 120px;
+        }
+
+        .nav-menu-right {
+            display: flex;
+            gap: 30px;
+            margin-left: auto;
+            padding-right: 120px;
+        }
+
+        .nav-button {
+            font-size: 16px;
+            font-weight: bold;
+            color: #FFE489;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 8px 30px;
+            position: relative;
+            display: inline-block;
+            background: transparent;
+            border: none;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='146' height='40' viewBox='0 0 146 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.78095 7.08425L5.43617 5.76923L6.50288 3.12775C7.2662 1.23755 9.1006 0 11.1391 0L136.194 0C138.341 0 140.248 1.37051 140.933 3.40526L141.34 4.61538L142.568 5.02057C144.616 5.69697 146 7.61108 146 9.76847V29.7314C146 31.756 144.779 33.5808 142.908 34.3532L141.34 35L140.88 36.4833C140.23 38.5747 138.295 40 136.105 40H10.9523C9.00864 40 7.2411 38.8736 6.42017 37.1118L5.43617 35L3.33249 34.2558C1.33519 33.5493 0 31.6607 0 29.5421V11.5649C0 9.66415 1.07768 7.92781 2.78095 7.08425Z' fill='url(%23grad1)' /%3E%3Cpath d='M1 29.5421Q1 32.37 3.66599 33.3131L6.16534 34.1972L7.3266 36.6894Q8.40323 39 10.9523 39H136.105Q137.419 39 138.477 38.2208Q139.535 37.4415 139.925 36.1866L140.525 34.2548L142.526 33.4289Q145 32.4078 145 29.7314V9.76847Q145 8.47403 144.242 7.42501Q143.483 6.37599 142.254 5.97015L140.552 5.40821L139.985 3.7242Q139.575 2.50336 138.529 1.75168Q137.482 1 136.194 1H11.1391Q8.44059 1 7.43013 3.5022L6.22094 6.49649L3.22476 7.98037Q1 9.0822 1 11.5649V29.5421Z' stroke='%23D4AF37' stroke-width='1'/%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0' y1='0' x2='146' y2='40'%3E%3Cstop offset='0' stop-color='rgba(212,175,55,0.1)'/%3E%3Cstop offset='1' stop-color='rgba(255,228,137,0.05)'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .nav-button.active {
+            color: #921B1B;
+        }
+
+        .nav-button.active::before {
+            background-image: url("data:image/svg+xml,%3Csvg width='146' height='40' viewBox='0 0 146 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.78095 7.08425L5.43617 5.76923L6.50288 3.12775C7.2662 1.23755 9.1006 0 11.1391 0L136.194 0C138.341 0 140.248 1.37051 140.933 3.40526L141.34 4.61538L142.568 5.02057C144.616 5.69697 146 7.61108 146 9.76847V29.7314C146 31.756 144.779 33.5808 142.908 34.3532L141.34 35L140.88 36.4833C140.23 38.5747 138.295 40 136.105 40H10.9523C9.00864 40 7.2411 38.8736 6.42017 37.1118L5.43617 35L3.33249 34.2558C1.33519 33.5493 0 31.6607 0 29.5421V11.5649C0 9.66415 1.07768 7.92781 2.78095 7.08425Z' fill='url(%23grad2)' /%3E%3Cpath d='M1 29.5421Q1 32.37 3.66599 33.3131L6.16534 34.1972L7.3266 36.6894Q8.40323 39 10.9523 39H136.105Q137.419 39 138.477 38.2208Q139.535 37.4415 139.925 36.1866L140.525 34.2548L142.526 33.4289Q145 32.4078 145 29.7314V9.76847Q145 8.47403 144.242 7.42501Q143.483 6.37599 142.254 5.97015L140.552 5.40821L139.985 3.7242Q139.575 2.50336 138.529 1.75168Q137.482 1 136.194 1H11.1391Q8.44059 1 7.43013 3.5022L6.22094 6.49649L3.22476 7.98037Q1 9.0822 1 11.5649V29.5421Z' stroke='%23D4AF37' stroke-width='1'/%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0' y1='0' x2='146' y2='40'%3E%3Cstop offset='0' stop-color='rgba(255,228,137,0.5)'/%3E%3Cstop offset='1' stop-color='rgba(255,228,137,0.3)'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+        }
+
+        .nav-button:hover {
+            color: #921B1B;
+            transform: translateY(-2px);
+        }
+
+        .nav-button:hover::before {
+            background-image: url("data:image/svg+xml,%3Csvg width='146' height='40' viewBox='0 0 146 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.78095 7.08425L5.43617 5.76923L6.50288 3.12775C7.2662 1.23755 9.1006 0 11.1391 0L136.194 0C138.341 0 140.248 1.37051 140.933 3.40526L141.34 4.61538L142.568 5.02057C144.616 5.69697 146 7.61108 146 9.76847V29.7314C146 31.756 144.779 33.5808 142.908 34.3532L141.34 35L140.88 36.4833C140.23 38.5747 138.295 40 136.105 40H10.9523C9.00864 40 7.2411 38.8736 6.42017 37.1118L5.43617 35L3.33249 34.2558C1.33519 33.5493 0 31.6607 0 29.5421V11.5649C0 9.66415 1.07768 7.92781 2.78095 7.08425Z' fill='url(%23grad2)' /%3E%3Cpath d='M1 29.5421Q1 32.37 3.66599 33.3131L6.16534 34.1972L7.3266 36.6894Q8.40323 39 10.9523 39H136.105Q137.419 39 138.477 38.2208Q139.535 37.4415 139.925 36.1866L140.525 34.2548L142.526 33.4289Q145 32.4078 145 29.7314V9.76847Q145 8.47403 144.242 7.42501Q143.483 6.37599 142.254 5.97015L140.552 5.40821L139.985 3.7242Q139.575 2.50336 138.529 1.75168Q137.482 1 136.194 1H11.1391Q8.44059 1 7.43013 3.5022L6.22094 6.49649L3.22476 7.98037Q1 9.0822 1 11.5649V29.5421Z' stroke='%23D4AF37' stroke-width='1'/%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0' y1='0' x2='146' y2='40'%3E%3Cstop offset='0' stop-color='rgba(255,228,137,0.5)'/%3E%3Cstop offset='1' stop-color='rgba(255,228,137,0.3)'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+        }
+
+        /* 搜索区域 */
+        .search-section {
+            width: 100%;
+            background: #F8F9FA;
+            padding: 48px 24px;
+            margin-top: 120px;
+            min-height: calc(100vh - 120px - 300px);
+        }
+
+        .search-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .search-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .search-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #111827;
+            line-height: 40px;
+            margin-bottom: 16px;
+        }
+
+        .search-subtitle {
+            font-size: 18px;
+            color: #4B5563;
+            line-height: 28px;
+        }
+
+        .search-box-wrapper {
+            max-width: 672px;
+            margin: 0 auto;
+        }
+
+        .search-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 58px;
+            padding: 16px 24px;
+            padding-right: 100px;
+            font-size: 16px;
+            color: #111827;
+            background: #FFFFFF;
+            border: 1px solid #D1D5DB;
+            border-radius: 4px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-input::placeholder {
+            color: #9CA3AF;
+        }
+
+        .search-input:focus {
+            border-color: #E63946;
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 9px;
+            width: 72px;
+            height: 40px;
+            background: #E63946;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .search-button:hover {
+            background: #DC2626;
+            transform: scale(1.05);
+        }
+
+        .search-button:active {
+            transform: scale(0.95);
+        }
+
+        .search-button svg {
+            width: 16px;
+            height: 16px;
+            fill: #FFFFFF;
+        }
+
+        /* 搜索结果区域 */
+        .search-results {
+            max-width: 1280px;
+            margin: 48px auto 0;
+            display: none;
+        }
+
+        .search-results.show {
+            display: block;
+        }
+
+        .results-header {
+            font-size: 20px;
+            font-weight: 500;
+            color: #111827;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #E63946;
+        }
+
+        .results-count {
+            color: #E63946;
+            font-weight: bold;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .result-card {
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .result-card:hover {
+            border-color: #E63946;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .result-info {
+            font-size: 14px;
+            color: #6B7280;
+            line-height: 1.6;
+        }
+
+        .result-category {
+            display: inline-block;
+            font-size: 12px;
+            color: #E63946;
+            background: rgba(230, 57, 70, 0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .no-results-text {
+            font-size: 18px;
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            background: linear-gradient(90deg, #991B1B 0%, #7F1D1D 100%);
+            padding: 48px 0;
+            margin-top: 80px;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            align-items: start;
+        }
+
+        .footer-qr {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-qr h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 16px;
+        }
+
+        .footer-contact h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            color: #E5E7EB;
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+            fill: #E5E7EB;
+        }
+
+        .footer-visitor {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 16px;
+        }
+
+        .footer-visitor h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .count-display {
+            display: flex;
+            gap: 10px;
+        }
+
+        .digit {
+            width: 20px;
+            height: 25px;
+            background: rgba(216, 216, 216, 0.3);
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: #FFE489;
+            margin: 32px 0;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 0;
+        }
+
+        .footer-bottom p {
+            font-size: 16px;
+            color: #E5E7EB;
+            margin: 8px 0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-menu-left,
+            .nav-menu-right {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+
+            .search-title {
+                font-size: 28px;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav-header">
+        <div class="nav-menu">
+            <div class="nav-menu-left">
+                <a href="index.html" class="nav-button">经典专辑</a>
+                <a href="masters.html" class="nav-button">名家风采</a>
+            </div>
+            <div class="nav-menu-right">
+                <a href="science.html" class="nav-button">京剧科普</a>
+                <a href="search.html" class="nav-button active">曲目搜索</a>
+            </div>
+        </div>
+        <a href="index.html" class="nav-logo-link">
+            <img src="images/logo2.png" alt="Logo" class="nav-logo">
+        </a>
+    </nav>
+
+    <!-- 搜索区域 -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-header">
+                <h1 class="search-title">京剧曲目搜索</h1>
+                <p class="search-subtitle">探索中国传统京剧艺术的瑰宝</p>
+            </div>
+
+            <div class="search-box-wrapper">
+                <div class="search-input-container">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="searchInput"
+                        placeholder="请输入京剧曲目名称、行当、科班或名家"
+                        autocomplete="off"
+                    >
+                    <button class="search-button" onclick="performSearch()">
+                        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 搜索结果 -->
+            <div class="search-results" id="searchResults">
+                <div class="results-header">
+                    找到 <span class="results-count" id="resultsCount">0</span> 个结果
+                </div>
+                <div class="results-grid" id="resultsGrid">
+                    <!-- 搜索结果将在这里动态生成 -->
+                </div>
+                <div class="no-results" id="noResults" style="display: none;">
+                    <div class="no-results-icon">🔍</div>
+                    <div class="no-results-text">未找到相关结果，请尝试其他关键词</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-qr">
+                    <h4>手机聆听曲目</h4>
+                    <div class="qr-code">
+                        <img src="images/qrcode.png" alt="二维码">
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h4>联系我们</h4>
+                    <div class="contact-list">
+                        <div class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 16 16">
+                                <path d="M1.5 12Q0.875 11.9688 0.4375 11.5625Q0.03125 11.125 0 10.5Q0.03125 9.75 0.59375 9.3125L7.40625 4.1875Q8 3.8125 8.59375 4.1875L15.4062 9.3125Q15.9688 9.75 16 10.5Q15.9688 11.125 15.5625 11.5625Q15.125 11.9688 14.5 12L1.5 12ZM0 8.5L0 2L0 8.5L0 2Q0.03125 1.15625 0.59375 0.59375Q1.15625 0.03125 2 0L14 0Q14.8438 0.03125 15.4062 0.59375Q15.9688 1.15625 16 2L16 8.5L9.1875 3.40625Q8.65625 3 8 3Q7.34375 3 6.8125 3.40625L0 8.5Z" fill="#E5E7EB"/>
+                            </svg>
+                            <span>contact@pekingopera.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 12 16">
+                                <path d="M6.75 0.375Q7.59375 1.40625 8.8125 3.15625Q10.0312 4.875 11 6.71875Q11.9375 8.5625 12 9.96875Q11.9375 12.5312 10.25 14.2188Q8.5625 15.9062 6 15.9688Q3.4375 15.9062 1.75 14.2188Q0.0625 12.5312 0 9.96875Q0.0625 8.5625 1 6.71875Q1.96875 4.875 3.1875 3.15625Q4.40625 1.40625 5.25 0.375Q5.5625 0 6 0Q6.4375 0 6.75 0.375ZM6 11.9688Q7.125 11.9375 7.71875 10.9688Q8.28125 9.96875 7.71875 8.96875Q7.125 8 6 7.96875Q4.875 8 4.28125 8.96875Q3.71875 9.96875 4.28125 10.9688Q4.875 11.9375 6 11.9688Z" fill="#E5E7EB"/>
+                            </svg>
+                            <span>北京市西城区前门大街</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-visitor">
+                    <h4>网站访问量</h4>
+                    <div class="count-display">
+                        <span class="digit">0</span>
+                        <span class="digit">0</span>
+                        <span class="digit">1</span>
+                        <span class="digit">4</span>
+                        <span class="digit">6</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <p>© 2025 传承经典—黑胶原声唱片数据库. 版权所有.</p>
+                <p>中国大百科全书出版社 出品</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 搜索数据库（包含曲目、艺术家、行当、科班信息）
+        const searchDatabase = [
+            // 梅兰芳经典曲目
+            { type: 'track', name: '贵妃醉酒', artist: '梅兰芳', role: '旦行', info: '【1930年胜利唱片】梅兰芳饰杨玉环', lyrics: '海岛冰轮初转腾，见玉兔又早东升' },
+            { type: 'track', name: '霸王别姬', artist: '梅兰芳', role: '旦行', info: '【1929年高亭唱片】梅兰芳饰虞姬', lyrics: '看大王在帐中和衣睡稳，我这里出帐外且散愁情' },
+            { type: 'track', name: '宇宙锋', artist: '梅兰芳', role: '旦行', info: '【1925年百代唱片】梅兰芳饰赵艳容', lyrics: '我这里假意儿懒睁杏眼，摇摇摆摆摆摆摇摇' },
+            { type: 'track', name: '凤还巢', artist: '梅兰芳', role: '旦行', info: '【1936年胜利唱片】梅兰芳饰程雪娥', lyrics: '母亲不可心太偏，女儿言来听根源' },
+            { type: 'track', name: '洛神', artist: '梅兰芳', role: '旦行', info: '【1930年高亭唱片】梅兰芳饰甄宓', lyrics: '翩若惊鸿，婉若游龙，荣曜秋菊，华茂春松' },
+            { type: 'track', name: '天女散花', artist: '梅兰芳', role: '旦行', info: '【1925年百代唱片】梅兰芳饰天女', lyrics: '云外的须弥山色空四显，碧霄宫端的庄严' },
+            { type: 'track', name: '游园惊梦', artist: '梅兰芳', role: '旦行', info: '【1932年胜利唱片】梅兰芳饰杜丽娘', lyrics: '原来姹紫嫣红开遍，似这般都付与断井颓垣' },
+            { type: 'track', name: '西施', artist: '梅兰芳', role: '旦行', info: '【1928年高亭唱片】梅兰芳饰西施', lyrics: '水殿风来秋气紧，月照宫门第几层' },
+            { type: 'track', name: '嫦娥奔月', artist: '梅兰芳', role: '旦行', info: '【1925年百代唱片】梅兰芳饰嫦娥', lyrics: '碧海青天夜夜心，广寒宫里月如银' },
+            // 其他经典曲目
+            { type: 'track', name: '飞龙传', artist: '赵君玉', role: '乾旦', info: '【1928年胜利唱片】赵君玉饰韩素梅', lyrics: '韩素梅 唱词示例' },
+            { type: 'track', name: '虹霓关', artist: '陈德霖', role: '乾旦', info: '【1925年高亭唱片】陈德霖饰东方氏', lyrics: '东方氏 唱词示例' },
+            { type: 'track', name: '祭江', artist: '陈德霖', role: '乾旦', info: '【1908年百代唱片】陈德霖饰孙尚香', lyrics: '孙尚香 祭江唱词' },
+            { type: 'track', name: '锯大缸', artist: '宋德珠', role: '乾旦', info: '【1938年国乐唱片】宋德珠饰王大娘', lyrics: '王大娘 唱词示例' },
+            { type: 'track', name: '狸猫换太子(九曲桥)', artist: '刘筱衡', role: '乾旦', info: '【1929年胜利唱片】刘筱衡饰寇珠', lyrics: '寇珠 唱词示例' },
+            { type: 'track', name: '清风亭', artist: '张君秋', role: '乾旦', info: '【1936年丽歌唱片】张君秋饰周桂英', lyrics: '周桂英 清风亭唱词' },
+            { type: 'track', name: '四郎探母', artist: '陈德霖', role: '乾旦', info: '【1929年蓓开唱片】陈德霖饰萧太后、铁镜公主', lyrics: '萧太后 探母唱词' },
+            { type: 'track', name: '缇萦救父', artist: '张君秋', role: '乾旦', info: '【1938年丽歌唱片】张君秋饰淳于缇萦', lyrics: '淳于缇萦 唱词示例' },
+            { type: 'track', name: '头本开天辟地（洞房）', artist: '刘筱衡', role: '乾旦', info: '【1929年胜利唱片】刘筱衡饰嫘祖', lyrics: '嫘祖 唱词示例' },
+            { type: 'track', name: '孝感天', artist: '陈德霖', role: '乾旦', info: '【1925年高亭唱片】陈德霖饰卫氏', lyrics: '卫氏 孝感天唱词' },
+            { type: 'track', name: '醉酒', artist: '路玉珊', role: '乾旦', info: '【1908年百代唱片】路玉珊饰杨玉环', lyrics: '杨玉环 醉酒唱词' },
+            
+            // 艺术家数据
+            { type: 'artist', name: '杨小楼', category: '名家', role: '武生', info: '京剧武生泰斗，"武生宗师"' },
+            { type: 'artist', name: '周信芳', category: '名家', role: '老生', info: '麒派艺术创始人，海派京剧代表' },
+            { type: 'artist', name: '郝寿臣', category: '名家', role: '净行', info: '著名净角表演艺术家，郝派创始人' },
+            { type: 'artist', name: '陈德霖', category: '名家', role: '乾旦', info: '清末民初著名乾旦，梅兰芳的老师' },
+            { type: 'artist', name: '张君秋', category: '名家', role: '乾旦', info: '张派艺术创始人，四大名旦之一' },
+            { type: 'artist', name: '赵君玉', category: '名家', role: '乾旦', info: '民国时期著名乾旦演员' },
+            
+            // 行当数据
+            { type: 'role', name: '乾旦', category: '行当', info: '男性扮演的旦角，京剧传统表演形式' },
+            { type: 'role', name: '坤旦', category: '行当', info: '女性扮演的旦角，现代京剧主流' },
+            { type: 'role', name: '武生', category: '行当', info: '以武打为主的生角，表演激烈' },
+            { type: 'role', name: '旦行', category: '行当', info: '京剧中的女性角色行当' },
+            { type: 'role', name: '净行', category: '行当', info: '花脸，以面部化妆著称' },
+            { type: 'role', name: '丑行', category: '行当', info: '以诙谐表演为主的角色' },
+            
+            // 科班数据
+            { type: 'school', name: '承华社', category: '科班', info: '民国时期著名京剧科班，培养众多名家' },
+            { type: 'school', name: '富连成社', category: '科班', info: '北京最著名的京剧科班，培养大批优秀演员' },
+            { type: 'school', name: '斌庆社', category: '科班', info: '民国时期重要京剧科班' },
+            { type: 'school', name: '庆生社', category: '科班', info: '清末民初京剧科班' },
+            { type: 'school', name: '春庆社', category: '科班', info: '民国京剧科班之一' }
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const resultsCount = document.getElementById('resultsCount');
+        const noResults = document.getElementById('noResults');
+
+        // 回车键搜索
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // 执行搜索
+        function performSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            
+            if (query === '') {
+                searchResults.classList.remove('show');
+                return;
+            }
+
+            // 搜索匹配项
+            const results = searchDatabase.filter(item => {
+                return item.name.toLowerCase().includes(query) ||
+                       (item.artist && item.artist.toLowerCase().includes(query)) ||
+                       (item.role && item.role.toLowerCase().includes(query)) ||
+                       (item.category && item.category.toLowerCase().includes(query)) ||
+                       (item.info && item.info.toLowerCase().includes(query)) ||
+                       (item.lyrics && item.lyrics.toLowerCase().includes(query));
+            });
+
+            // 显示结果
+            displayResults(results);
+        }
+
+        // 显示搜索结果
+        function displayResults(results) {
+            searchResults.classList.add('show');
+            resultsGrid.innerHTML = '';
+
+            if (results.length === 0) {
+                resultsCount.textContent = '0';
+                noResults.style.display = 'block';
+                resultsGrid.style.display = 'none';
+                return;
+            }
+
+            resultsCount.textContent = results.length;
+            noResults.style.display = 'none';
+            resultsGrid.style.display = 'grid';
+
+            results.forEach(result => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                
+                let categoryLabel = '';
+                let categoryClass = '';
+                
+                switch(result.type) {
+                    case 'track':
+                        categoryLabel = '曲目';
+                        categoryClass = 'track';
+                        break;
+                    case 'artist':
+                        categoryLabel = '艺术家';
+                        categoryClass = 'artist';
+                        break;
+                    case 'role':
+                        categoryLabel = '行当';
+                        categoryClass = 'role';
+                        break;
+                    case 'school':
+                        categoryLabel = '科班';
+                        categoryClass = 'school';
+                        break;
+                }
+
+                card.innerHTML = `
+                    <div class="result-title">${result.name}</div>
+                    <div class="result-info">${result.info}</div>
+                `;
+
+                // 如果是曲目，点击可以播放
+                if (result.type === 'track') {
+                    card.onclick = () => playTrack(result.name, result.info);
+                }
+
+                resultsGrid.appendChild(card);
+            });
+        }
+
+        // 播放曲目
+        function playTrack(trackName, trackInfo) {
+            const url = 'play.html?title=' + encodeURIComponent(trackName) + '&info=' + encodeURIComponent(trackInfo);
+            window.open(url, '_blank');
+        }
+
+        // 页面加载时自动显示梅兰芳搜索结果
+        window.addEventListener('load', function() {
+            // 搜索梅兰芳但不显示在搜索框中
+            const query = '梅兰芳';
+            const results = searchDatabase.filter(item => {
+                return item.name.toLowerCase().includes(query.toLowerCase()) ||
+                       (item.artist && item.artist.toLowerCase().includes(query.toLowerCase())) ||
+                       (item.role && item.role.toLowerCase().includes(query.toLowerCase())) ||
+                       (item.category && item.category.toLowerCase().includes(query.toLowerCase())) ||
+                       (item.info && item.info.toLowerCase().includes(query.toLowerCase())) ||
+                       (item.lyrics && item.lyrics.toLowerCase().includes(query.toLowerCase()));
+            });
+            displayResults(results);
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>播放 - 传承经典</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #F9FAFB;
+            overflow-x: hidden;
+        }
+
+        /* 主容器 */
+        .main-container {
+            max-width: 896px;
+            margin: 0 auto;
+            padding: 17px 32px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 标题区域 */
+        .title-section {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .track-title {
+            font-size: 30px;
+            font-weight: 600;
+            color: #404040;
+            margin-bottom: 8px;
+            font-family: 'Ma Shan Zheng', 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', '楷体', cursive;
+        }
+
+        .track-info {
+            font-size: 16px;
+            color: #5E5E5E;
+            line-height: 24px;
+        }
+
+        /* 光盘播放器区域 */
+        .player-section {
+            width: 672px;
+            height: 384px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        /* 光盘 */
+        .disk-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .disk {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .disk.spinning {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 唱针 */
+        .needle {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            width: 177.48px;
+            height: 339.96px;
+            transform-origin: 140px 30px;
+            transform: rotate(-21deg);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .needle.playing {
+            transform: rotate(15deg);
+        }
+
+        /* 进度条区域 */
+        .progress-section {
+            width: 672px;
+            margin-bottom: 32px;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .time-text {
+            font-size: 14px;
+            color: #9CA3AF;
+            line-height: 20px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #E6E6E6;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #991B1B;
+            border-radius: 4px;
+            width: 0%;
+            position: relative;
+            transition: width 0.1s linear;
+        }
+
+        .progress-dot {
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: #991B1B;
+            border-radius: 50%;
+            cursor: grab;
+        }
+
+        .progress-dot:active {
+            cursor: grabbing;
+        }
+
+        /* 控制按钮区域 */
+        .controls-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .play-btn {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+            border-radius: 4px;
+        }
+
+        .play-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* 底部版权 */
+        .footer {
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer p {
+            font-size: 14px;
+            color: #9CA3AF;
+            line-height: 20px;
+            margin: 4px 0;
+        }
+
+        /* 唱词区域 */
+        .lyrics-section {
+            width: 100%;
+            display: none;
+            margin-bottom: 40px;
+        }
+
+        .lyrics-section.show {
+            display: block;
+        }
+
+        .lyrics-container {
+            width: 672px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 32px;
+            margin: 0 auto;
+            cursor: pointer;
+            /* 隐藏滚动条 */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .lyrics-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .lyrics-text {
+            font-size: 18px;
+            line-height: 2.2;
+            color: #404040;
+            white-space: pre-wrap;
+            font-family: 'STKaiti', 'KaiTi', '楷体', serif;
+            text-align: center;
+        }
+
+        .lyrics-text .line {
+            transition: color 0.3s ease;
+            cursor: pointer;
+            padding: 4px 0;
+        }
+
+        .lyrics-text .line.active {
+            color: #DC2626;
+            font-weight: 600;
+        }
+
+        /* 隐藏/显示播放器和标题 */
+        .title-section.hidden,
+        .player-section.hidden {
+            display: none;
+        }
+
+        /* 光盘可点击效果 */
+        .disk-container {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .disk-container:hover {
+            transform: scale(1.02);
+        }
+
+        .disk-container:active {
+            transform: scale(0.98);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- 标题区域 -->
+        <div class="title-section" id="titleSection">
+            <h2 class="track-title" id="trackTitle">龙飞传</h2>
+            <p class="track-info" id="trackInfo">【1928年胜利唱片】赵君玉饰韩素梅</p>
+        </div>
+
+        <!-- 光盘播放器区域 -->
+        <div class="player-section" id="playerSection">
+            <div class="disk-container" onclick="toggleLyrics()">
+                <img src="images/disk_ws.png" alt="光盘" class="disk" id="disk">
+            </div>
+            <img src="images/line.png" alt="唱针" class="needle" id="needle">
+        </div>
+
+        <!-- 唱词区域 -->
+        <div class="lyrics-section" id="lyricsSection">
+            <div class="lyrics-container" onclick="toggleLyrics()">
+                <div class="lyrics-text" id="lyricsText"></div>
+            </div>
+        </div>
+
+        <!-- 音频元素 -->
+        <audio id="audio" src="mp3/飞龙传【1928年胜利唱片】赵君玉饰韩素梅.MP3"></audio>
+
+        <!-- 进度条区域 -->
+        <div class="progress-section">
+            <div class="time-display">
+                <span class="time-text" id="currentTime">0:00</span>
+                <span class="time-text" id="totalTime">0:00</span>
+            </div>
+            <div class="progress-bar-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-dot" id="progressDot"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制按钮区域 -->
+        <div class="controls-section">
+            <!-- 随机播放 -->
+            <button class="control-btn" title="随机播放">
+                <svg viewBox="0 0 20 20">
+                    <path fill="#9CA3AF" d="M15.7812 17.4349Q16.5234 17.7083 17.1484 17.1615L19.6484 14.6615Q20 14.2708 20 13.763Q20 13.2552 19.6484 12.8646L17.1484 10.3646Q16.5234 9.81771 15.7812 10.1302Q15.0391 10.4427 15 11.263L15 12.513L13.75 12.513Q13.125 12.513 12.7344 12.0052L11.0938 9.81771L9.53125 11.888L10.7422 13.5286Q11.9141 14.974 13.75 15.013L15 15.013L15 16.263Q15.0391 17.0833 15.7812 17.4349ZM6.40625 7.70833L7.96875 5.63802L6.40625 7.70833L7.96875 5.63802L6.75781 3.9974Q5.58594 2.55208 3.75 2.51302L1.25 2.51302Q0.703125 2.51302 0.351562 2.86458Q0 3.21615 0 3.76302Q0 4.3099 0.351562 4.66146Q0.703125 5.01302 1.25 5.01302L3.75 5.01302Q4.375 5.01302 4.76562 5.52083L6.40625 7.70833ZM17.1484 0.364583Q16.5234 -0.182292 15.7812 0.0911459Q15.0391 0.442708 15 1.26302L15 2.51302L13.75 2.51302Q11.875 2.55208 10.7422 3.9974L4.76562 12.0052Q4.375 12.513 3.75 12.513L1.25 12.513Q0.703125 12.513 0.351562 12.8646Q0 13.2161 0 13.763Q0 14.3099 0.351562 14.6615Q0.703125 15.013 1.25 15.013L3.75 15.013Q5.58594 14.974 6.75781 13.5286L12.7344 5.52083Q13.125 5.01302 13.75 5.01302L15 5.01302L15 6.26302Q15.0391 7.08333 15.7812 7.4349Q16.5234 7.70833 17.1484 7.16146L19.6484 4.66146Q20 4.27083 20 3.76302Q20 3.25521 19.6484 2.86458L17.1484 0.364583Z"/>
+                </svg>
+            </button>
+
+            <!-- 上一曲 -->
+            <button class="control-btn" title="上一曲">
+                <svg viewBox="0 0 12.5 20">
+                    <path fill="#9CA3AF" d="M10.4688 0.28125Q11.0547 -0.1875 11.7969 0.125Q12.4609 0.476563 12.5 1.25781L12.5 13.7578Q12.4609 14.5391 11.7969 14.8906Q11.0547 15.2031 10.4688 14.7344L2.96875 8.48438L2.5 8.09375L2.5 13.7578Q2.5 14.3047 2.14844 14.6562Q1.79688 15.0078 1.25 15.0078Q0.703125 15.0078 0.351562 14.6562Q0 14.3047 0 13.7578L0 1.25781Q0 0.710938 0.351562 0.359375Q0.703125 0.00781251 1.25 0.00781251Q1.79688 0.00781251 2.14844 0.359375Q2.5 0.710938 2.5 1.25781L2.5 6.92188L2.96875 6.53125L10.4688 0.28125Z"/>
+                </svg>
+            </button>
+
+            <!-- 播放/暂停 -->
+            <button class="control-btn play-btn" id="playBtn" onclick="togglePlay()" title="播放/暂停">
+                <svg viewBox="0 0 24 24" id="playIcon">
+                    <path fill="#FFFFFF" d="M8 5v14l11-7z"/>
+                </svg>
+                <svg viewBox="0 0 24 24" id="pauseIcon" style="display: none;">
+                    <path fill="#FFFFFF" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
+
+            <!-- 下一曲 -->
+            <button class="control-btn" title="下一曲">
+                <svg viewBox="0 0 12.5 20">
+                    <path fill="#9CA3AF" d="M2.07031 0.28125Q1.44531 -0.1875 0.703125 0.125Q0.0390625 0.476563 0 1.25781L0 13.7578Q0.0390625 14.5391 0.703125 14.8906Q1.44531 15.2031 2.07031 14.7344L9.57031 8.48438L10 8.09375L10 13.7578Q10 14.3047 10.3516 14.6562Q10.7031 15.0078 11.25 15.0078Q11.7969 15.0078 12.1484 14.6562Q12.5 14.3047 12.5 13.7578L12.5 1.25781Q12.5 0.710938 12.1484 0.359375Q11.7969 0.00781251 11.25 0.00781251Q10.7031 0.00781251 10.3516 0.359375Q10 0.710938 10 1.25781L10 6.92188L9.57031 6.53125L2.07031 0.28125Z"/>
+                </svg>
+            </button>
+
+            <!-- 循环播放 -->
+            <button class="control-btn" title="循环播放">
+                <svg viewBox="0 0 20 20">
+                    <path fill="#9CA3AF" d="M13.8223 12.5L11.87 12.5L13.8223 12.5L11.87 12.5Q11.3233 12.5 10.9719 12.1484Q10.6205 11.7969 10.6205 11.25Q10.6205 10.7031 10.9719 10.3516Q11.3233 10 11.87 10L16.8678 10Q17.4145 10 17.7659 10.3516Q18.1173 10.7031 18.1173 11.25L18.1173 16.25Q18.1173 16.7969 17.7659 17.1484Q17.4145 17.5 16.8678 17.5Q16.3212 17.5 15.9698 17.1484Q15.6184 16.7969 15.6184 16.25L15.6184 14.2578L14.9155 14.9219Q13.1975 16.6406 10.9719 17.2266Q8.74628 17.7734 6.52067 17.2266Q4.29505 16.6406 2.57703 14.9219Q0.85901 13.2031 0.273321 10.9766Q-0.273321 8.75 0.273321 6.52344Q0.85901 4.29688 2.57703 2.57812Q4.29505 0.859375 6.52067 0.273438Q8.74628 -0.273438 10.9719 0.273438Q13.1975 0.859375 14.9155 2.57812Q15.306 2.92969 15.306 3.4375Q15.306 3.94531 14.9155 4.33594Q14.5641 4.6875 14.0565 4.6875Q13.5489 4.6875 13.1585 4.33594Q11.2452 2.5 8.74628 2.5Q6.24734 2.5 4.3341 4.33594Q2.49894 6.25 2.49894 8.75Q2.49894 11.25 4.3341 13.1641Q6.24734 15 8.74628 15Q11.2452 15 13.1585 13.1641L13.8223 12.5Z"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 底部版权 -->
+        <div class="footer">
+            <p>© 2025 传承经典—黑胶原声唱片数据库. 版权所有.</p>
+        </div>
+    </div>
+
+    <script>
+        // 从URL获取参数
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                title: params.get('title') || '龙飞传',
+                info: params.get('info') || '【1928年胜利唱片】赵君玉饰韩素梅'
+            };
+        }
+
+        // 设置页面标题和信息
+        const params = getUrlParams();
+        document.getElementById('trackTitle').textContent = params.title;
+        document.getElementById('trackInfo').textContent = params.info;
+        document.title = `${params.title} - 传承经典`;
+
+        // 音频和播放状态
+        const audio = document.getElementById('audio');
+        let isPlaying = false;
+        const disk = document.getElementById('disk');
+        const needle = document.getElementById('needle');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalTimeEl = document.getElementById('totalTime');
+
+        // 唱词数据（时间戳单位：秒）
+        const lyricsData = [
+            { time: 0, text: '【1928年胜利唱片】' },
+            { time: 2, text: '赵君玉饰韩素梅' },
+            { time: 5, text: '' },
+            { time: 8, text: '［西皮导板］与三弟巧改扮忙把路引，' },
+            { time: 18, text: '［西皮二六］不由人一阵阵暗自伤心。' },
+            { time: 28, text: '可叹我父母早丧无家可投奔，' },
+            { time: 38, text: '想起了赵公子不由我就泪双淋。' },
+            { time: 48, text: '也是我八个字红颜多薄［哭头］命，' },
+            { time: 58, text: '［西皮二六］到如今顾不得崎岖我只得慢慢把步行。' },
+            { time: 68, text: '一路上观只见花花之景，' },
+            { time: 78, text: '观不尽破荒丘我认不出古与今。' },
+            { time: 88, text: '见渔翁垂钩钓幽雅之景，' },
+            { time: 98, text: '见樵夫奔深山把那柴来寻。' },
+            { time: 108, text: '农夫他牵青牛耕种为本，' },
+            { time: 118, text: '见书生游山逛景去会斯文，他为的是功名。' },
+            { time: 128, text: '南山上听了些木鱼来敲定，' },
+            { time: 138, text: '走近前原来是那比丘僧，' },
+            { time: 148, text: '他在那里诵经文。' },
+            { time: 158, text: '倒不如看破了红尘把身隐……' }
+        ];
+
+        // 格式化时间
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // 音频加载完成
+        audio.addEventListener('loadedmetadata', function() {
+            totalTimeEl.textContent = formatTime(audio.duration);
+        });
+
+        // 更新播放时间和进度
+        audio.addEventListener('timeupdate', function() {
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = percent + '%';
+            
+            // 更新歌词高亮
+            updateLyricsHighlight(audio.currentTime);
+        });
+
+        // 切换播放/暂停
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            
+            if (isPlaying) {
+                audio.play();
+                disk.classList.add('spinning');
+                needle.classList.add('playing');
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            } else {
+                audio.pause();
+                disk.classList.remove('spinning');
+                needle.classList.remove('playing');
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+        }
+
+        // 进度条交互
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressDot = document.getElementById('progressDot');
+
+        progressContainer.addEventListener('click', function(e) {
+            const rect = progressContainer.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = percent * audio.duration;
+            progressBar.style.width = (percent * 100) + '%';
+        });
+
+        // 拖动进度点
+        let isDragging = false;
+
+        progressDot.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                const rect = progressContainer.getBoundingClientRect();
+                let percent = (e.clientX - rect.left) / rect.width;
+                percent = Math.max(0, Math.min(1, percent));
+                audio.currentTime = percent * audio.duration;
+                progressBar.style.width = (percent * 100) + '%';
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+
+        // 唱词切换功能
+        const titleSection = document.getElementById('titleSection');
+        const playerSection = document.getElementById('playerSection');
+        const lyricsSection = document.getElementById('lyricsSection');
+        const lyricsText = document.getElementById('lyricsText');
+        let lyricsInitialized = false;
+        let showingLyrics = false;
+
+        function toggleLyrics() {
+            if (!lyricsInitialized) {
+                initLyrics();
+                lyricsInitialized = true;
+            }
+
+            showingLyrics = !showingLyrics;
+
+            if (showingLyrics) {
+                // 显示唱词，隐藏标题和光盘
+                titleSection.classList.add('hidden');
+                playerSection.classList.add('hidden');
+                lyricsSection.classList.add('show');
+            } else {
+                // 显示标题和光盘，隐藏唱词
+                titleSection.classList.remove('hidden');
+                playerSection.classList.remove('hidden');
+                lyricsSection.classList.remove('show');
+            }
+        }
+
+        function initLyrics() {
+            lyricsText.innerHTML = '';
+            lyricsData.forEach((item, index) => {
+                const line = document.createElement('div');
+                line.className = 'line';
+                line.textContent = item.text || '\u00A0';
+                line.dataset.index = index;
+                lyricsText.appendChild(line);
+            });
+        }
+
+        function updateLyricsHighlight(currentTime) {
+            if (!lyricsInitialized) return;
+            
+            let activeIndex = -1;
+            for (let i = lyricsData.length - 1; i >= 0; i--) {
+                if (currentTime >= lyricsData[i].time) {
+                    activeIndex = i;
+                    break;
+                }
+            }
+
+            const lines = lyricsText.querySelectorAll('.line');
+            lines.forEach((line, index) => {
+                if (index === activeIndex) {
+                    line.classList.add('active');
+                    // 自动滚动到当前行
+                    line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    line.classList.remove('active');
+                }
+            });
+        }
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                togglePlay();
+            }
+        });
+
+        // 页面加载时初始化时间显示并自动播放
+        window.addEventListener('load', function() {
+            if (audio.duration) {
+                totalTimeEl.textContent = formatTime(audio.duration);
+            }
+            
+            // 自动播放音乐
+            audio.play()
+                .then(() => {
+                    console.log('音乐自动播放成功');
+                    isPlaying = true;
+                    disk.classList.add('spinning');
+                    needle.classList.add('playing');
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                })
+                .catch(error => {
+                    console.log('自动播放被浏览器阻止，需要用户交互:', error);
+                    // 如果自动播放失败，用户点击播放按钮时会播放
+                });
+        });
+    </script>
+</body>
+</html>

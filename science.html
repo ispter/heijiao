@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>传承经典黑胶原声唱片数据库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Han Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #F8F9FA;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏 */
+        .nav-header {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(90deg, #B91C1C 0%, #991B1B 50%, #7F1D1D 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-link {
+            z-index: 2;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            display: block;
+        }
+
+        .nav-logo-link:hover {
+            opacity: 0.9;
+        }
+
+        .nav-logo {
+            width: 250px;
+            height: auto;
+            max-width: 90%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-menu {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 80px;
+        }
+
+        .nav-menu-left {
+            display: flex;
+            gap: 30px;
+            margin-right: auto;
+            padding-left: 120px;
+        }
+
+        .nav-menu-right {
+            display: flex;
+            gap: 30px;
+            margin-left: auto;
+            padding-right: 120px;
+        }
+
+        .nav-button {
+            font-size: 16px;
+            font-weight: bold;
+            color: #FFE489;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 8px 30px;
+            position: relative;
+            display: inline-block;
+            background: transparent;
+            border: none;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='146' height='40' viewBox='0 0 146 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.78095 7.08425L5.43617 5.76923L6.50288 3.12775C7.2662 1.23755 9.1006 0 11.1391 0L136.194 0C138.341 0 140.248 1.37051 140.933 3.40526L141.34 4.61538L142.568 5.02057C144.616 5.69697 146 7.61108 146 9.76847V29.7314C146 31.756 144.779 33.5808 142.908 34.3532L141.34 35L140.88 36.4833C140.23 38.5747 138.295 40 136.105 40H10.9523C9.00864 40 7.2411 38.8736 6.42017 37.1118L5.43617 35L3.33249 34.2558C1.33519 33.5493 0 31.6607 0 29.5421V11.5649C0 9.66415 1.07768 7.92781 2.78095 7.08425Z' fill='url(%23grad1)' /%3E%3Cpath d='M1 29.5421Q1 32.37 3.66599 33.3131L6.16534 34.1972L7.3266 36.6894Q8.40323 39 10.9523 39H136.105Q137.419 39 138.477 38.2208Q139.535 37.4415 139.925 36.1866L140.525 34.2548L142.526 33.4289Q145 32.4078 145 29.7314V9.76847Q145 8.47403 144.242 7.42501Q143.483 6.37599 142.254 5.97015L140.552 5.40821L139.985 3.7242Q139.575 2.50336 138.529 1.75168Q137.482 1 136.194 1H11.1391Q8.44059 1 7.43013 3.5022L6.22094 6.49649L3.22476 7.98037Q1 9.0822 1 11.5649V29.5421Z' stroke='%23D4AF37' stroke-width='1'/%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0' y1='0' x2='146' y2='40'%3E%3Cstop offset='0' stop-color='rgba(212,175,55,0.1)'/%3E%3Cstop offset='1' stop-color='rgba(255,228,137,0.05)'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .nav-button:hover {
+            color: #921B1B;
+            transform: translateY(-2px);
+        }
+
+        .nav-button:hover::before {
+            background-image: url("data:image/svg+xml,%3Csvg width='146' height='40' viewBox='0 0 146 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.78095 7.08425L5.43617 5.76923L6.50288 3.12775C7.2662 1.23755 9.1006 0 11.1391 0L136.194 0C138.341 0 140.248 1.37051 140.933 3.40526L141.34 4.61538L142.568 5.02057C144.616 5.69697 146 7.61108 146 9.76847V29.7314C146 31.756 144.779 33.5808 142.908 34.3532L141.34 35L140.88 36.4833C140.23 38.5747 138.295 40 136.105 40H10.9523C9.00864 40 7.2411 38.8736 6.42017 37.1118L5.43617 35L3.33249 34.2558C1.33519 33.5493 0 31.6607 0 29.5421V11.5649C0 9.66415 1.07768 7.92781 2.78095 7.08425Z' fill='url(%23grad2)' /%3E%3Cpath d='M1 29.5421Q1 32.37 3.66599 33.3131L6.16534 34.1972L7.3266 36.6894Q8.40323 39 10.9523 39H136.105Q137.419 39 138.477 38.2208Q139.535 37.4415 139.925 36.1866L140.525 34.2548L142.526 33.4289Q145 32.4078 145 29.7314V9.76847Q145 8.47403 144.242 7.42501Q143.483 6.37599 142.254 5.97015L140.552 5.40821L139.985 3.7242Q139.575 2.50336 138.529 1.75168Q137.482 1 136.194 1H11.1391Q8.44059 1 7.43013 3.5022L6.22094 6.49649L3.22476 7.98037Q1 9.0822 1 11.5649V29.5421Z' stroke='%23D4AF37' stroke-width='1'/%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0' y1='0' x2='146' y2='40'%3E%3Cstop offset='0' stop-color='rgba(255,228,137,0.5)'/%3E%3Cstop offset='1' stop-color='rgba(255,228,137,0.3)'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+        }
+
+        .nav-button.active {
+            color: #921B1B;
+        }
+
+        .nav-button.active::before {
+            background-image: url("data:image/svg+xml,%3Csvg width='146' height='40' viewBox='0 0 146 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.78095 7.08425L5.43617 5.76923L6.50288 3.12775C7.2662 1.23755 9.1006 0 11.1391 0L136.194 0C138.341 0 140.248 1.37051 140.933 3.40526L141.34 4.61538L142.568 5.02057C144.616 5.69697 146 7.61108 146 9.76847V29.7314C146 31.756 144.779 33.5808 142.908 34.3532L141.34 35L140.88 36.4833C140.23 38.5747 138.295 40 136.105 40H10.9523C9.00864 40 7.2411 38.8736 6.42017 37.1118L5.43617 35L3.33249 34.2558C1.33519 33.5493 0 31.6607 0 29.5421V11.5649C0 9.66415 1.07768 7.92781 2.78095 7.08425Z' fill='url(%23grad2)' /%3E%3Cpath d='M1 29.5421Q1 32.37 3.66599 33.3131L6.16534 34.1972L7.3266 36.6894Q8.40323 39 10.9523 39H136.105Q137.419 39 138.477 38.2208Q139.535 37.4415 139.925 36.1866L140.525 34.2548L142.526 33.4289Q145 32.4078 145 29.7314V9.76847Q145 8.47403 144.242 7.42501Q143.483 6.37599 142.254 5.97015L140.552 5.40821L139.985 3.7242Q139.575 2.50336 138.529 1.75168Q137.482 1 136.194 1H11.1391Q8.44059 1 7.43013 3.5022L6.22094 6.49649L3.22476 7.98037Q1 9.0822 1 11.5649V29.5421Z' stroke='%23D4AF37' stroke-width='1'/%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0' y1='0' x2='146' y2='40'%3E%3Cstop offset='0' stop-color='rgba(255,228,137,0.5)'/%3E%3Cstop offset='1' stop-color='rgba(255,228,137,0.3)'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+        }
+
+        /* 主要内容区域 */
+        .main-content {
+            margin-top: 120px;
+            padding: 20px;
+        }
+
+        /* SVG 图谱 */
+        .knowledge-map {
+            width: 100%;
+            max-width: 1431px;
+            height: 717px;
+            position: relative;
+            margin: 0 auto;
+            background: #F8F9FA;
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        /* 圆圈节点 */
+        .circle-node {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+            transition: all 0.3s ease;
+            background: #ffdbdb;
+            border: 2px solid #E60010;
+            z-index: 10;
+        }
+
+        .circle-node:hover {
+            background: #ffb3b3;
+            transform: scale(1.05);
+        }
+
+        .circle-node-text {
+            font-size: 26px;
+            font-weight: bold;
+            color: #B91C1C;
+            font-family: 'Source Han Sans', sans-serif;
+            user-select: none;
+        }
+
+        /* 中心圆圈 */
+        .circle-center {
+            width: 146px;
+            height: 147px;
+            left: 636px;
+            top: 148px;
+        }
+
+        .circle-left {
+            width: 146px;
+            height: 146px;
+            left: 514px;
+            top: 322px;
+        }
+
+        .circle-right {
+            width: 147px;
+            height: 146px;
+            left: 765px;
+            top: 322px;
+        }
+
+        /* 矩形节点 */
+        .rect-node {
+            position: absolute;
+            background: #FFFFFF;
+            border: 1px solid #9CA3AF;
+            border-radius: 20px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1;
+            user-select: none;
+        }
+
+        .rect-node:hover {
+            background: #FFFFFF;
+            border-color: #E60010;
+            border-width: 2px;
+            transform: translateY(-2px);
+        }
+
+        /* 矩形节点激活状态 */
+        .rect-node.active {
+            background: #FFFFFF;
+            border-color: #E60010;
+            border-width: 2px;
+            transform: translateY(-2px);
+            z-index: 100;
+        }
+
+        /* 矩形节点淡化状态 */
+        .rect-node.dimmed {
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        /* 京剧科普弹窗样式 - 传统卷轴美学 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInScroll 0.5s ease-in-out;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(180deg, #f8f3e8 0%, #f5f0e3 50%, #f2ede0 100%);
+            width: 85%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 0;
+            overflow: hidden;
+            position: relative;
+            animation: unrollScroll 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0px 15px 50px rgba(139, 69, 19, 0.4),
+                        inset 0 0 0 2px #d4af37,
+                        inset 0 0 0 4px #f8f3e8;
+            border: 8px solid #8b4513;
+            border-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h16v2H0V0zm0 14h16v2H0v-2zm0-7h16v2H0V7z' fill='%23d4af37'/%3E%3C/svg%3E") 8;
+        }
+
+        @keyframes fadeInScroll {
+            from { 
+                opacity: 0; 
+                backdrop-filter: blur(0px);
+            }
+            to { 
+                opacity: 1; 
+                backdrop-filter: blur(8px);
+            }
+        }
+
+        @keyframes unrollScroll {
+            from { 
+                transform: translateY(-20px) scaleY(0.8); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateY(0) scaleY(1); 
+                opacity: 1; 
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, #B91C1C 0%, #991B1B 50%, #7F1D1D 100%);
+            padding: 20px 40px;
+            color: #FFE489;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            border-bottom: 3px solid #FFE489;
+        }
+
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+            font-family: 'KaiTi', 'STKaiti', 'Kaiti SC', '楷体', 'SimKai', cursive;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 3px;
+            color: #FFE489;
+            text-align: center;
+            flex: 1;
+        }
+
+        .modal-close {
+            background: rgba(255, 228, 137, 0.2);
+            border: 2px solid #FFE489;
+            color: #FFE489;
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            line-height: 1;
+            font-weight: bold;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 228, 137, 0.3);
+            border-color: #FFFFFF;
+            color: #FFFFFF;
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 4px 12px rgba(255, 228, 137, 0.4);
+        }
+
+        .modal-body {
+            padding: 40px;
+            max-height: calc(90vh - 120px);
+            overflow-y: auto;
+            line-height: 2.2;
+            font-size: 16px;
+            color: #2c1810;
+            background: linear-gradient(180deg, #f8f3e8 0%, #f5f0e3 100%);
+            position: relative;
+        }
+
+
+        .modal-body::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: rgba(139, 69, 19, 0.1);
+            border-radius: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #B91C1C 0%, #991B1B 100%);
+            border-radius: 6px;
+            border: 2px solid #f8f3e8;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #E60010 0%, #B91C1C 100%);
+        }
+
+        .modal-body h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #B91C1C;
+            margin: 28px 0 18px 0;
+            font-family: 'KaiTi', 'STKaiti', 'Kaiti SC', '楷体', 'SimKai', cursive;
+            text-align: center;
+            position: relative;
+            letter-spacing: 2px;
+        }
+
+
+        .modal-body p {
+            margin-bottom: 18px;
+            text-indent: 2em;
+            font-family: 'SimSun', '宋体', serif;
+            line-height: 2.2;
+            color: #2c1810;
+        }
+
+        .modal-body h3:first-child {
+            margin-top: 0;
+        }
+
+        /* 传统印章样式 */
+        .modal-source {
+            text-align: center;
+            margin: 20px 0 30px 0;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(185, 28, 28, 0.1) 0%, rgba(185, 28, 28, 0.05) 100%);
+            border: 2px solid #B91C1C;
+            border-radius: 8px;
+            font-family: 'KaiTi', 'STKaiti', 'Kaiti SC', '楷体', 'SimKai', cursive;
+            font-size: 14px;
+            color: #B91C1C;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+
+        /* 传统书卷内容区域 */
+        .modal-introduction {
+            position: relative;
+        }
+
+
+        .modal-body p {
+            margin-bottom: 16px;
+            text-indent: 2em;
+            text-align: justify;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 16px 0;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .modal-introduction {
+            line-height: 2;
+            color: #1A1A1A;
+        }
+
+        .rect-node-text {
+            font-size: 22px;
+            color: #4B5563;
+            font-family: 'Source Han Sans', sans-serif;
+            user-select: none;
+        }
+
+        /* 连接线 */
+        .connection-line {
+            position: absolute;
+            height: 2px;
+            background: #D8D8D8;
+            transform-origin: left center;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* SVG 用于曲线 */
+        .svg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: visible;
+        }
+        
+        .svg-overlay path {
+            pointer-events: stroke;
+        }
+
+        .svg-line {
+            stroke: #D8D8D8;
+            stroke-width: 1.5;
+            fill: none;
+            opacity: 0.6;
+            transition: all 0.3s ease-out;
+        }
+
+        .svg-line:hover {
+            stroke: #E60010;
+            stroke-width: 2.5;
+            opacity: 1;
+        }
+        
+        /* 连线渐变色定义 */
+        .line-gradient-stop-start {
+            stop-color: rgba(230, 0, 16, 0.3);
+        }
+        
+        .line-gradient-stop-end {
+            stop-color: rgba(156, 163, 175, 0.3);
+        }
+
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            background: linear-gradient(90deg, #991B1B 0%, #7F1D1D 100%);
+            padding: 48px 0;
+            margin-top: 20px;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            align-items: start;
+        }
+
+        .footer-qr {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-qr h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 16px;
+        }
+
+        .footer-contact h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            color: #E5E7EB;
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+            fill: #E5E7EB;
+        }
+
+        .footer-visitor {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 16px;
+        }
+
+        .footer-visitor h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .count-display {
+            display: flex;
+            gap: 10px;
+        }
+
+        .digit {
+            width: 20px;
+            height: 25px;
+            background: rgba(216, 216, 216, 0.3);
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: #FFE489;
+            margin: 32px 0;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 0;
+        }
+
+        .footer-bottom p {
+            font-size: 16px;
+            color: #E5E7EB;
+            margin: 8px 0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1440px) {
+            .knowledge-map {
+                transform: scale(0.9);
+                transform-origin: top center;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .knowledge-map {
+                transform: scale(0.7);
+                transform-origin: top center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-menu-left,
+            .nav-menu-right {
+                padding: 0;
+            gap: 10px;
+        }
+
+            .nav-button {
+                font-size: 14px;
+                padding: 6px 20px;
+            }
+
+            .knowledge-map {
+                transform: scale(0.5);
+                transform-origin: top center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav-header">
+        <div class="nav-menu">
+            <div class="nav-menu-left">
+                <a href="index.html" class="nav-button">经典专辑</a>
+                <a href="masters.html" class="nav-button">名家风采</a>
+            </div>
+            <div class="nav-menu-right">
+                <a href="science.html" class="nav-button active">京剧科普</a>
+                <a href="search.html" class="nav-button">曲目搜索</a>
+            </div>
+        </div>
+        <a href="index.html" class="nav-logo-link">
+            <img src="images/logo2.png" alt="Logo" class="nav-logo">
+        </a>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <div class="knowledge-map">
+                <!-- SVG 用于绘制连接线 - 动态生成 -->
+                <svg class="svg-overlay">
+                    <!-- 连接线将由JavaScript动态生成 -->
+                </svg>
+
+                <!-- 三个主要圆圈 -->
+                <div class="circle-node circle-center" data-category="role">
+                    <span class="circle-node-text">行当</span>
+                </div>
+                <div class="circle-node circle-left" data-category="school">
+                    <span class="circle-node-text">科班</span>
+                </div>
+                <div class="circle-node circle-right" data-category="master">
+                    <span class="circle-node-text">名家</span>
+        </div>
+
+                <!-- 行当分类矩形节点 -->
+                <div class="rect-node" data-category="role" data-name="坤旦" style="width: 147px; height: 75px; left: 286px; top: 84px;" onclick="showDetail('坤旦')">
+                    <span class="rect-node-text">坤旦</span>
+                    </div>
+                <div class="rect-node" data-category="role" data-name="乾旦" style="width: 148px; height: 74px; left: 219px; top: 178px;" onclick="showDetail('乾旦')">
+                    <span class="rect-node-text">乾旦</span>
+                </div>
+                <div class="rect-node" data-category="role" data-name="坤生" style="width: 148px; height: 75px; left: 458px; top: 37px;" onclick="showDetail('坤生')">
+                    <span class="rect-node-text">坤生</span>
+                        </div>
+                <div class="rect-node" data-category="role" data-name="武生" style="width: 148px; height: 74px; left: 634px; top: 22px;" onclick="showDetail('武生')">
+                    <span class="rect-node-text">武生</span>
+                </div>
+                <div class="rect-node" data-category="role" data-name="旦  行" style="width: 148px; height: 74px; left: 821px; top: 38px;" onclick="showDetail('旦  行')">
+                    <span class="rect-node-text">旦行</span>
+                </div>
+                <div class="rect-node" data-category="role" data-name="净  行" style="width: 149px; height: 75px; left: 996px; top: 76px;" onclick="showDetail('净  行')">
+                    <span class="rect-node-text">净行</span>
+                </div>
+                <div class="rect-node" data-category="role" data-name="丑行" style="width: 149px; height: 75px; left: 1082px; top: 171px;" onclick="showDetail('丑行')">
+                    <span class="rect-node-text">丑行</span>
+    </div>
+
+                <!-- 科班矩形节点 -->
+                <div class="rect-node" data-category="school" data-name="承华社" style="width: 148px; height: 73px; left: 163px; top: 273px;" onclick="showDetail('承华社')">
+                    <span class="rect-node-text">承华社</span>
+                    </div>
+                <div class="rect-node" data-category="school" data-name="斌庆社" style="width: 148px; height: 75px; left: 163px; top: 372px;" onclick="showDetail('斌庆社')">
+                   <span class="rect-node-text">斌庆社</span> 
+                </div>
+                <div class="rect-node" data-category="school" data-name="庆生社" style="width: 148px; height: 75px; left: 224px; top: 468px;" onclick="showDetail('庆生社')">
+                    <span class="rect-node-text">庆生社</span>
+                        </div>
+                <div class="rect-node" data-category="school" data-name="春庆班" style="width: 149px; height: 75px; left: 347px; top: 545px;" onclick="showDetail('春庆班')">
+                    <span class="rect-node-text">春庆班</span>
+                </div>
+                <div class="rect-node" data-category="school" data-name="富连成社" style="width: 148px; height: 74px; left: 518px; top: 582px;" onclick="showDetail('富连成社')">
+                    <span class="rect-node-text">富连成社</span>
+                </div>
+                <div class="rect-node" data-category="school" data-name="崇林社" style="width: 149px; height: 75px; left: 699px; top: 603px;" onclick="showDetail('崇林社')">
+                    <span class="rect-node-text">崇林社</span>
+                </div>
+                <div class="rect-node" data-category="school" data-name="扶风社" style="width: 148px; height: 74px; left: 862px; top: 586px;" onclick="showDetail('扶风社')">
+                    <span class="rect-node-text">扶风社</span>
+                    </div>
+
+                <!-- 名家矩形节点 -->
+                <div class="rect-node" data-category="master" data-name="梅兰芳" style="width: 148px; height: 75px; left: 1137px; top: 286px;" onclick="showDetail('梅兰芳')">
+                    <span class="rect-node-text">梅兰芳</span>
+                </div>
+                <div class="rect-node" data-category="master" data-name="杨小楼" style="width: 148px; height: 75px; left: 1137px; top: 380px;" onclick="showDetail('杨小楼')">
+                    <span class="rect-node-text">杨小楼</span>
+                </div>
+                <div class="rect-node" data-category="master" data-name="周信芳" style="width: 148px; height: 75px; left: 1107px; top: 470px;" onclick="showDetail('周信芳')">
+                    <span class="rect-node-text">周信芳</span>
+            </div>
+                <div class="rect-node" data-category="master" data-name="郝寿臣" style="width: 148px; height: 74px; left: 1024px; top: 560px;" onclick="showDetail('郝寿臣')">
+                    <span class="rect-node-text">郝寿臣</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 详细信息弹窗 -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">详细信息</h2>
+                <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <p style="text-align: center; color: #999;">加载中...</p>
+            </div>
+                </div>
+            </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-qr">
+                    <h4>手机聆听曲目</h4>
+                    <div class="qr-code">
+                        <img src="images/qrcode.png" alt="二维码">
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h4>联系我们</h4>
+                    <div class="contact-list">
+                        <div class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 16 16">
+                                <path d="M1.5 12Q0.875 11.9688 0.4375 11.5625Q0.03125 11.125 0 10.5Q0.03125 9.75 0.59375 9.3125L7.40625 4.1875Q8 3.8125 8.59375 4.1875L15.4062 9.3125Q15.9688 9.75 16 10.5Q15.9688 11.125 15.5625 11.5625Q15.125 11.9688 14.5 12L1.5 12ZM0 8.5L0 2L0 8.5L0 2Q0.03125 1.15625 0.59375 0.59375Q1.15625 0.03125 2 0L14 0Q14.8438 0.03125 15.4062 0.59375Q15.9688 1.15625 16 2L16 8.5L9.1875 3.40625Q8.65625 3 8 3Q7.34375 3 6.8125 3.40625L0 8.5Z" fill="#E5E7EB"/>
+            </svg>
+                            <span>contact@pekingopera.com</span>
+        </div>
+                        <div class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 12 16">
+                                <path d="M6.75 0.375Q7.59375 1.40625 8.8125 3.15625Q10.0312 4.875 11 6.71875Q11.9375 8.5625 12 9.96875Q11.9375 12.5312 10.25 14.2188Q8.5625 15.9062 6 15.9688Q3.4375 15.9062 1.75 14.2188Q0.0625 12.5312 0 9.96875Q0.0625 8.5625 1 6.71875Q1.96875 4.875 3.1875 3.15625Q4.40625 1.40625 5.25 0.375Q5.5625 0 6 0Q6.4375 0 6.75 0.375ZM6 11.9688Q7.125 11.9375 7.71875 10.9688Q8.28125 9.96875 7.71875 8.96875Q7.125 8 6 7.96875Q4.875 8 4.28125 8.96875Q3.71875 9.96875 4.28125 10.9688Q4.875 11.9375 6 11.9688Z" fill="#E5E7EB"/>
+                            </svg>
+                            <span>北京市西城区前门大街</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-visitor">
+                    <h4>网站访问量</h4>
+                    <div class="count-display">
+                        <span class="digit">0</span>
+                        <span class="digit">0</span>
+                        <span class="digit">1</span>
+                        <span class="digit">4</span>
+                        <span class="digit">6</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <p>© 2025 传承经典—黑胶原声唱片数据库. 版权所有.</p>
+                <p>中国大百科全书出版社 出品</p>
+            </div>
+            </div>
+        </footer>
+
+    <script>
+        // 网络图交互系统
+        class NetworkGraph {
+            constructor() {
+                this.nodes = new Map();
+                this.connections = [];
+                this.isDragging = false;
+                this.draggedNode = null;
+                this.animationFrame = null;
+                
+                this.init();
+            }
+
+            init() {
+                this.setupNodes();
+                this.setupConnections();
+                this.setupDragListeners();
+                this.setupHoverEffects();
+                
+                // 延迟一帧确保DOM完全渲染
+                requestAnimationFrame(() => {
+                    this.updateLines();
+                    console.log('京剧知识图谱已加载 - 节点:', this.nodes.size, '连接:', this.connections.length);
+                });
+            }
+
+            setupNodes() {
+                // 获取所有节点
+                const circleNodes = document.querySelectorAll('.circle-node[data-category]');
+                const rectNodes = document.querySelectorAll('.rect-node[data-category]');
+
+                // 存储圆圈节点
+                circleNodes.forEach(node => {
+                    const style = window.getComputedStyle(node);
+                    const rect = node.getBoundingClientRect();
+                    const container = node.offsetParent;
+                    const containerRect = container.getBoundingClientRect();
+                    
+                    const x = parseFloat(style.left);
+                    const y = parseFloat(style.top);
+                    
+                    // 使用getBoundingClientRect获取包含边框的精确尺寸
+                    const width = rect.width;
+                    const height = rect.height;
+                    
+                    this.nodes.set(node, {
+                        element: node,
+                        type: 'circle',
+                        category: node.getAttribute('data-category'),
+                        x: x,
+                        y: y,
+                        targetX: x,
+                        targetY: y,
+                        vx: 0,
+                        vy: 0,
+                        width: width,
+                        height: height,
+                        isDraggable: false,
+                        isFixed: true  // 圆圈也固定不动
+                    });
+                });
+
+                // 存储矩形节点
+                rectNodes.forEach(node => {
+                    const style = window.getComputedStyle(node);
+                    const rect = node.getBoundingClientRect();
+                    const container = node.offsetParent;
+                    const containerRect = container.getBoundingClientRect();
+                    
+                    const x = parseFloat(style.left);
+                    const y = parseFloat(style.top);
+                    
+                    // 使用getBoundingClientRect获取包含边框的精确尺寸
+                    const width = rect.width;
+                    const height = rect.height;
+                    
+                    this.nodes.set(node, {
+                        element: node,
+                        type: 'rect',
+                        category: node.getAttribute('data-category'),
+                        x: x,
+                        y: y,
+                        targetX: x,
+                        targetY: y,
+                        vx: 0,
+                        vy: 0,
+                        width: width,
+                        height: height,
+                        isDraggable: false,
+                        isFixed: true  // 完全固定，不受任何力影响
+                    });
+                });
+            }
+
+            setupConnections() {
+                // 定义连接关系：[源节点选择器, 目标节点选择器]
+                const connectionRules = [
+                    // 行当圆圈连接到行当标签
+                    { source: '.circle-center[data-category="role"]', targets: '.rect-node[data-category="role"]' },
+                    // 科班圆圈连接到科班标签
+                    { source: '.circle-left[data-category="school"]', targets: '.rect-node[data-category="school"]' },
+                    // 名家圆圈连接到名家标签
+                    { source: '.circle-right[data-category="master"]', targets: '.rect-node[data-category="master"]' }
+                ];
+
+                connectionRules.forEach(rule => {
+                    const sourceNode = document.querySelector(rule.source);
+                    const targetNodes = document.querySelectorAll(rule.targets);
+                    
+                    targetNodes.forEach(targetNode => {
+                        this.connections.push({
+                            source: sourceNode,
+                            target: targetNode
+                        });
+                    });
+                });
+            }
+
+            setupDragListeners() {
+                let startX, startY, startNodeX, startNodeY;
+
+                this.nodes.forEach((nodeData, element) => {
+                    if (!nodeData.isDraggable) return;
+
+                    element.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        this.isDragging = true;
+                        this.draggedNode = nodeData;
+                        element.classList.add('dragging');
+
+                        startX = e.clientX;
+                        startY = e.clientY;
+                        startNodeX = nodeData.x;
+                        startNodeY = nodeData.y;
+                    });
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!this.isDragging || !this.draggedNode) return;
+
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+
+                    this.draggedNode.targetX = startNodeX + dx;
+                    this.draggedNode.targetY = startNodeY + dy;
+                    this.draggedNode.x = this.draggedNode.targetX;
+                    this.draggedNode.y = this.draggedNode.targetY;
+
+                    // 更新拖拽节点的位置
+                    this.draggedNode.element.style.left = this.draggedNode.x + 'px';
+                    this.draggedNode.element.style.top = this.draggedNode.y + 'px';
+                    
+                    // 立即更新连线
+                    this.updateLines();
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (this.isDragging && this.draggedNode) {
+                        this.draggedNode.element.classList.remove('dragging');
+                    }
+                    this.isDragging = false;
+                    this.draggedNode = null;
+                });
+            }
+
+            updateConnectedNodesTargets() {
+                // 固定节点不跟随移动，此方法不再需要
+                // 矩形节点完全固定在原位
+                return;
+            }
+
+            setupHoverEffects() {
+                const circleNodes = document.querySelectorAll('.circle-node[data-category]');
+                const rectNodes = document.querySelectorAll('.rect-node[data-category]');
+
+                // 圆圈悬停效果
+                circleNodes.forEach(circle => {
+                    const category = circle.getAttribute('data-category');
+
+                    circle.addEventListener('mouseenter', () => {
+                        rectNodes.forEach(rect => {
+                            const rectCategory = rect.getAttribute('data-category');
+                            if (rectCategory === category) {
+                                rect.classList.add('active');
+                            } else {
+                                rect.classList.add('dimmed');
+                            }
+                        });
+                        
+                        // 高亮相关连线
+                        this.highlightLines(category, true);
+                    });
+
+                    circle.addEventListener('mouseleave', () => {
+                        rectNodes.forEach(rect => {
+                            rect.classList.remove('active', 'dimmed');
+                        });
+                        
+                        // 恢复连线
+                        this.highlightLines(null, false);
+                    });
+                });
+
+                // 矩形悬停效果
+                rectNodes.forEach(rect => {
+                    rect.addEventListener('mouseenter', () => {
+                        const category = rect.getAttribute('data-category');
+                        const correspondingCircle = document.querySelector(`.circle-node[data-category="${category}"]`);
+                        if (correspondingCircle) {
+                            correspondingCircle.style.background = '#ffb3b3';
+                            correspondingCircle.style.transform = 'scale(1.1)';
+                            correspondingCircle.style.borderWidth = '3px';
+                        }
+                        
+                        // 高亮相关连线
+                        this.highlightLines(category, true);
+                    });
+
+                    rect.addEventListener('mouseleave', () => {
+                        const category = rect.getAttribute('data-category');
+                        const correspondingCircle = document.querySelector(`.circle-node[data-category="${category}"]`);
+                        if (correspondingCircle) {
+                            correspondingCircle.style.background = '';
+                            correspondingCircle.style.transform = '';
+                            correspondingCircle.style.borderWidth = '';
+                        }
+                        
+                        // 恢复连线
+                        this.highlightLines(null, false);
+                    });
+                });
+            }
+
+            highlightLines(category, highlight) {
+                const svg = document.querySelector('.svg-overlay');
+                if (!svg) return;
+                
+                const lines = svg.querySelectorAll('path');
+                lines.forEach(line => {
+                    if (highlight && category) {
+                        const sourceCategory = line.dataset.sourceCategory;
+                        const targetCategory = line.dataset.targetCategory;
+                        
+                        if (sourceCategory === category || targetCategory === category) {
+                            // 高亮相关连线
+                            line.style.strokeWidth = '2.5';
+                            line.style.opacity = '1';
+                            line.style.filter = 'drop-shadow(0 0 4px rgba(230, 0, 16, 0.6))';
+            } else {
+                            // 淡化其他连线
+                            line.style.opacity = '0.2';
+                        }
+                    } else {
+                        // 恢复默认状态
+                        line.style.strokeWidth = '';
+                        line.style.opacity = '';
+                        line.style.filter = '';
+                    }
+                });
+            }
+
+            animate() {
+                // 应用物理模拟
+                this.applyForces();
+                
+                // 更新所有节点位置
+                this.nodes.forEach((nodeData, element) => {
+                    // 跳过被拖拽的节点
+                    if (this.isDragging && nodeData === this.draggedNode) return;
+                    
+                    // 跳过固定节点
+                    if (nodeData.isFixed) return;
+
+                    // 边界检测
+                    const container = document.querySelector('.knowledge-map');
+                    const containerWidth = container.offsetWidth;
+                    const containerHeight = container.offsetHeight;
+                    
+                    const minX = 0;
+                    const minY = 0;
+                    const maxX = containerWidth - nodeData.width;
+                    const maxY = containerHeight - nodeData.height;
+                    
+                    // 计算加速度（弹簧力）
+                    const dx = nodeData.targetX - nodeData.x;
+                    const dy = nodeData.targetY - nodeData.y;
+                    
+                    // 弹簧系数和阻尼
+                    const springStrength = 0.1;
+                    const damping = 0.8;
+                    
+                    // 更新速度
+                    nodeData.vx = (nodeData.vx + dx * springStrength) * damping;
+                    nodeData.vy = (nodeData.vy + dy * springStrength) * damping;
+                    
+                    // 更新位置
+                    nodeData.x += nodeData.vx;
+                    nodeData.y += nodeData.vy;
+                    
+                    // 限制在边界内
+                    nodeData.x = Math.max(minX, Math.min(maxX, nodeData.x));
+                    nodeData.y = Math.max(minY, Math.min(maxY, nodeData.y));
+                    
+                    // 应用位置
+                    if (Math.abs(nodeData.vx) > 0.01 || Math.abs(nodeData.vy) > 0.01 || Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+                        element.style.left = nodeData.x + 'px';
+                        element.style.top = nodeData.y + 'px';
+                    }
+                });
+
+                this.updateLines();
+                this.animationFrame = requestAnimationFrame(() => this.animate());
+            }
+
+            applyForces() {
+                // 排斥力：防止节点重叠
+                const repulsionStrength = 5000; // 排斥力强度
+                const minDistance = 10; // 最小距离
+                
+                const nodeArray = Array.from(this.nodes.values());
+                
+                for (let i = 0; i < nodeArray.length; i++) {
+                    const nodeA = nodeArray[i];
+                    // 跳过被拖拽的节点和固定节点
+                    if (this.isDragging && nodeA === this.draggedNode) continue;
+                    if (nodeA.isFixed) continue;
+                    
+                    let forceX = 0;
+                    let forceY = 0;
+                    
+                    // 计算与其他节点的排斥力
+                    for (let j = 0; j < nodeArray.length; j++) {
+                        if (i === j) continue;
+                        
+                        const nodeB = nodeArray[j];
+                        
+                        // 计算两节点中心距离
+                        const centerAX = nodeA.x + nodeA.width / 2;
+                        const centerAY = nodeA.y + nodeA.height / 2;
+                        const centerBX = nodeB.x + nodeB.width / 2;
+                        const centerBY = nodeB.y + nodeB.height / 2;
+                        
+                        const dx = centerAX - centerBX;
+                        const dy = centerAY - centerBY;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        // 计算重叠的阈值距离（两节点半径之和）
+                        const radiusA = Math.max(nodeA.width, nodeA.height) / 2;
+                        const radiusB = Math.max(nodeB.width, nodeB.height) / 2;
+                        const minSeparation = radiusA + radiusB + minDistance;
+                        
+                        // 如果距离小于阈值，施加排斥力
+                        if (distance > 0 && distance < minSeparation) {
+                            const force = repulsionStrength / (distance * distance);
+                            const dirX = dx / distance;
+                            const dirY = dy / distance;
+                            
+                            forceX += dirX * force;
+                            forceY += dirY * force;
+                        }
+                    }
+                    
+                    // 应用排斥力到速度
+                    nodeA.vx += forceX * 0.01;
+                    nodeA.vy += forceY * 0.01;
+                }
+                
+                // 连接力已移除 - 矩形节点固定不动
+            }
+
+            updateLines() {
+                const svg = document.querySelector('.svg-overlay');
+                if (!svg) return;
+
+                // 清除现有的线条
+                svg.innerHTML = '';
+
+                // 创建渐变定义容器
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                svg.appendChild(defs);
+
+                // 绘制所有连接线
+                this.connections.forEach((conn, index) => {
+                    const sourceData = this.nodes.get(conn.source);
+                    const targetData = this.nodes.get(conn.target);
+                    
+                    if (!sourceData || !targetData) return;
+
+                    // 计算边缘点
+                    const sourcePoint = this.getEdgePoint(sourceData, targetData);
+                    const targetPoint = this.getEdgePoint(targetData, sourceData);
+
+                    // 计算距离，决定曲线弯曲度
+                    const dx = targetPoint.x - sourcePoint.x;
+                    const dy = targetPoint.y - sourcePoint.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    // 根据距离调整曲线弯曲程度
+                    const curvature = Math.min(distance * 0.2, 80);
+                    
+                    // 计算控制点（二次贝塞尔曲线）
+                    const midX = (sourcePoint.x + targetPoint.x) / 2;
+                    const midY = (sourcePoint.y + targetPoint.y) / 2;
+                    
+                    // 垂直于连线方向的偏移
+                    const perpX = -dy / distance;
+                    const perpY = dx / distance;
+                    
+                    const controlX = midX + perpX * curvature * 0.3;
+                    const controlY = midY + perpY * curvature * 0.3;
+
+                    // 创建渐变（每条线有独立的渐变）
+                    const gradientId = `lineGradient${index}`;
+                    const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+                    gradient.setAttribute('id', gradientId);
+                    gradient.setAttribute('x1', '0%');
+                    gradient.setAttribute('y1', '0%');
+                    gradient.setAttribute('x2', '100%');
+                    gradient.setAttribute('y2', '0%');
+                    
+                    const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                    stop1.setAttribute('offset', '0%');
+                    stop1.setAttribute('style', 'stop-color: rgba(230, 0, 16, 0.4); stop-opacity: 1');
+                    
+                    const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                    stop2.setAttribute('offset', '100%');
+                    stop2.setAttribute('style', 'stop-color: rgba(156, 163, 175, 0.3); stop-opacity: 1');
+                    
+                    gradient.appendChild(stop1);
+                    gradient.appendChild(stop2);
+                    defs.appendChild(gradient);
+
+                    // 使用贝塞尔曲线路径
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    const pathData = `M ${sourcePoint.x} ${sourcePoint.y} Q ${controlX} ${controlY} ${targetPoint.x} ${targetPoint.y}`;
+                    
+                    path.setAttribute('d', pathData);
+                    path.setAttribute('class', 'svg-line');
+                    path.setAttribute('stroke', `url(#${gradientId})`);
+                    path.setAttribute('stroke-linecap', 'round');
+                    
+                    // 添加交互效果的数据属性
+                    path.dataset.sourceCategory = sourceData.category;
+                    path.dataset.targetCategory = targetData.category;
+                    
+                    svg.appendChild(path);
+                });
+            }
+
+            getEdgePoint(fromNode, toNode) {
+                // 计算节点中心
+                const fromCenterX = fromNode.x + fromNode.width / 2;
+                const fromCenterY = fromNode.y + fromNode.height / 2;
+                const toCenterX = toNode.x + toNode.width / 2;
+                const toCenterY = toNode.y + toNode.height / 2;
+
+                // 计算方向
+                const dx = toCenterX - fromCenterX;
+                const dy = toCenterY - fromCenterY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance === 0) {
+                    return { x: fromCenterX, y: fromCenterY };
+                }
+
+                // 标准化方向向量
+                const dirX = dx / distance;
+                const dirY = dy / distance;
+
+                let edgeX, edgeY;
+
+                if (fromNode.type === 'circle') {
+                    // 圆形：半径 = (width - 边框*2) / 2
+                    // 边框是2px，所以实际内容半径要减去边框
+                    const borderWidth = 2;
+                    const radius = (fromNode.width - borderWidth) / 2;
+                    edgeX = fromCenterX + dirX * radius;
+                    edgeY = fromCenterY + dirY * radius;
+            } else {
+                    // 矩形：减去边框宽度
+                    const borderWidth = 1;
+                    const hw = (fromNode.width - borderWidth * 2) / 2;  // 半宽
+                    const hh = (fromNode.height - borderWidth * 2) / 2; // 半高
+                    
+                    // 计算射线参数t（射线方程：P = center + t*dir）
+                    // 对每条边求交点，取最小正t值
+                    const tRight = dirX > 0 ? hw / dirX : Infinity;
+                    const tLeft = dirX < 0 ? -hw / dirX : Infinity;
+                    const tBottom = dirY > 0 ? hh / dirY : Infinity;
+                    const tTop = dirY < 0 ? -hh / dirY : Infinity;
+                    
+                    // 取最小t（最先相交的边）
+                    const t = Math.min(tRight, tLeft, tBottom, tTop);
+                    
+                    edgeX = fromCenterX + dirX * t;
+                    edgeY = fromCenterY + dirY * t;
+                }
+
+                return { x: edgeX, y: edgeY };
+            }
+
+            start() {
+                this.animate();
+            }
+        }
+
+        // 初始化网络图（等待DOM完全加载和样式应用）
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const networkGraph = new NetworkGraph();
+                networkGraph.start();
+            }, 100);
+        });
+
+        // 数据直接从 data2.csv 提取
+        let detailData = {
+            '坤旦': {
+                type: '行当',
+                title: '坤旦',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '王玉蓉：女演员。工旦。原名王佩芬。祖籍江苏苏州，生于上海。因家贫辍学，13岁拜于莲仙学京剧，15岁登台，艺名王艳芳，演出于上海、南京等地，小有名气。北上求师拜在王瑶卿门下，更名王玉蓉。在王瑶卿的严格要求、悉心教导下，她勤奋用功，得到真传，首次在长大安戏院演出《四郎探母》，就有百代唱片公司请她全部灌制，影响颇大。王瑶卿为提携爱徒，率她走遍大江南北，亲临把场，使王玉蓉在艺术上日臻成熟。王玉蓉不仅学会不少王派传统剧目，而且在王瑶卿主持下，又编排了自己的新戏，如《艳云亭》、《渔家乐》、《香祖楼》、《天台狱》和全部《李艳妃》等。她演出的全部《王宝钏》，把唱做繁重的8出戏串在一起，一场演完。全部《孙夫人》把《甘露寺》《回荆州》《下西川》《截江夺斗》《别皇祭江》一次演完，被观众誉为"铁嗓钢喉"。她演出《武家坡》的"跑坡"更堪称一绝。她先后与马连良、谭富英、杨宝森、奚啸伯、管绍华、王琴生等人合作，演出于北平、天津、上海、南京、武汉、香港等地。1949年解放前夕，有人约她去海外，她坚决留在上海等待解放。中华人民共和国成立后，曾赴朝鲜慰问演出，并担任六分团副团长。她曾任吉林省京剧院副院长、王瑶卿学术研究会会长。为人坦率真诚，急公好义，严于律己，乐于助人，尊师重道，济困扶危。晚年接受中国戏曲学院聘请任教，竭尽全力，毫无保留地向学生传授京剧艺术，待学生如子女，培养出不少优秀青年演员。\n胡碧兰：女演员。工旦。祖籍浙江绍兴，生于北京。幼好音乐，七八岁时已能学歌。初从雷喜福学老生，一年后改学青衣，拜李宝琴为师。一说曾从刘宝云学青衣，学的都是老腔老调。后又师从王幼卿及琴师金子年学王瑶卿新腔，艺乃大进。15岁时，露演于北京三庆、开明、华乐诸园，坐客辄满。后去天津，亦受欢迎，遂移居沽上，不时登台，声誉益著。1928年7月7日，养拙轩主在《北洋画报》上发表《男女八旦记》，胡碧兰竟与梅兰芳、尚小云、程砚秋、荀慧生以及章遏云、雪艳琴、马艳云同列其间。评胡碧兰语有："唱工——嗓音圆润，腔调能博采众长，新腔尤婉折入听。做派——端凝中有细致处。扮像——清雅绝俗。性格——恬静有深致。"同年12月27日，该报又发表王小隐《听兰记》，称其演《四郎探母》铁镜公主，"大方自然，俨然一八旗闺秀，而京语嘹亮，尤堪娱耳"。次夕又观其演《南天门》曹玉莲，"颠沛中之小姐乃迥异于昨日之公主，哀怨婉转之歌声，尤足使人回肠荡气"，"信乎天姿工夫兼臻并至，极声容之茂，女伶之天骄也"。1930年5月，《北洋画报》为出版《剧刊》100期称庆，举办"四大女伶皇后"选举活动，至6月21日公布得票结果，胡碧兰以25 534票名列第一，以次为孟丽君、雪艳琴、章遏云。1934年3月10日，《天津商报画刊》编印《胡碧兰专刊》，8开两面，图文并茂，述及碧兰家世、从艺经历、性情喜好等。给人印象最深者有二：其一，以唱工著称。署名"津"者认为，"坤伶中之旦角，就余所见，二十年来，唱工之委婉多致，当无过于胡碧兰"，"偶弄花腔，不嫌其纤巧，间摹旧调，转觉其清新"，究其耐人咀嚼，全在"唱声"之中兼能"唱情"。署名"聊"者（疑为张聊止）亦以其知音识曲，能解"声音之道，情感为上"，而誉胡碧兰"殆今日女伶中之杨琼乎"。杨琼见唐代白居易诗："古人唱歌兼唱情，今人唱歌唯唱声；欲说问君君不会，试将此语问杨琼。"其二，不流时俗，不染外江风味。署名"蜀珍"者认为，胡碧兰不争排新戏以资号召，却"独具卓识"，对"多年无人动之正工青衣戏，反精研之，以保旧戏精华"，"似《祭塔》诸戏，吃力而不易讨好，凡旦角无不视为畏途，而碧兰则时演之，从容大雅，古调新声，别有一种美感，所谓死戏活唱也"。约在1929～1933年间，胡碧兰灌有多种唱片，如《武昭关》《三击掌》《探寒窑》《打金枝》《六月雪》《祭塔》《汾河湾》《战蒲关》《女起解》等，均为其拿手戏。她出嫁后，又值战乱，遂脱离舞台。《中国戏曲志·天津卷》有其传。\n章遏云：女演员。工旦。原名凤屏，字珠尘，乳名萍儿，别号珠尘馆主。祖籍广东。自幼由养母邓秀芝抚养，养母之妹邓秀兰为张德俊妻室，即张云溪之母。凤屏11岁从名票王庾生习老生，于上海首次登台演出《武家坡》。后改青衣、花旦，曾于天津演出《汾河湾》。迁居北京后，取艺名遏云，曾于北京城南游艺园边学艺边演出。又从李宝琴、荣蝶仙、李寿山、张彩林、江顺仙、律佩芳、陶玉芝等名师学艺。她聪颖好学，且练功刻苦，其水袖、圆场及跷功均佳，博采众长，青衣、花旦、刀马旦皆精。其扮相秀丽，台风端庄，嗓音甜润响亮，唱腔流利酣畅。1930年拜在王瑶卿门下，《雁门关》《乾坤福寿镜》《金猛关》等戏，颇得王派精髓，被王瑶卿誉为"女伶中的梅兰芳"。后又向梅兰芳学《霸王别姬》，先后与杨小楼、金少山、袁世海合作演出。曾得程砚秋琴师穆铁芬之助，改学程派《荒山泪》《碧玉簪》《文姬归汉》等。她虚心博学各派剧目，擅演《虹霓关》《牧羊卷》《杏元和番》《双姣奇缘》《四郎探母》《宝莲灯》《芙蓉剑》《天河配》《燕子笺》《上阳宫》《梅玉配》等，尤其《得意缘》，曾得余玉琴、江顺仙、李宝琴等名家指教。除旦行外，亦能反串其他行当，如在《群英会》中反串鲁肃，从不与女演员配戏的程继先，竟破例与其合作扮演周瑜，茹富蕙饰演蒋干。后程继先向其传授了周瑜戏，亦曾反串演出，并留有周瑜剧照传世。初搭雪艳琴班，后自行组班，曾与诸如香、李寿山、王又宸、马连良、高庆奎、侯喜瑞、王又荃、周瑞安、言菊朋、贯大元、叶盛兰、王士英、陈少霖等合作演出。1930年5月3日，《北洋画报》主办人冯武越发起选举"四大女伶皇后"，至6月21日（第488期）公布选举结果为：胡碧兰25 534票、孟丽君21 767票、雪艳琴20 809票、章遏云19 131票。章遏云当选"四后"时，年仅18岁，在４位"皇后"中年纪最小。20世纪40年代迁居香港，曾一度息影舞台。1954年应邀赴台湾演出《六月雪》等程派戏，轰动台湾。1958年定居台湾，曾于大鹏剧艺实验学校任教，并赴香港地区及泰国等地演出。有《章遏云自传》，中国戏剧出版社1991年6月出版，8万字，陈纪滢《中国戏剧的发展与未来》一文作为代序。\n新艳秋：女演员。工旦。北京人。原名王玉华。自幼学戏，初习河北梆子，后改学京剧。她家庭贫寒，白天练功学戏，晚上去剧场，求管理人员通融，入场观摩。她最喜欢程砚秋的艺术，从剧本到唱腔，从身段到细微表情，无不默记于心。1926年满师，以王兰芳艺名首次登台演出《骂殿》。齐如山看后，根据她的戏路给她更改艺名为新艳秋。鉴于一些程派剧目表演舞蹈性强，她拜荣蝶仙为师，学刀马旦，为学习程派戏打好根基。她边演出边学戏，得到北京观众的首肯。1927年应上海丹桂第一台之邀，赴沪演出《碧玉簪》《金锁记》等程派名剧，获得好评。回京后齐如山介绍她拜梅兰芳为师，成为梅门第一位女弟子。接着又拜王瑶卿为师，成为王门第一位女弟子。在王瑶卿的指导下，她先后学会了全本《玉堂春》《缇萦救父》《貂蝉》《青霜剑》《鸳鸯冢》《红拂传》等十几出程派戏。1923年她应邀与杨小楼合作演出《霸王别姬》《长坂坡》，标志着她的表演艺术日趋成熟。1931年初，随杨小楼赴沪演出，声誉日隆。王瑶卿请红豆馆主、李洪春等为她编演新戏。不久，二本《红拂传》《霸王遇虞姬》《玉京道人》等十几出新戏陆续排演出来。20世纪30年代初，南北梨园共称新艳秋、章遏云、雪艳琴、杜丽云（或金友琴）为坤伶"四大名旦"（《肖伧剧话》）。此前，新艳秋曾当选为坤伶"四大皇后"之一，标志着她的艺术进入黄金时代。1937年，日本帝国主义者发动全面侵华战争，给中国人民造成深重灾难，更给新艳秋造成极大的不幸，受尽日伪恶势力迫害的她，被迫中止了舞台生活。抗日战争胜利后，她又被国民政府以莫须有的罪名投入监狱，直至1949年北平解放，才获释并恢复舞台生活。1956年受聘为南京市少年京剧团教师。1959年以后，先后展演了《红拂传》《打渔杀家》，尽显程派艺术风采。新时期以来，她老当益壮，积极参加各种纪念演出。新艳秋曾为江苏省戏剧家协会副主席。有弟子钟荣等。\n雪艳琴：女演员。工旦。本名黄咏霓。回族。自幼喜爱戏曲，4岁拜田际云为师，学梆子青衣。后拜梆子青衣天鹅旦为师，向张彩林学青衣，并向郭际湘学花旦戏，苦练跷工和把子。又先后拜尚小云、王瑶卿为师习艺。她转益多师，博采众长，逐渐形成自己的艺术风格。1913年7岁时，便以"金筱仙"艺名，登台演出梆子《捡柴》。1920年，赴太原演出，在承成园排演京剧《狸猫换太子》。从此改唱京剧，拜靳国瑞为师，并挂起头牌。返京前，一位前清老秀才赠名"雪艳琴"，意思是压倒在京名声显赫的坤伶琴雪芳。1923年，在北京城南游艺园、新民大戏院演出时，高搭牌楼，当中高悬"雪艳琴"三字，分外醒目。她与女老生孟小冬合演《四郎探母》《南天门》等戏，盛况空前。此间，得到尚小云的赏识，将《玉堂春》《御碑亭》《虹霓关》传授给她。1925年后，搭崇雅社、庆麟社、奎德社演出。1927年，与高庆奎赴沪，演出于天蟾舞台，雪艳琴一曲《贵妃醉酒》征服了观众。此时，与周信芳相识，合演《平贵别窑》，珠联璧合。1928年，与郝寿臣、谭富英、周瑞安再次赴沪，演出获得成功。1930年，继"四大名旦"之后，观众又推选出胡碧兰、孟丽君、雪艳琴、章遏云为"四大女伶皇后"。1931年6月，在上海的一次堂会上，雪艳琴应邀与四大名旦合演全部《红鬃烈马》。荀慧生饰《赶三关》的代战公主，程砚秋饰《武家坡》的王宝钏，雪艳琴饰《算军粮》的王宝钏，梅兰芳饰《大登殿》的王宝钏，尚小云饰《大登殿》代战公主，群芳荟萃，盛况空前。此后，在北平与周瑞安、杨宝忠、郭仲衡等组建成庆社，演出《十三妹》《杏元和番》《天河配》《冤孽姻缘》（即《活捉王魁》）等。演出阵容整齐，花旦雪艳舫（艳琴之四姐）、诸如香，小生梁桂亭，花脸苏连汉，老旦文亮晨，小花脸朱斌仙等，经常演出于哈尔飞戏院。雪艳琴嗓音甜润，扮相清秀，文武兼备，博采众长，吸收"四大名旦"之技艺而融会贯通。许多重头戏，在她演来都游刃有余。她演的全部《玉堂春》，吸纳了梅、尚、程、荀各派的演法，一气呵成。评论家邹苇澄在《戏品》中说："得畹华之神采，合御霜之缠绵，具小云之清越，兼留香之绮丽。总四家而擅美，跨南北而孤出。"因其嗓音极好，曾有"金笛仙"之誉。在全部《十三妹》中，又显示出她演刀马旦的功力。她饰何玉凤，念白爽朗，动作矫健，性格豪放，俨然一名风尘女侠的形象，表演中颇具王（瑶卿）派风范。1933年，与谭富英合拍了京剧《四郎探母》，由天一影片公司代为拍摄录音。翌年，在北平吉祥戏院首映，受到观众赞赏。1934年退出菊坛。1935年11月9日，北平梨园公会举办为河南水灾筹赈义务戏，雪艳琴虽已告别舞台，但经邀请，毅然应允，与杨小楼合演《霸王别姬》。除参加义演外，间以绘菊消遣。她还热心于公益事业，为中华戏曲专科学校筹办了回民灶。还为登门请教者授艺，如为言慧珠说《奇双会》等。1952年经梅兰芳举荐，参加中国戏曲研究院京剧实验工作团。演出剧目有《贵妃醉酒》《霸王别姬》《二进宫》《二堂舍子》《玉堂春》《十三妹》《黛玉归天》等。在现代京剧《白毛女》中饰黄母，《林海雪原》中饰蝴蝶迷，表演十分成功，博得赞誉。1960年应邀到中国戏曲学校任教。其学生有梁秀娟、许嘉宝、沈健瑾、杨春霞、陈淑芳等。'
+            },
+            '坤生': {
+                type: '行当',
+                title: '坤生',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '恩晓峰：女演员。工老生。生于北京。满族正黄旗。幼受家族熏陶，酷爱京剧，常随其父恩十去票房听京剧清唱，归家后即高歌模仿，后从老艺人吉庆云、安静芝学老生。1900年后，曾去天津绘芳茶园演出，生意异常发达。"晓峰初到津，作男装，每到散戏，门前站立多人，候睹颜色，其能轰动一时，于此可见"（蠹翁《梨园旧话——庚子后天津戏园之变迁》，《立言画刊》第150期）。1912年，应俞振庭之邀，露演于北京广德楼，合作者有坤伶武生桂俊峰等。当时正是"无腔不学谭"时期，晓峰亦醉心谭派，每遇谭鑫培演出时，辄往观摩，并从陈彦衡、窦砚峰等深造，又请吴联奎练功，技艺日进，演出皆为谭派剧目，如《桑园寄子》、《秦琼卖马》、《洪羊洞》、《打棍出箱》、《坐楼杀惜》、《武昭关》、《托兆碰碑》等，一时曾被誉为"女叫天"。后恩晓峰又兼宗汪（笑侬）派，演出剧目为《马嵬坡》、《受禅台》、《哭祖庙》、《洗耳记》、《张松献地图》、《马前泼水》、《打督邮》等。"汪（笑侬）所歌 腔调，则系别创新声，物化以后，殊鲜传人，仅坤伶恩晓峰、金桂芬等尚能得其仿佛"（冯大光《梨园诗话》，《立言画刊》第103期）。经常与恩晓峰合作的有碧云霞、曹桂芳、谢玉凤、刘喜奎等。恩晓峰嫁夫姜润泉，亦梨园行人。彼夫妇奔走四方，颇有积蓄。有女二：长女恩维铭工文武老生，次女恩维贤工青衣花旦。\n徐东明：女演员。工老生。又名启芳。祖籍浙江镇海，生于天津。自幼喜爱京剧。1930年拜名票王庾生为师，正式学唱谭派老生。到北平后，从师蔡荣桂、陈秀华、吴鹭涵。不久，与学青衣的妹妹徐东霞组成明霞社演出，曾排《王粲登楼》、《杜鹃红》等新剧。徐东霞（1917～1948），曾拜赵绮霞、李凌枫之师，又得荀慧生指教，能戏甚多，文武兼备。东霞去世后，东明又与小妹徐东来组成"明来京剧团"演出。1957年并入北京新华京剧团。后因病辍演，调北京市戏曲学校任教。徐东明嗓音宽厚，做工细腻，唱念韵味纯正。擅演剧目有《失街亭、空城计、斩马谡》，《大保国、探皇陵、二进宫》、《辕门斩子》、《清官册》、《群英会》、《盗宗卷》、《四进士》、《打棍出箱》、《珠帘寨》、《碰碑》、《定军山》等。她教学认真，要求严格，受到学生敬重。\n孟小冬：女演员。工老生。本名若兰，又名令辉，晚年自署凝晖阁主。祖籍山东济南，生于上海。祖父孟七（福保），为北京小福胜科班出身，兼擅武净、武生。清同治间，由京去上海搭班演出。孟七之子鸿芳、鸿寿、鸿荣（艺名小孟七）、鸿群、鸿茂均为名演员。孟小冬为孟鸿群之女。另据作家沈寂撰文披露，孟小冬曾亲口告诉他："我非孟氏所生。"有一种说法：孟小冬为武汉董氏之女，本名董若兰。孟家班旅汉演出时，在董家包饭。若兰聪明俊俏，为孟鸿群喜爱，常带她到后台去玩。董家迫于生计，将若兰送给孟鸿群，带到上海。大家都称她"小董"，后来改名孟小冬。1953年，香港出版孙养农《谈余叔岩》，孟小冬为此书作序，文末署"宛平孟小冬"，则小冬当为北京人。\n孟小冬9岁从孙（菊仙）派老生仇月祥学戏，3年满师后，赴无锡新舞台演出。继而长期在上海大世界与李春来、粉菊花、汪碧云、李长胜等合作演出。孟小冬年幼时有过一段演"髦儿戏"的经历。她早期戏路驳杂，既有"三斩一碰"、《逍遥津》之类高亢的孙派须生戏，也有《山东马》一类的海派连台本戏和时装戏，尤以在《宏碧缘》中饰骆宏勋享誉一时。从1922年起，延请老谭派名琴师孙佐臣为之操琴并说戏。1923年随武生白玉崑组班赴天津演出于新明大戏院，剧目以正宗须生戏为主，也演《狸猫换太子》等连台本戏。1925年定居北京，同年6月5日首次在京登台，与赵碧云合演《四郎探母》于三庆园，继而参加崇雅社、庆麟社等坤班演于城南游艺园、新明戏院等处。此后自己组班，辗转京津。在此期间，她先后向陈彦衡、陈秀华、王君直、苏少卿、程君谋等请益，得到言菊朋的帮助，进而延请杨宝忠操琴说戏，不时求教于李适可、鲍吉祥等。此时，已力图归依谭、余主流，由"海"入"京"，由驳杂而趋于专精。其间，多次与梅兰芳合演堂会戏《探母回令》、《戏凤》等，乾旦坤生，"梅王冬皇"，一时传为美谈。1927年，梅兰芳以孟小冬为侧室。然而此时在梅兰芳周围的人群中，分成了"捧福（芝芳）"和"捧孟（小冬）"两派，前者势力较大。1929年，梅与孟分手，孟有看破红尘之意，赴津寄寓某逊清皇戚家中，茹斋念佛，受戒于寺院，出入居士林。1933年复出舞台，在北平自组福庆社，赴津沪演出。这个时期最常演《失街亭、空城计、斩马谡》、《捉放曹》等几出安工老生戏。\n孟小冬久有投师余叔岩之愿，1933年在陆军次长杨梧山府宴上，即恳请余叔岩指正过《骂曹》一剧。1938年10月21日，她紧随李少春之后，正式拜余为师。同年12月24日在新新戏院演出拜师后所学的第一出戏《洪羊洞》，由余叔岩为之把场，誉满京城。此后孟又获余亲授《乌盆记》《搜孤救孤》《御碑亭》《二进宫》《捉放曹》《武家坡》《失街亭、空城计、斩马谡》《法场换子》等戏，以及《沙桥饯别》等唱段。李少春学习靠把戏《定军山》《战太平》时，孟也获准旁听。与此同时，她还获得余叔岩晚年琴师王瑞芝的帮助。在余身边学戏5年，直至1943年余叔岩病逝为止。她是余派传人中学习时间最长、获得亲炙最多，而且在学习过程中受到干扰最少的一位，因此后来被视为余派艺术的活标本。1947年为祝杜月笙寿辰，孟小冬在上海中国大戏院连贴两天《搜孤救孤》，由赵培鑫、裘盛戎、魏莲芳分饰公孙杵臼、屠岸贾、程妻。演出时场内满坑满谷，在沪的所有老生名家均到场观摩学习，极一时之盛。\n此前，孟小冬已获杜月笙多年资助。孟小冬与梅兰芳分手后，立誓"要么不嫁，要么就嫁一个跺地乱颤的"。孟小冬于1944年入杜家，1949年4月随杜去香港定居，1950年正式与杜月笙明确夫妻名分。1951年杜月笙故世后，周恩来总理曾派章伯钧赴香港游说孟小冬回内地，但未能成功。孟居港后不再登台，但时常向票友传授余派艺术。获得亲授的孟门弟子为：钱培荣、赵培鑫、蔡国蘅、赵从衍、丁宝麟、黄金懋、丁存坤、沈泰魁、李嘉有、龚耀显以及吴必彰、许密甫等。孟小冬于1967年秋赴台湾，1977年5月26日病逝于台北。\n在京剧艺术之林，女老生一脉具有独立审美价值，孟小冬为其中当之无愧的首席。她的艺术，以拜余学戏后为一生中之最高境界。余叔岩曾评孟小冬："唱学到了七成，念学到了五成。"这是余对孟小冬的艺术所作的很高评论和极大鼓励。如果说余叔岩的风格兼具豪放与婉约、气势和韵味，而孟小冬则主要从婉约和韵味方面继承了余派，并成为代表人物。她音色圆润饱满，唱得中正无疵、明白如话、不温不火、不嘶不懈。余叔岩是"涩中带滑"，孟小冬则是"滑中带涩"，于流丽中含云遮月。在表演时，孟小冬善于在余派的形式规范中塑造人物，更以清新脱俗为尚。在旋律、小腔的描摹方面，孟小冬比余略为写实，遂使余派艺术更易为一般观众所接受，便于模仿和学习。经过她和弟子的艺术实践，使京剧在港台和海外华人圈里得到了流播。\n孟小冬逝世后，其弟子在台湾为之出版音带《凝晖遗音》两盒，搜集1947年《搜孤救孤》演出实况和晚年吊嗓录音；上海则出版《冬皇妙音》音带两盒与之呼应。天津还出版了孟氏说戏的录音磁带6盒。许锦文著有《梨园冬皇孟小冬传》，30万字，上海人民出版社2003年8月出版。万伯翱、马思猛著有《孟小冬——氍毹上的尘梦》，20万字，东方出版社2009年9月出版。'
+            },
+            '乾旦': {
+                type: '行当',
+                title: '乾旦',
+                source: '出处：《中国大百科全书》第三版',
+                introduction: '旦是中国戏曲表演主要行当之一。旦的名目初见于宋代歌舞。周密《武林旧事》记民间舞队有《粗妲》和《细妲》等目，妲即旦的古体。宋杂剧、金院本的女角色称装旦或引戏。宋元南戏和北杂剧形成后，沿用旦的名目，是女角色的统称。其后，各声腔剧种逐渐繁衍出众多分支。按扮演人物的年龄、身份、性格及其表演特点，大致可分为正旦、花旦、闺门旦、武旦、老旦和彩旦等类型。\n乾旦，又称男旦，即男性演员饰演戏剧中的旦角，与之相对的女性旦角称为坤旦。这种表演形式存在于古今中外各种表演艺术中。由于传统社会禁忌较多，女性不宜抛头露面，因此便由男性演员反串旦角。直至清末，始打破传统，逐渐出现符合性别的女旦角。'
+            },
+            '丑行': {
+                type: '行当',
+                title: '丑行',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '戏曲表演行当类型之一。喜剧角色。面部化妆用白粉在鼻梁眼窝间勾画脸谱，与大花脸对比俗称小花脸；与大花脸、二花脸并列俗称三花脸。\n丑的名目初见于宋元南戏，对其来源说法不一。或谓丑是醜的省写，明徐渭《南词叙录》载："丑，以墨粉涂面，其形甚醜。今省文作\'丑\'"；或疑为宋杂剧、金院本的"爨"的演变（王国维《古剧脚色考》）；或疑为宋杂剧、金院本的副净分化而来（钱南扬《戏文概论》）。在戏曲形成以前，滑稽表演的传统源远流长，古代的优，唐参军戏的参军和苍鹘，宋杂剧和金院本的副末、副净等，都是以插科打诨、滑稽调笑为其特征；宋代民间歌舞中也有很多以滑稽调弄为主的节目。南戏的丑，当是这一传统的继承。南戏的丑扮人物甚杂，多为插科打诨人物或次要人物，并经常与净或净、末搭配，或作性格色彩上的调剂和映衬，或相互调笑以活跃戏剧气氛。元杂剧无丑，喜剧人物由净扮演，入明以后受南戏影响而有丑。明代戏曲中，丑的表演逐渐脱离单纯插科打诨或杂扮各种人物的初级形态，开始扮演重要人物并致力于性格的刻画，如第一个为昆山腔演出而写作的《浣纱记》用丑扮伯嚭，就是一例。随着净的表演逐步走向正剧化，净、丑逐渐分工，丑成为喜剧人物的主要扮演者。最迟在万历、天启年间，在净、丑行中初步形成了净、中净（丑）、小净（小丑）三种类型（王骥德《曲律·论部色》）。据万历刻本搬演林冲故事的《灵宝刀》：净扮权奸高俅，中净扮陷害林冲的主要帮凶陆谦，丑扮衙内高朋，不但净、丑的分工已初具规模，丑的表演在性格化程度上也有了提高，角色分配已经接近于后世昆山腔的分行规制。到清代中叶昆山腔中，净发展为正净称大面，丑形成了二面(付或副)和三面（丑）两个分支，扮演的人物各有侧重，艺术上也有了各自的特色（《扬州画舫录》）。与昆山腔同时流传的弋阳诸腔的丑，则以其浓郁的民间色彩和生动活泼的生活气息显示出自己的独特风采，万历刊本《摘锦奇音》和《词林一枝》收录的《荆钗记》摘出"十朋拜母问妻"和《僞弓记》摘出"李巡打扇"中，由丑角饰演的李成和刘瑾两个喜剧形象，就基本上反映了这个特点。其后，高腔、梆子、皮簧和民间小戏各系统剧种都发挥了自己的创造。到近代戏曲中，丑的表演艺术有了长足的发展，不同的剧种都有各自的风格特色。丑的表演一般不重唱功而以念白的口齿清楚、清脆流利为主，多用散白，表现上层人物时用韵白。相对地说，丑的表演程式不像其他行当那样严谨，但有自己的风格和规范，如屈膝、蹲裆、踮脚、耸肩等都是丑的基本动作；昆、川、汉剧等历史比较悠久的剧种在表演程式的规格上要求比较严格，民间小戏则比较灵活自由。这些表演上的基本特点，结合具体性格，可以表现幽默、机智的正面人物形象，也可以表现灵魂丑恶、道德败坏或品性上有严重缺陷的反面人物形象。按扮演人物的身份、性格和技术特点，大致可分为文丑和武丑两大支系；文丑中又有袍带丑、方巾丑、褶子丑、茶衣丑和老丑等若干分支：\n袍带丑　因身穿蟒袍、腰围玉带而得名。扮演帝王将相、公卿大夫中的喜剧人物，如《湘江会》的齐宣王、《九锡宫》的程咬金等。"官衣丑"多扮一般文官中的喜剧人物，如《赠绨袍》的须贾等，表演特点与袍带丑基本相同。\n方巾丑　因常戴方巾而得名。多扮儒生、谋士或书吏中的喜剧人物，如《群英会》的蒋干。\n褶子丑　川剧丑行的一支，常扮纨袴子弟、花花公子，如《蕉帕记·闹钗》的胡琏、《做文章》的徐子元。其他剧种也有此类型，但名目不同，如高甲戏称公子丑，京剧有鞋皮丑，或作邪僻丑，常扮《野猪林》的高衙内、《铁弓缘》的石文等。\n茶衣丑　京剧丑行的一支，因常穿茶衣腰包，故名。所扮人物多为普通劳动人民，如《醉打山门》、《武松打虎》的酒保，《问樵闹府》的樵夫等。\n老丑　多扮心地善良、性格诙谐的老人，如《苏三起解》的崇公道、《棒打薄情郎》的金松等。\n武丑　俗称开口跳。讲究念白的吐字清晰真切，语调清脆流利，动作轻巧敏捷，矫健有力，着重翻跳跌扑的武功，扮演机警幽默、武艺高超的人物，如《三岔口》的刘利华、《挡马》的焦光普、《连环套·盗钩》的朱光祖、《三盗九龙杯》的杨香武等。\n付　昆曲特有的行当，又称二面或副，是一种介乎丑、净之间的脚色。李斗《扬州画舫录》说："二面之难，气局亚于大面，温暾近于小面"，比较准确地描述了这类脚色的艺术特点。昆曲的付和丑的区别在于：付重冷隽，丑重滑稽。付多扮狡诈阴险的奸臣、恶吏、讼棍或无行文人，如《鸣凤记》的赵文华、《一捧雪》的汤勤、《鲛绡记》的贾主文、《水浒记》的张文远、《绣襦记》的乐道德等，总之，身份比小丑高，品性却比小丑坏。丑多扮幽默诙谐、心地善良的小人物，如《渔家乐》的万家春、《艳云亭》的诸葛暗、《万里圆》的公差等。其他剧种也有类似的脚色，如川剧袍带丑的表演风格与昆曲的付相近，但不称付。\n着重做功的老旦有时由丑兼扮，如京剧《清风亭》的贺氏，昆曲《荆钗记》的王十朋母。彩旦亦为丑的本工。'
+            },
+            '旦  行': {
+                type: '行当',
+                title: '旦  行',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国戏曲表演主要行当之一。旦的名目初见于宋代歌舞。周密《武林旧事》记民间舞队有《粗妲》和《细妲》等目，妲即旦的古体。宋杂剧、金院本的女角色称装旦或引戏。宋元南戏和北杂剧形成后，沿用旦的名目，是女角色的统称。其后，各声腔剧种逐渐繁衍出众多分支。按扮演人物的年龄、身份、性格及其表演特点，大致可分为正旦、花旦、闺门旦、武旦、老旦和彩旦等类型。①正旦，主要扮演举止端庄的中年或青年女性，多为正剧或悲剧人物。造型基调娴静庄重，多用韵白，唱、念、做诸功兼重，而在唱功上作重点发挥。因常穿青素褶子，故又称青衣。②花旦，与正旦相对，扮演性格活泼明快或泼辣放荡的青年女性，并常带喜剧色彩。造型基调要求妩媚妍丽、娇憨活泼，多念散白，重做功、神采，不重唱功但要求唱腔秀丽灵巧。③闺门旦，扮演青春少女。京剧闺门旦早期以扮演小家碧玉为主，如《拾玉镯》的孙玉姣、《棒打薄情郎》的金玉奴；后吸收昆曲的经验而有大家闺秀的类型，如《凤还巢》的程雪娥。④武旦，扮演擅长武艺的女性形象，又分刀马旦和武旦。刀马旦重身段工架，常扮的人物有《扈家庄》的扈三娘、《穆柯寨》的穆桂英等。武旦重跌扑翻打，以身手的矫健骁勇胜，常扮的人物有《十字坡》的孙二娘等。⑤老旦，扮演老年妇女。多重唱功。⑥彩旦，一作丑旦、丑婆子，实为女丑，故常由丑行兼扮。在不同剧种中，旦行的分类与名称也不尽相同。'
+            },
+            '净  行': {
+                type: '行当',
+                title: '净  行',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国戏曲表演主要行当之一，俗称花脸。以面部化妆勾勒脸谱为突出标志，音色洪亮宽阔，演唱风格粗壮浑厚，动作大开大阖、顿挫鲜明，表现性格气质豪迈或粗犷的人物形象，如包拯、张飞和曹操等即为净扮。是戏曲舞台上具有独特风格的性格造型。\n宋元南戏和北杂剧始用净的名目，一般认为是从宋杂剧和金院本的副净演变而来。原是以插科打诨、滑稽调笑为特征的喜剧脚色，以后逐渐向以特殊造型手段塑造正剧人物转化。明传奇创造了大批具有独特性格气质的人物形象，有的呜咽叱咤、气势磅礴，如《千金记》的项羽、《宵光剑》的铁勒奴；有的诡谲奸诈、凶残暴戾，如《鸣凤记》的严嵩、《精忠记》的秦桧、《红梅记》的贾似道；都在形象塑造上有鲜明的表现。关羽、张飞、包拯、李逵等，原来因受杂剧"一人主唱"形式的限制，只能由正末或外扮演，为了突出其性格气质的特点，也要求在表演的性格化程度上有所提高。这些人物形象推动了净的表演在前人开创的基础上进一步分化。到清代中叶昆山腔表演艺术发展的成熟期，净扮的人物范围及其艺术特点渐趋稳定，净、丑明确分工，形成了大面（净）、二面（副）、三面（丑）3个行当。大面的出现标志着净的正剧化，喜剧性人物则归入副和丑扮，大面中又有红面、黑面和白面之分。与昆山腔同时流传的弋阳诸腔，在艺术交流中也经历了大致相同的道路，并以黑面形象的独特创造与昆山腔的净脚表演相媲美。花部勃兴后，特别是京剧形成以后，对净的表演艺术进行了更多的磨炼和提高，扮演人物的范围不断扩大，艺术上更为丰富和圆熟，这又引起了净脚内部各行脚色的新的分化和融合，繁衍出众多的分支。由于各个剧种的分行方法和习惯不尽相同，因而在具体名目上呈现出错综复杂的现象，如按扮演人物的身份、性格及其艺术、技术特点，大致可归纳为以唱功为主的大花脸和以做功为主的二花脸两大支系。二花脸中又有武花脸和以扮演钟馗、判官等角色为主的油花脸等分支。'
+            },
+            '武生': {
+                type: '行当',
+                title: '武生',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '扮演擅长武艺的人物，分长靠武生和短打武生两类。长靠武生扮演大将，以扎大靠、穿厚底靴而得名。念白讲究吐字清晰，峭拔有力；重腰腿功和武打，更重身段工架，以突出人物的大将风度和英武气概。《挑华车》的高宠、《长坂坡》的赵云等，都是长靠武生的本工戏。另有勾脸武生一类，如《铁笼山》的姜维、《艳阳楼》的高登、《状元印》的常遇春、《金钱豹》的金钱豹等，原为武净的本工，后改由武生兼演，但仍勾脸谱，故称勾脸武生。短打武生常穿抱衣抱裤和薄底靴，以动作的轻捷矫健，跌扑翻打的勇猛炽烈见长。《三岔口》的任堂惠、《十字坡》的武松、《白水滩》的十一郎、《花蝴蝶》的姜永志、《恶虎村》的黄天霸等，都是短打武生的本工。还有一种介乎长靠、短打两者之间的箭衣武生，既不如扎大靠的凝重，也无穿抱衣裤的轻便，要气魄英伟，舞做稳练，如《连环套》、《骆马湖》的黄天霸，《翠屏山》的石秀，《洗浮山》的贺天保等。《闹天宫》等剧的孙悟空也由短打武生扮演。京剧还有娃娃武生一类，扮演精于武艺的儿童，如《乾元山》的哪吒、《劈山救母》的沉香，要求在武打表演中透出儿童的稚气。武生也兼演红生中的关羽戏。'
+            },
+            '斌庆社': {
+                type: '科班',
+                title: '斌庆社',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国近代京剧科班。\n1917年由俞振庭、果仲连在北京创办。班址设在宣武门门外百顺胡同西口内路南。1918年1月28日在北京文明园出台。教师有陈德霖、张淇林、范福泰、陆杏林、李寿山、高士杰、鲍吉祥、诸茹香、徐寿琪、沈庄、于豹儿、朱六儿等，还有排本戏的教师于庚元和从上海邀来的武剧教师张子云。学生以"斌、庆、永"三字排名。前四名入科的学生取名"福、禄、寿、喜"，如耿斌福、范斌禄、徐斌寿、徐斌喜(徐碧云)。另有一批搭班演唱的童伶，如李万春、蓝月春、魏莲芳、赵绮霞、俞赞庭、俞华庭、俞步兰等。上演剧目以武戏、本戏见长，如《金钱豹》《白水滩》《两将军》《百凉楼》等；独有剧目有《佟家坞》《火烧大悲楼》《古天山》等。常年演出地点为广德楼和吉祥园。该社成立初期，学生们常为梅兰芳演出的《游园惊梦》配演众花神，为《金山寺》配演众水族。俞振庭一向厉行变革，有些变革主张常在斌庆社实施。斌庆社的乐队是最早加用铙钹的班社。1930年后，科班报散。一些年幼学生转入其他科班。斌庆社科班曾与富连成社、三乐社、福清社并称为北京科班中的"四雄"，在办学的十余年中，培养出一批优秀人才。'
+            },
+            '承华社': {
+                type: '科班',
+                title: '承华社',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '京剧班社。\n1922年8月梅兰芳在北京组建。主要演员先后有王凤卿、刘景然、朱素云、姜妙香、程继先、陈德霖、王蕙芳、诸如香、朱桂芳、龚云甫、郝寿臣、李寿山、侯喜瑞、郭春山、慈瑞泉、萧长华、尚和玉、刘连荣等。姚玉芙任社长。同年秋，梅兰芳率承华社赴香港演出，琴师茹莱卿因病未能同行，改由徐兰沅接替。1923年夏，梅兰芳编演了古装新戏《西施》，创作了"羽舞"，为了丰富乐队的表现力，首创在京剧伴奏乐器中加上了二胡，由王少卿担任二胡伴奏。同年10月，编排上演了《洛神》，梅兰芳在歌舞、音乐、服装、道具、布景等方面都有新的改革。11月，取材于《镜花缘》编演的《廉锦枫》，首创了旦脚［反二簧］原板唱腔。1924年10月，梅兰芳率承华社部分演员第二次赴日本演出。从1925年夏天开始，根据《长生殿》传奇，梅兰芳又陆续编演了古装新戏《太真外传》，共４本。1927年冬，编演了红楼戏《俊袭人》。1928年初，编演了全本《宇宙锋》。又于同年春夏之交，编演了新戏《凤还巢》，奉系军阀张作霖以剧名与"奉还巢"谐音，竟下令禁演。这年秋天，编演了本戏《春灯谜》。《宇宙锋》和《春灯谜》都是从开台到散戏演一台整本戏，改变了过去只拆演折子戏的情况，这是梅兰芳在京剧舞台艺术实践中的又一次改革尝试。1929年开始为赴美国演出做准备工作。1930年1月，梅兰芳率承华社部分人员赴美国旅行演出，引起轰动，他作为文化使节，把中国戏曲介绍到大洋彼岸。日本军队侵占东北，逼近山海关，梅兰芳举家于1932年南迁到上海居住，并着手编演抗战新戏《抗金兵》，次年在上海天蟾舞台首演。1935年，应苏联文化协会的邀请赴苏联访问演出，王少亭、杨盛春、刘连荣、徐兰沅等人随行。后又去波兰、德国、法国、比利时、意大利、英国进行戏剧考察。1936年为激励人民抗战斗志，又编演新戏《生死恨》。1938年初，梅兰芳率承华社又赴香港演出。演出完毕，梅兰芳将剧团人员送回内地，自己决定留居香港，自此蓄须明志，谢绝舞台。承华社至此结束。'
+            },
+            '崇林社': {
+                type: '科班',
+                title: '崇林社',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '京剧戏班。1921年1月前后，杨小楼、梅兰芳合组于北京，2月12日报庙。领班人王松龄。刘砚芳（代表杨小楼）、姚玉芙（代表梅兰芳）共同协办社务。社内有老生王凤卿、张如庭、李鸣玉、鲍吉祥、王荣山，小生朱素云、姜妙香，武生迟月亭、朱玉康、赵春锦，旦脚陈德霖、王蕙芳、姚玉芙，老旦龚云甫、罗福山，武旦朱桂芳、靳湘林，文净裘桂仙、穆春山、侯喜瑞，武净钱金福、许德义、刘砚亭，文丑陆金桂、郭春山、萧长华，武丑王长林、傅小山等。同年2月8日，首演于北京前门外煤市街南文明茶园。第一天（正月初一），梅兰芳、王凤卿演压轴戏《满床笏》，杨小楼等演大轴戏《青石山》。第二天，梅兰芳演压轴戏《贵妃醉酒》，杨小楼演大轴戏《骆马湖》。第三天上演裘桂仙《铡美案》、姜妙香《姻脂虎》、朱素云《白门楼》，杨小楼演压轴戏《贾家楼》，梅兰芳、王凤卿演大轴戏《汾河湾》。杨、梅两大名角联袂演出，很为北京观众注目，比较冷清的文明茶园（此前奎德社在该处演唱），又一度风光起来。同年3月2日，崇林社挪入东安市场吉祥戏园。头天戏码为杨小楼的压轴戏《恶虎村》，梅兰芳、王凤卿的大轴戏《四郎探母》。票价正座8角，厢座1元。每周只演日场3天（周五、六、日）。此期间，杨、梅二人经常自带班底演唱堂会戏，收入颇丰。同年冬，崇林社又移于第一舞台演出。杨、梅议定排演齐如山在桐馨社《楚汉争》基础上新编的《霸王别姬》。1922年2月15日（农历正月十九日），于第一舞台首次公演，杨小楼饰项羽、梅兰芳饰虞姬、王凤卿饰韩信、姜妙香饰虞子期、许德义饰项伯、李寿山饰周兰、迟月亭饰钟离昧、李鸣玉饰刘邦。评论界人士说："杨演霸王，气魄雄厚，能将英雄末路之情景表演无遗；梅之虞姬，雍容华贵，舞态曼妙，别离时之凄惨悲泣，台下人多为之落泪。"（北京《立言画刊·霸王与虞姬》）1922年3月间，崇林社二次返回吉祥戏园演出。不久，梅兰芳应上海天蟾舞台之邀，在5月下旬偕杨小楼、王凤卿、姜妙香、姚玉芙、李寿山、王长林、许德义及新邀进的郝寿臣、吴彩霞、筱翠花等去沪。6月1日开演，7月10日结束。其间，5月24日、25日，梅、杨等人曾去南通为张季直的寿日演唱堂会戏。梅兰芳演《天女散花》《麻姑献寿》，杨小楼演《骆马湖》《长坂坡》。崇林社在上海天蟾舞台演出49场，包括营业演出41场、外间堂会8场。演出剧目有梅兰芳的《牡丹亭》《嫦娥奔月》《千金一笑》《黛玉葬花》《贩马记》《天女散花》、《上元夫人》、《麻姑献寿》、《风筝误》、《虹霓关》（头二本）、《木兰从军》（头二本）、《木兰从军》（三、四本）、《狮吼记》《玉簪记》《南柯梦》《金雀记》《回荆州》《金针刺蟒》《法门寺》《汾河湾》《御碑亭》等，杨小楼的《铁笼山》《长坂坡》《天安会》《挑华车》《艳阳楼》《恶虎村》《状元印》《八大锤》《东昌府》《金钱豹》《武文华》《五人义》《连环套》《骆马湖》《割发代首》（即《战宛城》）、《大蜡庙》（杨小楼饰褚彪、王凤卿饰施公、刘砚芳饰黄天霸、筱翠花饰张桂兰）等。演出场次最多的是《霸王别姬》，共8场。1922年7月12日，杨、梅等人由沪返京，该社拆散解体。崇林社时期，除《霸王别姬》外，杨小楼、梅兰芳曾合演《金山寺》《回荆州》《五花洞》《长坂坡》等，后来都成为他们二人在堂会中合演的保留剧目。'
+            },
+            '扶风社': {
+                type: '科班',
+                title: '扶风社',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '京剧班社。1930年秋马连良组织创办，并任社长及主演。扶风社一直延续到1946年，是一个时间较长、阵容稳定的民间职业班社。经由马连良集资于北平西长安街兴建的新新大戏院（后称首都影院）于1936年落成后，就成为扶风社演出的基本场所。1940年前后扶风社在北平演出，影响较大，演员阵容整齐，有旦张君秋、小生叶盛兰、丑马富禄、花脸刘连荣、里子老生李洪福。该社陆续编演了一批新戏。1930年10月12日白天，《安居平五路》首演于中和戏院，马连良饰诸葛亮，改变了老扮相，穿褶子、抱渔竿上场，以示清闲安逸之致。配演者有王幼卿、尚和玉、金仲仁等。1935年5月30日《苏武牧羊》首演于吉祥园，是在《万里缘》（王瑶卿、王凤卿曾合演过）的基础上，增加了"苏武出使""卫律劝降""苏武望乡"等情节而成为一本大戏，马连良饰苏武，王幼卿、茹富蕙、刘砚亭、荣蝶仙配演。1932年6月22日夜场，由马连良与王幼卿、刘连荣、鲍吉祥、何雅秋、马春樵、郭春山等首演《假金牌》于华乐园。20世纪30年代早期，还编演《羊角哀》，在服装上有很大改革。20世纪30年代初编演新戏《楚宫恨》，马连良扮演伍奢，全剧以斩伍奢结束。20世纪30年代后期重演此剧时，马连良前饰伍奢，后饰伍员，剧名改为《楚宫恨史》，全剧以"战樊城"结束。《胭脂宝褶》是把传统折子戏《遇龙酒馆》《失印救火》串联起来，再加以整理改编而成的本戏。马连良前饰永乐帝，后饰白怀，并将原来永乐帝唱的［西皮］，改为唱［二簧三眼］，服装上也有改进，令观众耳目一新，极为称赞。以上剧目由李亦青、关仲莹执笔。之后，经吴幻荪执笔，整理、移植、改编、演出的主要剧目有《串龙珠》《春秋笔》《十老安刘》等。《串龙珠》1938年在北平新新大戏院上演，马连良饰徐达。此剧原本系山西梆子（晋剧）须生丁果仙（女）所赠，内容为中原人民反抗元统治者的暴虐行径。《春秋笔》剧本也是由山西梆子的剧本移植、改编，于1938年冬在上海黄金大戏院首演。马连良前饰张恩、后饰王彦丞，张君秋饰王夫人，刘连荣饰檀道济，曹连孝饰前部王彦丞，叶盛兰饰差官，马富禄饰驿卒，赵桐珊（芙蓉草）饰张妻演得最出色，苗胜春饰陶二潜，是马连良最满意的配角。《十老安刘》也是在传统折子戏的基础上改编的。过去，小生只唱《监酒令》一折，老生只唱《盗宗卷》一折。马连良惋惜这两折戏在情节上的不完整，于是将它们与川戏、汉剧的《淮河营》串在一起，又增加了"封十王""楚汉宫"情节，邀吴幻荪执笔改编而成。马连良前饰蒯彻，后饰张苍。徐兰沅参与唱腔设计。未正式上演前就灌制了唱片，上演后风靡一时。与马连良同台合作的演员还有张立荣、王丽卿、朱素云、钱宝森、王琴侬、龚云甫、关丽卿、钱金福等。他们在马派艺术及其舞台整体艺术的创造上，也作出了相应的历史贡献。'
+            },
+            '富连成社': {
+                type: '科班',
+                title: '富连成社',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国京剧科班。1904年在北京正式成立，初名"喜连陞"，后改"喜连成"。吉林商人牛子厚为班主，京剧演员叶春善任社长。1912年夏，沈姓接办，改名"富连成"（后简称"富社"），仍由叶春善掌理。1948年停办。历时44年，培养了"喜、连、富、盛、世、元、韵"7科学生近700人，是历史最长、规模最大、造就人才最多的一所京剧科班。长期任教的教师有萧长华、苏雨卿、宋起山、唐宗成、蔡荣桂等；姚增禄、茹莱卿、郭春山、王长林、尚小云等戏曲名家都曾来社兼课授艺。所演大小剧目近400出，尤以"三小戏"和武戏的严谨整齐，形成自家风格；最为著称的是连台"三国戏"。富连成社之前的科班一般均为"大小班"（成年、童年演员合演）性质，富连成社则一律由学生演出。此社只收男生，随到随考，入科年龄为6岁至11岁。坐科年限一般为7年。科班供给食宿衣履。教学设施皆沿袭传统旧制，以口传心授的方法，使学生通过学戏来掌握各门艺术技能；着重舞台演出实践，常年在固定的戏园公演，日不间断。在教学上能够做到"量材授艺，人尽其才"。培养的演员有雷喜福、马连良、于连泉（筱翠花）、谭富英、马富禄、茹富蕙、叶盛章、叶盛兰、高盛麟、李盛斌、李盛藻、孙盛武、裘盛戎、萧盛萱、李世芳、袁世海、毛世来、刘元彤、谭元寿、哈元章等；戏曲教师有王连平、萧连芳、茹富兰、宋富亭、陈富瑞、钱富川、孙盛文等。此外，梅兰芳、周信芳、贯大元、林树森、高百岁等都曾在这里搭班学艺。富连成社不仅培养了大批戏曲人才，还保留、整理、创排了大量京剧优秀剧目，为中国京剧艺术的继承、发展，作出了承前启后的重要贡献。'
+            },
+            '庆生社': {
+                type: '科班',
+                title: '庆生社',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '京剧班社。1926年荀慧生由沪返京，初组松庆社，1930年5月更名庆生社，1933年夏更名春生社，1940年5月，又组留香社。其中，庆生社与春生社是荀慧生演剧生涯的最盛阶段。花旦挑班演戏，小生与小丑是必不可少的辅佐人物。庆生社盛时阵容硬整，小生金仲仁、小丑马富禄、二旦芙蓉草、里子老生张春彦，有"四大金刚"之称。他们为荀慧生配演了许多脍炙人口的名剧。以后，人员变动，为荀慧生配戏的小生分别是高维廉、周维俊、徐和才，小丑有朱斌仙，二旦有王盛意、何佩华，里子老生有曹连孝、陈喜星。曾搭入庆生社演戏的还有：王文源（老生）、王又荃（小生）、高秋颦（花旦）、蒋少奎（花脸）、许德义（花脸）、孙甫亭（老旦）、傅小山（丑）、何雅秋（青衣）等。荀慧生的演出剧目很多，松庆社时期新排剧目有全本《玉堂春》、《辛安驿》、《飘零泪》、《丹青引》等。庆生社时期又相继排演了《绣襦记》、全本《花田错》、《香罗带》、全本《荀灌娘》、《妒妇诀》，由昆曲改成皮簧的《盘丝洞》及《钗头凤》、《双姣缘》、《柳如是》、《埋香幻》、全本《13妹》、《荆钗记》、《勘玉钏》、《红娘》、《香菱》、《平儿》等。春生社时期演出的剧目有《杜十娘》、《棋盘山》、《还珠吟》、《东吴女丈夫》、《红楼二尤》等。以上剧目多由陈墨香、舒舍予、陈水钟编剧。荀慧生演剧做派活泼、节奏明快，根据人物性格身份刻画角色，毫不雷同。一人有一人的身份，一剧有一剧的特征。留香社时期，阵容显得单薄，其子荀令香经常在班演唱。这个时期，荀慧生只演出从前编排的剧目及传统戏，没有排演新戏，并时演时歇。中华人民共和国成立后，留香社改称荀慧生剧团。'
+            },
+            '春庆班': {
+                type: '科班',
+                title: '春庆班',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '京剧戏班。清宣统元年（1909）五月成立于北京。承班人余玉琴，领班人为王郁甫、钱恩锐。经常在东安市场内的丹桂园演出，京剧、梆子同台演唱。主要演员有生脚王凤卿、时炳奎、贾洪林、沈全奎、八百里，净脚刘寿峰、钱金福、李连仲，丑脚张黑、赵仙舫，旦脚王瑶卿、陈德霖、路玉珊、侯喜林（即侯俊山）、余玉琴、玻璃钻，小生朱素云、陆杏林，武行瑞德宝、余小琴、八仙旦、傅小山等。王瑶卿在该班挂头牌，排演了《五彩舆》、《雁门关》、《庚娘》、《梅玉配》等连台本戏，逐日上演，引人入胜。在王瑶卿歇演时，大轴由梆子花旦侯俊山演唱。宣统二年（1910），余玉琴邀请谭鑫培在丹桂园演出数日，由陈德霖配演《朱砂痣》、《战太平》，瑞德宝配演《战长沙》。春庆班经常上演的剧目还有时慧宝的《马鞍山》、《鱼肠剑》，余玉琴的《荷珠配》、《背凳》，王凤卿的《文昭关》、《鱼肠剑》、《樊城、长亭》、《朱砂痣》、《取成都》、《战长沙》，路玉珊的《虹霓关》、《穆柯寨》、《马上缘》、《小上坟》、《英杰烈》，余小琴的《飞叉阵》、《蟠桃会》，陈德霖、谢宝云的《孝义节》等。宣统末年，王瑶卿搭入双庆班。1914年1月，春庆班改名辅文社，报散时间不详。'
+            },
+            '杨小楼': {
+                type: '名家',
+                title: '杨小楼',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国京剧演员，工武生。名三元，为谭鑫培义子，随谭氏子辈排名嘉训，艺名小楼。祖籍安徽怀宁。生于北京。祖父杨二喜，演武旦，父杨月楼，演武生，人称"杨猴子"，均为清末京剧演员。杨小楼幼入北京小荣椿科班二科，科名春甫，从杨隆寿、姚增禄、杨万青学武生，17岁出科，在京、津两地搭班演唱。倒仓后，发愤用功，曾得到谭鑫培、王楞仙、王福寿的指点，又向俞菊笙请教。24岁搭北京宝胜和班，以"小杨猴子"名帖演，崭露头角。赴天津演出时，以《艳阳楼》诸剧轰动剧坛，载誉归京，再搭宝胜和班，又进谭鑫培领衔的同庆班，得谭奖掖，声誉鹊起。29岁时任清昇平署外学民籍学生。辛亥革命后从张淇林、牛松山等学戏，丰富上演剧目，并演出于京、津、沪、汉各地。曾领衔陶咏、桐馨、中兴、崇林、松庆、双胜、永胜各社，以武生挑大梁；先后与谭鑫培、陈德霖、王瑶卿、黄润甫、钱金福、王凤卿及梅兰芳、尚小云、荀慧生、朱琴心、高庆奎、余叔岩、郝寿臣合作。当时与梅兰芳、余叔岩一起被认为是京剧的三大代表人物，享有"武生宗师"的盛誉。\n杨小楼在艺术上继承家学，师法俞（菊笙）杨（隆寿），更能博采众长。他戏路宽广，昆乱不挡，长靠、箭衣、短打各工剧目，无不精彩。擅演剧目有《长坂坡》《冀州城》《战宛城》《闹昆阳》《连营寨》《阳平关》《青石山》《镇潭州》等，并能演老生戏《大登殿》《法门寺》《战太平》《四郎探母》；晚期又排演了新编剧目《野猪林》，《山神庙》三、四本《连环套》，《甘宁百骑劫魏营》，《陵母伏剑》，《坛山谷》，《康郎山》；还与尚小云合排了《楚汉争》，与梅兰芳合排了《霸王别姬》，与朱琴心合排了《陈圆圆》，与马连良合排了《要离刺庆忌》。\n杨小楼的艺术禀赋极好，身材魁梧，扮相英伟，嗓音清亮爽脆，有一种声如裂帛的炸音，唱念均遵"奎（张二奎）派"风范，咬字清楚真确，间有京音，行腔朴直无华，唱来气力充沛，喷吐着实，声音浑厚饱满而富有韵味。念白抑扬顿挫、字字分明，于语气的细微毫末间传出角色的神情。\n杨小楼运用各种武技必从人物、剧情出发，讲求精当贴切，着力体现意境，重在追求神似，观众称之为"武戏文唱"。如《长坂坡》中"宿营"一场，赵云枕戈待旦的警觉神情，杨小楼演来只微阖双目，略以眉宇间的细微表情显示人物内心的高度警惕与自信；在赵云怀揣阿斗大战众曹将时，杨小楼的步法、枪法稳、准、扎实，无空招废式，约而不繁地塑造了一位具有万夫不当之勇的大将形象。他扮演《霸王别姬》中的项羽，举手投足都表现了这位叱咤风云的末路英雄，在一场生死搏斗中激烈复杂的内心活动，慷慨悲歌，慑人心魄。尤其是同梅兰芳（饰虞姬）的合作，珠联璧合，一时称为绝响。他在京剧舞台上塑造的赵云、高宠、姜维、高登、楚霸王、孙悟空、金钱豹等艺术形象，突破前人窠臼，自成风格，为后学者所师法。他把京剧武生艺术提高到一个新的水平，形成人们所推重的"杨派"。\n杨小楼性格沉静，不喜交游，习艺演剧之外，闭户读书，研习书法，对所演剧目大多自行修润。20世纪30年代后期，他已届晚年，在编演的《甘宁百骑劫魏营》《坛山谷》二剧中，有大段说白，说明军人有守土之责，当誓死抗敌，保卫疆土，激昂慷慨，宣扬爱国思想。杨派武生传人有孙毓堃、李万春、高盛麟、李少春、刘宗杨、王金璐等。'
+            },
+            '郝寿臣': {
+                type: '名家',
+                title: '郝寿臣',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国京剧演员，工架子花脸。原籍河北香河，卒于北京。幼随父迁居北京。7岁从吕福善学铜锤花脸，艺名小奎禄。唱功私淑金秀山，做功私淑黄润甫，熔铜锤、架子花脸于一炉，唱念上自成一格，世称"郝派"。先后与杨小楼、梅兰芳、程砚秋、高庆奎、马连良、言菊朋等合作，提高了花脸行当的地位。他一生曾在220多个剧目中扮演过160多个角色。传统剧目《赛太岁》《打龙棚》《打曹豹》《瓦口关》等经他整理、上演，得以流传；在新编剧目《荆轲传》《野猪林》《青梅煮酒论英雄》《牛皋招亲》等剧中也有所创造。郝派艺术以气魄胜，唱念韵味浑厚，工架结实凝练，表演浑然一体，善于刻画人物。他改革了曹操的传统脸谱，创造了雍容阔面、细目修眉、轻施纹理的画法，以表现其政治家的风度和狡诈、多疑的性格。在《赛太岁》里塑造的李七，改变了传统中江洋大盗的简单形象，从愤世嫉俗、恩怨分明的复杂心情出发，表现出具有正义感的侠盗面目。在《野猪林》里塑造的鲁智深，以螳螂眉、和尚眼、粉红双颊的脸谱，袒胸裸腹的扮相，突出了豪爽朴实的"花和尚"形象。1952年起任北京市戏曲学校校长，教戏兼重德育。弟子袁世海为郝派传人。樊效臣、王永昌、李幼春、周和桐、王玉让等，均得郝派风范。有《郝寿臣演出剧本选集》《郝寿臣脸谱集》《郝寿臣铜锤唱腔集》行世。'
+            },
+            '梅兰芳': {
+                type: '名家',
+                title: '梅兰芳',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国京剧演员。工旦。字畹华。祖籍江苏泰州。生于北京。在50余年的舞台生涯中，创造了众多优美的艺术形象，发展和提高了京剧旦脚的演唱和表演艺术，形成一个具有独特风格的艺术流派，世称"梅派"。\n梅兰芳出生于梨园世家。8岁开始学戏，9岁从名旦吴菱仙学唱青衣。他连续排演了大量古装新戏和传统剧目，如《贵妃醉酒》《霸王别姬》《宇宙锋》《天女散花》等。曾多次出访日本、美国、苏联等国，受到高度评价。梅派艺术传人有李世芳、张君秋、言慧珠、杜近芳、梅葆玖等。'
+            },
+            '周信芳': {
+                type: '名家',
+                title: '周信芳',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国京剧演员，工老生。字士楚，艺名麒麟童。浙江慈溪人。生于江苏清江浦，卒于上海。6岁时，随父旅居杭州，从陈长兴练功学戏。7岁登台，在《铁莲花》中配演娃娃生。1906年，随王鸿寿（三麻子）赴汉口演出，因取艺名"七龄童"。1907年至上海，始用"麒麟童"艺名。1908年在北京喜连成科班搭班学艺，与梅兰芳、林树森、高百岁等同台。继而辗转于烟台、天津、符拉迪沃斯托克（海参崴）等地演出。1912年返沪，在新新舞台等剧场与谭鑫培、李吉瑞、金秀山、冯子和等同台，深受熏陶，演技渐趋成熟。1915年，进上海丹桂第一台，直至1923年，后期并兼任后台管事。在欧阳予倩、王鸿寿、汪笑侬等人影响下，开始自编新戏。第一出为《英雄血泪图》，搬演水浒传中林冲受迫害的故事。其后又两度赴北京演出，把后来被称为"麒派"代表作之一的《萧何月下追韩信》介绍给北方观众，得到北京同行的称赞。1924年回沪，先后在丹桂第一台、更新舞台、大新舞台、天蟾舞台演出，排演连台本戏《汉刘邦》《天雨花》《封神榜》，对京剧艺术进行了一些改革的尝试。其中有些较好的段落，后来成为单独演出的剧目，如《鸿门宴》《鹿台恨》《反五关》等。渐以"麒派"享誉海内。1927年参加南国社，与田汉等颇多交往，后来曾参加话剧《雷雨》的演出，饰周朴园，艺术眼界逐渐开阔。1937年组织移风社，在上海卡尔登大戏院连续演出达4年之久。抗日战争期间，在上海投身于救亡活动，负责京剧界的宣传和动员工作。1943年支持京剧界进步组织"艺友座谈会"的活动，并与当时中国共产党地下组织有联系。1944年接办黄金大戏院。抗日战争胜利后，戏院即作为文艺界进步人士集会的场所。在中国共产党的领导下，先后参加了反"艺员登记"、抗捐抗税等爱国民主运动，并拒赴电台演唱所谓"戡乱"节目。中华人民共和国建立前夕，同梅兰芳、程砚秋、袁雪芬一起应邀出席第一届中国人民政治协商会议。1952年参加第一届全国戏曲观摩演出大会，获荣誉奖。1953年冬，赴朝鲜慰问中国人民志愿军，任副总团长。1955年及1961年，文化部、中国文学艺术界联合会、中国戏剧家协会等先后联合在京举办"梅兰芳、周信芳舞台生活五十年纪念"及"周信芳舞台生活六十年纪念"演出活动，文化部向周信芳颁发奖状。1956年，率上海京剧院访苏演出团赴苏联莫斯科、列宁格勒等城市演出。在"文化大革命"中受迫害致死。\n周信芳是一位战斗的表演艺术家。早在1913年就演出时装戏《宋教仁》，表现了同情民族民主革命的政治倾向。袁世凯称帝，他演出《大汉奸》以示抗议。五四运动时，演出《学拳打金刚》，把矛头指向卖国贼。1931年九一八事变后，演出《洪承畴》抨击伪满汉奸；改编《明末遗恨》，借以揭露国民党当局的醉生梦死。1937年七七事变后，演出《徽钦二帝》，并将《文天祥》《史可法》的预告张贴舞台两侧，以激励观众的爱国热情。他的代表剧目如《四进士》《徐策跑城》《萧何月下追韩信》《清风亭》《乌龙院》《打严嵩》以及1949年以后编演的《义责王魁》《海瑞上疏》等，也大都表现了爱国、正义等积极的主题思想。他的表演艺术，也显示了一种刚健豪放的风格。\n周信芳是一位锲而不舍的探索者。既注重传统的继承，又不受陈规旧套的束缚，善于博采众长，锐意创新。最擅做功，被称为"做派老生"，身段洒脱洗练，表现出强烈的节奏，鲜明的轮廓和有力的顿挫。他的表演全身有戏，善用髯口 、服饰以及道具等为塑造人物服务。\n他的唱功基本上宗法孙菊仙 和汪桂芬 ，以苍劲浑厚见长。嗓音虽不太好，但吐字行腔接近口语，具有纯朴的美。有时吸收旦脚的唱法，以润饰唱腔的柔和、抒情成分；有时又融入花脸的"炸音"，以加强语调和气势；还借鉴徽剧 、汉剧 、昆曲 、梆子等剧种的唱腔，以丰富他的唱腔色彩。\n他的念白 韵味醇厚，抑扬顿挫、轻重缓急，有度有节，又多变化，能恰当而鲜明地表现出人物的语气和感情。他还善于在韵白中适当地运用口语，在对白中插进语助词，使人听来既铿锵悦耳，又亲切生动，富有浓厚的生活气息。\n周信芳在表演中，十分注意唱念与动作的有机结合。在打击乐的运用以及在服装、化妆等方面，都有革新和创造，以其鲜明的特色汇成麒派统一的艺术风格。在几十年的舞台生活中，塑造了宋士杰、徐策、萧何、宋江、邹应龙、张广才、张元秀等众多的生气勃勃、有血有肉、性格鲜明的人物形象，为京剧艺术的发展作出了贡献。麒派不仅是京剧老生的重要流派，而且对其他行当、其他戏曲剧种的表演艺术，也有较大影响。\n曾任中国戏曲研究院副院长、华东戏曲研究院院长、上海京剧院院长、中国戏剧家协会副主席等职。摄制戏曲影片有《宋士杰》和《周信芳舞台艺术》（包括《徐策跑城》、《下书杀惜》）。论著汇编为《周信芳戏剧散论》。常演剧目编为《周信芳演出剧本选集》《周信芳演出剧本新编》。另有艺术经验记录于《周信芳舞台艺术》。传人有高百岁、陈鹤峰等。'
+            },
+            '王玉蓉': {
+                type: '行当',
+                title: '王玉蓉',
+                source: '',
+                introduction: '女演员。工旦。原名王佩芬。祖籍江苏苏州，生于上海。因家贫辍学，13岁拜于莲仙学京剧，15岁登台，艺名王艳芳，演出于上海、南京等地，小有名气。北上求师拜在王瑶卿门下，更名王玉蓉。在王瑶卿的严格要求、悉心教导下，她勤奋用功，得到真传，首次在长大安戏院演出《四郎探母》，就有百代唱片公司请她全部灌制，影响颇大。王瑶卿为提携爱徒，率她走遍大江南北，亲临把场，使王玉蓉在艺术上日臻成熟。\n王玉蓉不仅学会不少王派传统剧目，而且在王瑶卿主持下，又编排了自己的新戏，如《艳云亭》、《渔家乐》、《香祖楼》、《天台狱》和全部《李艳妃》等。她演出的全部《王宝钏》，把唱做繁重的8出戏串在一起，一场演完。全部《孙夫人》把《甘露寺》《回荆州》《下西川》《截江夺斗》《别皇祭江》一次演完，被观众誉为"铁嗓钢喉"。她演出《武家坡》的"跑坡"更堪称一绝。她先后与马连良、谭富英、杨宝森、奚啸伯、管绍华、王琴生等人合作，演出于北平、天津、上海、南京、武汉、香港等地。1949年解放前夕，有人约她去海外，她坚决留在上海等待解放。中华人民共和国成立后，曾赴朝鲜慰问演出，并担任六分团副团长。她曾任吉林省京剧院副院长、王瑶卿学术研究会会长。为人坦率真诚，急公好义，严于律己，乐于助人，尊师重道，济困扶危。晚年接受中国戏曲学院聘请任教，竭尽全力，毫无保留地向学生传授京剧艺术，待学生如子女，培养出不少优秀青年演员。'
+            },
+            '胡碧兰': {
+                type: '行当',
+                title: '胡碧兰',
+                source: '',
+                introduction: '女演员。工旦。祖籍浙江绍兴，生于北京。幼好音乐，七八岁时已能学歌。初从雷喜福学老生，一年后改学青衣，拜李宝琴为师。一说曾从刘宝云学青衣，学的都是老腔老调。后又师从王幼卿及琴师金子年学王瑶卿新腔，艺乃大进。15岁时，露演于北京三庆、开明、华乐诸园，坐客辄满。后去天津，亦受欢迎，遂移居沽上，不时登台，声誉益著。1928年7月7日，养拙轩主在《北洋画报》上发表《男女八旦记》，胡碧兰竟与梅兰芳、尚小云、程砚秋、荀慧生以及章遏云、雪艳琴、马艳云同列其间。评胡碧兰语有："唱工——嗓音圆润，腔调能博采众长，新腔尤婉折入听。做派——端凝中有细致处。扮像——清雅绝俗。性格——恬静有深致。"同年12月27日，该报又发表王小隐《听兰记》，称其演《四郎探母》铁镜公主，"大方自然，俨然一八旗闺秀，而京语嘹亮，尤堪娱耳"。次夕又观其演《南天门》曹玉莲，"颠沛中之小姐乃迥异于昨日之公主，哀怨婉转之歌声，尤足使人回肠荡气"，"信乎天姿工夫兼臻并至，极声容之茂，女伶之天骄也"。1930年5月，《北洋画报》为出版《剧刊》100期称庆，举办"四大女伶皇后"选举活动，至6月21日公布得票结果，胡碧兰以25 534票名列第一，以次为孟丽君、雪艳琴、章遏云。1934年3月10日，《天津商报画刊》编印《胡碧兰专刊》，8开两面，图文并茂，述及碧兰家世、从艺经历、性情喜好等。给人印象最深者有二：其一，以唱工著称。署名"津"者认为，"坤伶中之旦角，就余所见，二十年来，唱工之委婉多致，当无过于胡碧兰"，"偶弄花腔，不嫌其纤巧，间摹旧调，转觉其清新"，究其耐人咀嚼，全在"唱声"之中兼能"唱情"。署名"聊"者（疑为张聊止）亦以其知音识曲，能解"声音之道，情感为上"，而誉胡碧兰"殆今日女伶中之杨琼乎"。杨琼见唐代白居易诗："古人唱歌兼唱情，今人唱歌唯唱声；欲说问君君不会，试将此语问杨琼。"其二，不流时俗，不染外江风味。署名"蜀珍"者认为，胡碧兰不争排新戏以资号召，却"独具卓识"，对"多年无人动之正工青衣戏，反精研之，以保旧戏精华"，"似《祭塔》诸戏，吃力而不易讨好，凡旦角无不视为畏途，而碧兰则时演之，从容大雅，古调新声，别有一种美感，所谓死戏活唱也"。约在1929～1933年间，胡碧兰灌有多种唱片，如《武昭关》《三击掌》《探寒窑》《打金枝》《六月雪》《祭塔》《汾河湾》《战蒲关》《女起解》等，均为其拿手戏。她出嫁后，又值战乱，遂脱离舞台。《中国戏曲志·天津卷》有其传。'
+            },
+            '章遏云': {
+                type: '行当',
+                title: '章遏云',
+                source: '',
+                introduction: '女演员。工旦。原名凤屏，字珠尘，乳名萍儿，别号珠尘馆主。祖籍广东。自幼由养母邓秀芝抚养，养母之妹邓秀兰为张德俊妻室，即张云溪之母。凤屏11岁从名票王庾生习老生，于上海首次登台演出《武家坡》。后改青衣、花旦，曾于天津演出《汾河湾》。迁居北京后，取艺名遏云，曾于北京城南游艺园边学艺边演出。又从李宝琴、荣蝶仙、李寿山、张彩林、江顺仙、律佩芳、陶玉芝等名师学艺。她聪颖好学，且练功刻苦，其水袖、圆场及跷功均佳，博采众长，青衣、花旦、刀马旦皆精。其扮相秀丽，台风端庄，嗓音甜润响亮，唱腔流利酣畅。1930年拜在王瑶卿门下，《雁门关》《乾坤福寿镜》《金猛关》等戏，颇得王派精髓，被王瑶卿誉为"女伶中的梅兰芳"。后又向梅兰芳学《霸王别姬》，先后与杨小楼、金少山、袁世海合作演出。曾得程砚秋琴师穆铁芬之助，改学程派《荒山泪》《碧玉簪》《文姬归汉》等。她虚心博学各派剧目，擅演《虹霓关》《牧羊卷》《杏元和番》《双姣奇缘》《四郎探母》《宝莲灯》《芙蓉剑》《天河配》《燕子笺》《上阳宫》《梅玉配》等，尤其《得意缘》，曾得余玉琴、江顺仙、李宝琴等名家指教。除旦行外，亦能反串其他行当，如在《群英会》中反串鲁肃，从不与女演员配戏的程继先，竟破例与其合作扮演周瑜，茹富蕙饰演蒋干。后程继先向其传授了周瑜戏，亦曾反串演出，并留有周瑜剧照传世。初搭雪艳琴班，后自行组班，曾与诸如香、李寿山、王又宸、马连良、高庆奎、侯喜瑞、王又荃、周瑞安、言菊朋、贯大元、叶盛兰、王士英、陈少霖等合作演出。\n1930年5月3日，《北洋画报》主办人冯武越发起选举"四大女伶皇后"，至6月21日（第488期）公布选举结果为：胡碧兰25 534票、孟丽君21 767票、雪艳琴20 809票、章遏云19 131票。章遏云当选"四后"时，年仅18岁，在４位"皇后"中年纪最小。20世纪40年代迁居香港，曾一度息影舞台。1954年应邀赴台湾演出《六月雪》等程派戏，轰动台湾。1958年定居台湾，曾于大鹏剧艺实验学校任教，并赴香港地区及泰国等地演出。有《章遏云自传》，中国戏剧出版社1991年6月出版，8万字，陈纪滢《中国戏剧的发展与未来》一文作为代序。'
+            },
+            '新艳秋': {
+                type: '行当',
+                title: '新艳秋',
+                source: '',
+                introduction: '女演员。工旦。北京人。原名王玉华。自幼学戏，初习河北梆子，后改学京剧。她家庭贫寒，白天练功学戏，晚上去剧场，求管理人员通融，入场观摩。她最喜欢程砚秋的艺术，从剧本到唱腔，从身段到细微表情，无不默记于心。1926年满师，以王兰芳艺名首次登台演出《骂殿》。齐如山看后，根据她的戏路给她更改艺名为新艳秋。鉴于一些程派剧目表演舞蹈性强，她拜荣蝶仙为师，学刀马旦，为学习程派戏打好根基。她边演出边学戏，得到北京观众的首肯。1927年应上海丹桂第一台之邀，赴沪演出《碧玉簪》《金锁记》等程派名剧，获得好评。回京后齐如山介绍她拜梅兰芳为师，成为梅门第一位女弟子。接着又拜王瑶卿为师，成为王门第一位女弟子。在王瑶卿的指导下，她先后学会了全本《玉堂春》《缇萦救父》《貂蝉》《青霜剑》《鸳鸯冢》《红拂传》等十几出程派戏。1923年她应邀与杨小楼合作演出《霸王别姬》《长坂坡》，标志着她的表演艺术日趋成熟。1931年初，随杨小楼赴沪演出，声誉日隆。王瑶卿请红豆馆主、李洪春等为她编演新戏。不久，二本《红拂传》《霸王遇虞姬》《玉京道人》等十几出新戏陆续排演出来。20世纪30年代初，南北梨园共称新艳秋、章遏云、雪艳琴、杜丽云（或金友琴）为坤伶"四大名旦"（《肖伧剧话》）。此前，新艳秋曾当选为坤伶"四大皇后"之一，标志着她的艺术进入黄金时代。1937年，日本帝国主义者发动全面侵华战争，给中国人民造成深重灾难，更给新艳秋造成极大的不幸，受尽日伪恶势力迫害的她，被迫中止了舞台生活。抗日战争胜利后，她又被国民政府以莫须有的罪名投入监狱，直至1949年北平解放，才获释并恢复舞台生活。1956年受聘为南京市少年京剧团教师。1959年以后，先后展演了《红拂传》《打渔杀家》，尽显程派艺术风采。新时期以来，她老当益壮，积极参加各种纪念演出。新艳秋曾为江苏省戏剧家协会副主席。有弟子钟荣等。'
+            },
+            '雪艳琴': {
+                type: '行当',
+                title: '雪艳琴',
+                source: '',
+                introduction: '女演员。工旦。本名黄咏霓。回族。自幼喜爱戏曲，4岁拜田际云为师，学梆子青衣。后拜梆子青衣天鹅旦为师，向张彩林学青衣，并向郭际湘学花旦戏，苦练跷工和把子。又先后拜尚小云、王瑶卿为师习艺。她转益多师，博采众长，逐渐形成自己的艺术风格。1913年7岁时，便以"金筱仙"艺名，登台演出梆子《捡柴》。1920年，赴太原演出，在承成园排演京剧《狸猫换太子》。从此改唱京剧，拜靳国瑞为师，并挂起头牌。返京前，一位前清老秀才赠名"雪艳琴"，意思是压倒在京名声显赫的坤伶琴雪芳。1923年，在北京城南游艺园、新民大戏院演出时，高搭牌楼，当中高悬"雪艳琴"三字，分外醒目。她与女老生孟小冬合演《四郎探母》《南天门》等戏，盛况空前。此间，得到尚小云的赏识，将《玉堂春》《御碑亭》《虹霓关》传授给她。1925年后，搭崇雅社、庆麟社、奎德社演出。1927年，与高庆奎赴沪，演出于天蟾舞台，雪艳琴一曲《贵妃醉酒》征服了观众。此时，与周信芳相识，合演《平贵别窑》，珠联璧合。1928年，与郝寿臣、谭富英、周瑞安再次赴沪，演出获得成功。1930年，继"四大名旦"之后，观众又推选出胡碧兰、孟丽君、雪艳琴、章遏云为"四大女伶皇后"。1931年6月，在上海的一次堂会上，雪艳琴应邀与四大名旦合演全部《红鬃烈马》。荀慧生饰《赶三关》的代战公主，程砚秋饰《武家坡》的王宝钏，雪艳琴饰《算军粮》的王宝钏，梅兰芳饰《大登殿》的王宝钏，尚小云饰《大登殿》代战公主，群芳荟萃，盛况空前。此后，在北平与周瑞安、杨宝忠、郭仲衡等组建成庆社，演出《十三妹》《杏元和番》《天河配》《冤孽姻缘》（即《活捉王魁》）等。演出阵容整齐，花旦雪艳舫（艳琴之四姐）、诸如香，小生梁桂亭，花脸苏连汉，老旦文亮晨，小花脸朱斌仙等，经常演出于哈尔飞戏院。\n雪艳琴嗓音甜润，扮相清秀，文武兼备，博采众长，吸收"四大名旦"之技艺而融会贯通。许多重头戏，在她演来都游刃有余。她演的全部《玉堂春》，吸纳了梅、尚、程、荀各派的演法，一气呵成。评论家邹苇澄在《戏品》中说："得畹华之神采，合御霜之缠绵，具小云之清越，兼留香之绮丽。总四家而擅美，跨南北而孤出。"因其嗓音极好，曾有"金笛仙"之誉。在全部《十三妹》中，又显示出她演刀马旦的功力。她饰何玉凤，念白爽朗，动作矫健，性格豪放，俨然一名风尘女侠的形象，表演中颇具王（瑶卿）派风范。1933年，与谭富英合拍了京剧《四郎探母》，由天一影片公司代为拍摄录音。翌年，在北平吉祥戏院首映，受到观众赞赏。1934年退出菊坛。1935年11月9日，北平梨园公会举办为河南水灾筹赈义务戏，雪艳琴虽已告别舞台，但经邀请，毅然应允，与杨小楼合演《霸王别姬》。除参加义演外，间以绘菊消遣。她还热心于公益事业，为中华戏曲专科学校筹办了回民灶。还为登门请教者授艺，如为言慧珠说《奇双会》等。1952年经梅兰芳举荐，参加中国戏曲研究院京剧实验工作团。演出剧目有《贵妃醉酒》《霸王别姬》《二进宫》《二堂舍子》《玉堂春》《十三妹》《黛玉归天》等。在现代京剧《白毛女》中饰黄母，《林海雪原》中饰蝴蝶迷，表演十分成功，博得赞誉。1960年应邀到中国戏曲学校任教。其学生有梁秀娟、许嘉宝、沈健瑾、杨春霞、陈淑芳等。'
+            },
+            '恩晓峰': {
+                type: '行当',
+                title: '恩晓峰',
+                source: '',
+                introduction: '女演员。工老生。生于北京。满族正黄旗。幼受家族熏陶，酷爱京剧，常随其父恩十去票房听京剧清唱，归家后即高歌模仿，后从老艺人吉庆云、安静芝学老生。1900年后，曾去天津绘芳茶园演出，生意异常发达。"晓峰初到津，作男装，每到散戏，门前站立多人，候睹颜色，其能轰动一时，于此可见"（蠹翁《梨园旧话——庚子后天津戏园之变迁》，《立言画刊》第150期）。1912年，应俞振庭之邀，露演于北京广德楼，合作者有坤伶武生桂俊峰等。当时正是"无腔不学谭"时期，晓峰亦醉心谭派，每遇谭鑫培演出时，辄往观摩，并从陈彦衡、窦砚峰等深造，又请吴联奎练功，技艺日进，演出皆为谭派剧目，如《桑园寄子》、《秦琼卖马》、《洪羊洞》、《打棍出箱》、《坐楼杀惜》、《武昭关》、《托兆碰碑》等，一时曾被誉为"女叫天"。后恩晓峰又兼宗汪（笑侬）派，演出剧目为《马嵬坡》、《受禅台》、《哭祖庙》、《洗耳记》、《张松献地图》、《马前泼水》、《打督邮》等。"汪（笑侬）所歌 腔调，则系别创新声，物化以后，殊鲜传人，仅坤伶恩晓峰、金桂芬等尚能得其仿佛"（冯大光《梨园诗话》，《立言画刊》第103期）。经常与恩晓峰合作的有碧云霞、曹桂芳、谢玉凤、刘喜奎等。恩晓峰嫁夫姜润泉，亦梨园行人。彼夫妇奔走四方，颇有积蓄。有女二：长女恩维铭工文武老生，次女恩维贤工青衣花旦。'
+            },
+            '徐东明': {
+                type: '行当',
+                title: '徐东明',
+                source: '',
+                introduction: '女演员。工老生。又名启芳。祖籍浙江镇海，生于天津。自幼喜爱京剧。1930年拜名票王庾生为师，正式学唱谭派老生。到北平后，从师蔡荣桂、陈秀华、吴鹭涵。不久，与学青衣的妹妹徐东霞组成明霞社演出，曾排《王粲登楼》、《杜鹃红》等新剧。徐东霞（1917～1948），曾拜赵绮霞、李凌枫之师，又得荀慧生指教，能戏甚多，文武兼备。东霞去世后，东明又与小妹徐东来组成"明来京剧团"演出。1957年并入北京新华京剧团。后因病辍演，调北京市戏曲学校任教。徐东明嗓音宽厚，做工细腻，唱念韵味纯正。擅演剧目有《失街亭、空城计、斩马谡》，《大保国、探皇陵、二进宫》、《辕门斩子》、《清官册》、《群英会》、《盗宗卷》、《四进士》、《打棍出箱》、《珠帘寨》、《碰碑》、《定军山》等。她教学认真，要求严格，受到学生敬重。'
+            },
+            '孟小冬': {
+                type: '行当',
+                title: '孟小冬',
+                source: '',
+                introduction: '女演员。工老生。本名若兰，又名令辉，晚年自署凝晖阁主。祖籍山东济南，生于上海。祖父孟七（福保），为北京小福胜科班出身，兼擅武净、武生。清同治间，由京去上海搭班演出。孟七之子鸿芳、鸿寿、鸿荣（艺名小孟七）、鸿群、鸿茂均为名演员。孟小冬为孟鸿群之女。另据作家沈寂撰文披露，孟小冬曾亲口告诉他："我非孟氏所生。"有一种说法：孟小冬为武汉董氏之女，本名董若兰。孟家班旅汉演出时，在董家包饭。若兰聪明俊俏，为孟鸿群喜爱，常带她到后台去玩。董家迫于生计，将若兰送给孟鸿群，带到上海。大家都称她"小董"，后来改名孟小冬。1953年，香港出版孙养农《谈余叔岩》，孟小冬为此书作序，文末署"宛平孟小冬"，则小冬当为北京人。\n孟小冬9岁从孙（菊仙）派老生仇月祥学戏，3年满师后，赴无锡新舞台演出。继而长期在上海大世界与李春来、粉菊花、汪碧云、李长胜等合作演出。孟小冬年幼时有过一段演"髦儿戏"的经历。她早期戏路驳杂，既有"三斩一碰"、《逍遥津》之类高亢的孙派须生戏，也有《山东马》一类的海派连台本戏和时装戏，尤以在《宏碧缘》中饰骆宏勋享誉一时。从1922年起，延请老谭派名琴师孙佐臣为之操琴并说戏。1923年随武生白玉崑组班赴天津演出于新明大戏院，剧目以正宗须生戏为主，也演《狸猫换太子》等连台本戏。1925年定居北京，同年6月5日首次在京登台，与赵碧云合演《四郎探母》于三庆园，继而参加崇雅社、庆麟社等坤班演于城南游艺园、新明戏院等处。此后自己组班，辗转京津。在此期间，她先后向陈彦衡、陈秀华、王君直、苏少卿、程君谋等请益，得到言菊朋的帮助，进而延请杨宝忠操琴说戏，不时求教于李适可、鲍吉祥等。此时，已力图归依谭、余主流，由"海"入"京"，由驳杂而趋于专精。其间，多次与梅兰芳合演堂会戏《探母回令》、《戏凤》等，乾旦坤生，"梅王冬皇"，一时传为美谈。1927年，梅兰芳以孟小冬为侧室。然而此时在梅兰芳周围的人群中，分成了"捧福（芝芳）"和"捧孟（小冬）"两派，前者势力较大。1929年，梅与孟分手，孟有看破红尘之意，赴津寄寓某逊清皇戚家中，茹斋念佛，受戒于寺院，出入居士林。1933年复出舞台，在北平自组福庆社，赴津沪演出。这个时期最常演《失街亭、空城计、斩马谡》、《捉放曹》等几出安工老生戏。\n孟小冬久有投师余叔岩之愿，1933年在陆军次长杨梧山府宴上，即恳请余叔岩指正过《骂曹》一剧。1938年10月21日，她紧随李少春之后，正式拜余为师。同年12月24日在新新戏院演出拜师后所学的第一出戏《洪羊洞》，由余叔岩为之把场，誉满京城。此后孟又获余亲授《乌盆记》《搜孤救孤》《御碑亭》《二进宫》《捉放曹》《武家坡》《失街亭、空城计、斩马谡》《法场换子》等戏，以及《沙桥饯别》等唱段。李少春学习靠把戏《定军山》《战太平》时，孟也获准旁听。与此同时，她还获得余叔岩晚年琴师王瑞芝的帮助。在余身边学戏5年，直至1943年余叔岩病逝为止。她是余派传人中学习时间最长、获得亲炙最多，而且在学习过程中受到干扰最少的一位，因此后来被视为余派艺术的活标本。1947年为祝杜月笙寿辰，孟小冬在上海中国大戏院连贴两天《搜孤救孤》，由赵培鑫、裘盛戎、魏莲芳分饰公孙杵臼、屠岸贾、程妻。演出时场内满坑满谷，在沪的所有老生名家均到场观摩学习，极一时之盛。\n此前，孟小冬已获杜月笙多年资助。孟小冬与梅兰芳分手后，立誓"要么不嫁，要么就嫁一个跺地乱颤的"。孟小冬于1944年入杜家，1949年4月随杜去香港定居，1950年正式与杜月笙明确夫妻名分。1951年杜月笙故世后，周恩来总理曾派章伯钧赴香港游说孟小冬回内地，但未能成功。孟居港后不再登台，但时常向票友传授余派艺术。获得亲授的孟门弟子为：钱培荣、赵培鑫、蔡国蘅、赵从衍、丁宝麟、黄金懋、丁存坤、沈泰魁、李嘉有、龚耀显以及吴必彰、许密甫等。孟小冬于1967年秋赴台湾，1977年5月26日病逝于台北。\n在京剧艺术之林，女老生一脉具有独立审美价值，孟小冬为其中当之无愧的首席。她的艺术，以拜余学戏后为一生中之最高境界。余叔岩曾评孟小冬："唱学到了七成，念学到了五成。"这是余对孟小冬的艺术所作的很高评论和极大鼓励。如果说余叔岩的风格兼具豪放与婉约、气势和韵味，而孟小冬则主要从婉约和韵味方面继承了余派，并成为代表人物。她音色圆润饱满，唱得中正无疵、明白如话、不温不火、不嘶不懈。余叔岩是"涩中带滑"，孟小冬则是"滑中带涩"，于流丽中含云遮月。在表演时，孟小冬善于在余派的形式规范中塑造人物，更以清新脱俗为尚。在旋律、小腔的描摹方面，孟小冬比余略为写实，遂使余派艺术更易为一般观众所接受，便于模仿和学习。经过她和弟子的艺术实践，使京剧在港台和海外华人圈里得到了流播。\n孟小冬逝世后，其弟子在台湾为之出版音带《凝晖遗音》两盒，搜集1947年《搜孤救孤》演出实况和晚年吊嗓录音；上海则出版《冬皇妙音》音带两盒与之呼应。天津还出版了孟氏说戏的录音磁带6盒。许锦文著有《梨园冬皇孟小冬传》，30万字，上海人民出版社2003年8月出版。万伯翱、马思猛著有《孟小冬——氍毹上的尘梦》，20万字，东方出版社2009年9月出版。'
+            },
+            '金少山': {
+                type: '行当',
+                title: '金少山',
+                source: '',
+                introduction: '中国京剧演员，工净行。名仲义，字少山。满族。北京人。父亲金秀山为著名铜锤花脸。幼随父学戏，后拜何桂山为师，又向韩乐卿学架子花脸。嗓音洪亮，有"金霸王"之称。1922年首次赴上海演出，与梅兰芳合演《霸王别姬》，轰动上海滩。他继承家学，又博采众长，形成了独特的艺术风格。在铜锤花脸和架子花脸的表演上都有很高的造诣，被誉为"十全大净"。代表剧目有《霸王别姬》《连环套》《盗御马》《断密涧》《打龙袍》《铡美案》等。'
+            },
+            '裘盛戎': {
+                type: '行当',
+                title: '裘盛戎',
+                source: '',
+                introduction: '中国京剧演员，工净行。原名裘振芳，字盛戎。北京人。父亲裘桂仙为著名铜锤花脸。幼随父学戏，后入富连成社学艺。嗓音宽厚洪亮，唱腔韵味醇厚，表演细腻传神。他继承家学，又吸收了金少山、郝寿臣等名家的长处，形成了独特的"裘派"艺术风格。在铜锤花脸的表演上达到了很高的艺术境界，被誉为"净行泰斗"。代表剧目有《铡美案》《打龙袍》《赤桑镇》《锁五龙》《姚期》《将相和》等。'
+            },
+            '袁世海': {
+                type: '行当',
+                title: '袁世海',
+                source: '',
+                introduction: '中国京剧演员，工净行。原名袁瑞麟。北京人。幼入富连成社学艺，工架子花脸。师承郝寿臣，得其真传。嗓音洪亮，表演生动，善于刻画人物性格。在架子花脸的表演上形成了独特的艺术风格，被誉为"架子花脸泰斗"。代表剧目有《野猪林》《连环套》《盗御马》《打龙袍》《断密涧》《将相和》《群英会》等。'
+            },
+            '李多奎': {
+                type: '行当',
+                title: '李多奎',
+                source: '',
+                introduction: '中国京剧演员，工老旦。原名李万选，字子清。河北河间人。幼入富连成社学艺，先学老生，后改老旦。师承龚云甫，得其真传。嗓音宽厚洪亮，唱腔韵味醇厚，表演朴实自然。在老旦的表演上达到了很高的艺术境界，被誉为"老旦泰斗"。代表剧目有《钓金龟》《行路哭灵》《太君辞朝》《徐母骂曹》《岳母刺字》等。'
+            },
+            '赵荣琛': {
+                type: '行当',
+                title: '赵荣琛',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名赵荣琛。江苏宜兴人。幼入中华戏曲专科学校学艺，工青衣。师承程砚秋，得其真传。嗓音清亮，唱腔婉转，表演细腻传神。在程派艺术的继承和发展上做出了重要贡献，被誉为"程派传人"。代表剧目有《锁麟囊》《春闺梦》《荒山泪》《文姬归汉》《梅妃》《红拂传》等。'
+            },
+            '张君秋': {
+                type: '行当',
+                title: '张君秋',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名张君秋。江苏丹徒人。幼入中华戏曲专科学校学艺，工青衣。师承梅兰芳，得其真传。嗓音甜美，唱腔华丽，表演雍容华贵。在梅派艺术的基础上，结合自己的条件，形成了独特的"张派"艺术风格。代表剧目有《望江亭》《诗文会》《西厢记》《秦香莲》《状元媒》《楚宫恨》等。'
+            },
+            '言慧珠': {
+                type: '行当',
+                title: '言慧珠',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名言慧珠。江苏常熟人。幼随父言菊朋学艺，工青衣、花旦。师承梅兰芳，得其真传。嗓音清亮，唱腔婉转，表演细腻传神。在梅派艺术的继承和发展上做出了重要贡献，被誉为"梅派传人"。代表剧目有《贵妃醉酒》《霸王别姬》《天女散花》《洛神》《西施》《太真外传》等。'
+            },
+            '童芷苓': {
+                type: '行当',
+                title: '童芷苓',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名童芷苓。江苏镇江人。幼入中华戏曲专科学校学艺，工青衣、花旦。师承荀慧生，得其真传。嗓音甜美，唱腔活泼，表演生动传神。在荀派艺术的继承和发展上做出了重要贡献，被誉为"荀派传人"。代表剧目有《红娘》《金玉奴》《勘玉钏》《花田错》《辛安驿》《霍小玉》等。'
+            },
+            '李世芳': {
+                type: '行当',
+                title: '李世芳',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名李世芳。山西太原人。幼入富连成社学艺，工青衣。师承梅兰芳，得其真传。嗓音清亮，唱腔婉转，表演细腻传神。在梅派艺术的继承和发展上做出了重要贡献，被誉为"梅派传人"。代表剧目有《贵妃醉酒》《霸王别姬》《天女散花》《洛神》《西施》《太真外传》等。'
+            },
+            '毛世来': {
+                type: '行当',
+                title: '毛世来',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名毛世来。河北霸县人。幼入富连成社学艺，工青衣、花旦。师承尚小云，得其真传。嗓音清亮，唱腔刚劲，表演细腻传神。在尚派艺术的继承和发展上做出了重要贡献，被誉为"尚派传人"。代表剧目有《汉明妃》《乾坤福寿镜》《梁红玉》《双阳公主》《青城十九侠》《摩登伽女》等。'
+            },
+            '宋德珠': {
+                type: '行当',
+                title: '宋德珠',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名宋德珠。河北安国人。幼入中华戏曲专科学校学艺，工武旦、刀马旦。师承阎岚秋，得其真传。武功扎实，表演英武，被誉为"武旦泰斗"。代表剧目有《扈家庄》《泗州城》《盗仙草》《金山寺》《白蛇传》《青石山》等。'
+            },
+            '张世麟': {
+                type: '行当',
+                title: '张世麟',
+                source: '',
+                introduction: '中国京剧演员，工武生。原名张世麟。河北霸县人。幼入富连成社学艺，工武生。师承尚和玉，得其真传。武功扎实，表演英武，被誉为"武生泰斗"。代表剧目有《挑滑车》《长坂坡》《恶虎村》《连环套》《骆马湖》《战宛城》等。'
+            },
+            '高维廉': {
+                type: '行当',
+                title: '高维廉',
+                source: '',
+                introduction: '中国京剧演员，工小生。原名高维廉。北京人。幼入中华戏曲专科学校学艺，工小生。师承程继先，得其真传。嗓音清亮，唱腔婉转，表演细腻传神。在小生行当的表演上达到了很高的艺术境界，被誉为"小生泰斗"。代表剧目有《群英会》《黄鹤楼》《辕门射戟》《白门楼》《罗成叫关》《小显》等。'
+            },
+            '李鸣盛': {
+                type: '行当',
+                title: '李鸣盛',
+                source: '',
+                introduction: '中国京剧演员，工老生。原名李鸣盛。北京人。幼入富连成社学艺，工老生。师承余叔岩，得其真传。嗓音宽厚，唱腔韵味醇厚，表演细腻传神。在余派艺术的继承和发展上做出了重要贡献，被誉为"余派传人"。代表剧目有《失空斩》《捉放曹》《击鼓骂曹》《乌盆记》《搜孤救孤》《法场换子》等。'
+            },
+            '王金璐': {
+                type: '行当',
+                title: '王金璐',
+                source: '',
+                introduction: '中国京剧演员，工武生。原名王金璐。河北霸县人。幼入中华戏曲专科学校学艺，工武生。师承杨小楼，得其真传。武功扎实，表演英武，被誉为"武生泰斗"。代表剧目有《长坂坡》《挑滑车》《恶虎村》《连环套》《骆马湖》《战宛城》等。'
+            },
+            '谭富英': {
+                type: '行当',
+                title: '谭富英',
+                source: '',
+                introduction: '中国京剧演员，工老生。原名谭富英。湖北江夏人。幼随祖父谭鑫培学艺，工老生。嗓音宽厚洪亮，唱腔韵味醇厚，表演细腻传神。在谭派艺术的继承和发展上做出了重要贡献，被誉为"谭派传人"。代表剧目有《定军山》《战太平》《南阳关》《打渔杀家》《四郎探母》《红鬃烈马》等。'
+            },
+            '杨宝森': {
+                type: '行当',
+                title: '杨宝森',
+                source: '',
+                introduction: '中国京剧演员，工老生。原名杨宝森。北京人。幼入富连成社学艺，工老生。师承余叔岩，得其真传。嗓音宽厚，唱腔韵味醇厚，表演细腻传神。在余派艺术的基础上，结合自己的条件，形成了独特的"杨派"艺术风格。代表剧目有《失空斩》《捉放曹》《击鼓骂曹》《乌盆记》《搜孤救孤》《法场换子》等。'
+            },
+            '马连良': {
+                type: '行当',
+                title: '马连良',
+                source: '',
+                introduction: '中国京剧演员，工老生。原名马连良。北京人。幼入富连成社学艺，工老生。师承贾洪林，得其真传。嗓音清亮，唱腔韵味醇厚，表演细腻传神。在贾派艺术的基础上，结合自己的条件，形成了独特的"马派"艺术风格。代表剧目有《借东风》《甘露寺》《四进士》《清风亭》《苏武牧羊》《赵氏孤儿》等。'
+            },
+            '奚啸伯': {
+                type: '行当',
+                title: '奚啸伯',
+                source: '',
+                introduction: '中国京剧演员，工老生。原名奚啸伯。北京人。幼入富连成社学艺，工老生。师承余叔岩，得其真传。嗓音清亮，唱腔韵味醇厚，表演细腻传神。在余派艺术的基础上，结合自己的条件，形成了独特的"奚派"艺术风格。代表剧目有《失空斩》《捉放曹》《击鼓骂曹》《乌盆记》《搜孤救孤》《法场换子》等。'
+            },
+            '周信芳': {
+                type: '行当',
+                title: '周信芳',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国京剧演员，工老生。字士楚，艺名麒麟童。浙江慈溪人。生于江苏清江浦，卒于上海。6岁时，随父旅居杭州，从陈长兴练功学戏。7岁登台，在《铁莲花》中配演娃娃生。1906年，随王鸿寿（三麻子）赴汉口演出，因取艺名"七龄童"。1907年至上海，始用"麒麟童"艺名。1908年在北京喜连成科班搭班学艺，与梅兰芳、林树森、高百岁等同台。继而辗转于烟台、天津、符拉迪沃斯托克（海参崴）等地演出。1912年返沪，在新新舞台等剧场与谭鑫培、李吉瑞、金秀山、冯子和等同台，深受熏陶，演技渐趋成熟。1915年，进上海丹桂第一台，直至1923年，后期并兼任后台管事。在欧阳予倩、王鸿寿、汪笑侬等人影响下，开始自编新戏。第一出为《英雄血泪图》，搬演水浒传中林冲受迫害的故事。其后又两度赴北京演出，把后来被称为"麒派"代表作之一的《萧何月下追韩信》介绍给北方观众，得到北京同行的称赞。1924年回沪，先后在丹桂第一台、更新舞台、大新舞台、天蟾舞台演出，排演连台本戏《汉刘邦》《天雨花》《封神榜》，对京剧艺术进行了一些改革的尝试。其中有些较好的段落，后来成为单独演出的剧目，如《鸿门宴》《鹿台恨》《反五关》等。渐以"麒派"享誉海内。1927年参加南国社，与田汉等颇多交往，后来曾参加话剧《雷雨》的演出，饰周朴园，艺术眼界逐渐开阔。1937年组织移风社，在上海卡尔登大戏院连续演出达4年之久。抗日战争期间，在上海投身于救亡活动，负责京剧界的宣传和动员工作。1943年支持京剧界进步组织"艺友座谈会"的活动，并与当时中国共产党地下组织有联系。1944年接办黄金大戏院。抗日战争胜利后，戏院即作为文艺界进步人士集会的场所。在中国共产党的领导下，先后参加了反"艺员登记"、抗捐抗税等爱国民主运动，并拒赴电台演唱所谓"戡乱"节目。中华人民共和国建立前夕，同梅兰芳、程砚秋、袁雪芬一起应邀出席第一届中国人民政治协商会议。1952年参加第一届全国戏曲观摩演出大会，获荣誉奖。1953年冬，赴朝鲜慰问中国人民志愿军，任副总团长。1955年及1961年，文化部、中国文学艺术界联合会、中国戏剧家协会等先后联合在京举办"梅兰芳、周信芳舞台生活五十年纪念"及"周信芳舞台生活六十年纪念"演出活动，文化部向周信芳颁发奖状。1956年，率上海京剧院访苏演出团赴苏联莫斯科、列宁格勒等城市演出。在"文化大革命"中受迫害致死。\n周信芳是一位战斗的表演艺术家。早在1913年就演出时装戏《宋教仁》，表现了同情民族民主革命的政治倾向。袁世凯称帝，他演出《大汉奸》以示抗议。五四运动时，演出《学拳打金刚》，把矛头指向卖国贼。1931年九一八事变后，演出《洪承畴》抨击伪满汉奸；改编《明末遗恨》，借以揭露国民党当局的醉生梦死。1937年七七事变后，演出《徽钦二帝》，并将《文天祥》《史可法》的预告张贴舞台两侧，以激励观众的爱国热情。他的代表剧目如《四进士》《徐策跑城》《萧何月下追韩信》《清风亭》《乌龙院》《打严嵩》以及1949年以后编演的《义责王魁》《海瑞上疏》等，也大都表现了爱国、正义等积极的主题思想。他的表演艺术，也显示了一种刚健豪放的风格。\n周信芳是一位锲而不舍的探索者。既注重传统的继承，又不受陈规旧套的束缚，善于博采众长，锐意创新。最擅做功，被称为"做派老生"，身段洒脱洗练，表现出强烈的节奏，鲜明的轮廓和有力的顿挫。他的表演全身有戏，善用髯口 、服饰以及道具等为塑造人物服务。\n他的唱功基本上宗法孙菊仙 和汪桂芬 ，以苍劲浑厚见长。嗓音虽不太好，但吐字行腔接近口语，具有纯朴的美。有时吸收旦脚的唱法，以润饰唱腔的柔和、抒情成分；有时又融入花脸的"炸音"，以加强语调和气势；还借鉴徽剧 、汉剧 、昆曲 、梆子等剧种的唱腔，以丰富他的唱腔色彩。\n他的念白 韵味醇厚，抑扬顿挫、轻重缓急，有度有节，又多变化，能恰当而鲜明地表现出人物的语气和感情。他还善于在韵白中适当地运用口语，在对白中插进语助词，使人听来既铿锵悦耳，又亲切生动，富有浓厚的生活气息。\n周信芳在表演中，十分注意唱念与动作的有机结合。在打击乐的运用以及在服装、化妆等方面，都有革新和创造，以其鲜明的特色汇成麒派统一的艺术风格。在几十年的舞台生活中，塑造了宋士杰、徐策、萧何、宋江、邹应龙、张广才、张元秀等众多的生气勃勃、有血有肉、性格鲜明的人物形象，为京剧艺术的发展作出了贡献。麒派不仅是京剧老生的重要流派，而且对其他行当、其他戏曲剧种的表演艺术，也有较大影响。\n曾任中国戏曲研究院副院长、华东戏曲研究院院长、上海京剧院院长、中国戏剧家协会副主席等职。摄制戏曲影片有《宋士杰》和《周信芳舞台艺术》（包括《徐策跑城》、《下书杀惜》）。论著汇编为《周信芳戏剧散论》。常演剧目编为《周信芳演出剧本选集》《周信芳演出剧本新编》。另有艺术经验记录于《周信芳舞台艺术》。传人有高百岁、陈鹤峰等。'
+            },
+            '盖叫天': {
+                type: '行当',
+                title: '盖叫天',
+                source: '',
+                introduction: '中国京剧演员，工武生。原名张英杰，艺名盖叫天。河北高阳人。幼入天津隆庆和科班学艺，工武生。师承李春来，得其真传。武功扎实，表演英武，被誉为"江南活武松"。在武生行当的表演上达到了很高的艺术境界，形成了独特的艺术风格。代表剧目有《武松》《狮子楼》《十字坡》《快活林》《蜈蚣岭》《恶虎村》等。'
+            },
+            '尚小云': {
+                type: '行当',
+                title: '尚小云',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名尚小云。河北南宫人。幼入三乐科班学艺，工青衣。师承孙怡云，得其真传。嗓音清亮，唱腔刚劲，表演细腻传神。在青衣行当的表演上达到了很高的艺术境界，形成了独特的"尚派"艺术风格。代表剧目有《汉明妃》《乾坤福寿镜》《梁红玉》《双阳公主》《青城十九侠》《摩登伽女》等。'
+            },
+            '荀慧生': {
+                type: '行当',
+                title: '荀慧生',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名荀慧生。河北东光人。幼入梆子科班学艺，后改学京剧，工花旦。师承王瑶卿，得其真传。嗓音甜美，唱腔活泼，表演生动传神。在花旦行当的表演上达到了很高的艺术境界，形成了独特的"荀派"艺术风格。代表剧目有《红娘》《金玉奴》《勘玉钏》《花田错》《辛安驿》《霍小玉》等。'
+            },
+            '程砚秋': {
+                type: '行当',
+                title: '程砚秋',
+                source: '',
+                introduction: '中国京剧演员，工旦行。原名程砚秋。北京人。幼入荣春社学艺，工青衣。师承梅兰芳，得其真传。嗓音清亮，唱腔婉转，表演细腻传神。在青衣行当的表演上达到了很高的艺术境界，形成了独特的"程派"艺术风格。代表剧目有《锁麟囊》《春闺梦》《荒山泪》《文姬归汉》《梅妃》《红拂传》等。'
+            },
+            '梅兰芳': {
+                type: '行当',
+                title: '梅兰芳',
+                source: '出处：《中国大百科全书》第二版',
+                introduction: '中国京剧演员。工旦。字畹华。祖籍江苏泰州。生于北京，卒于北京。长期寓居北京。在50余年的舞台生涯中，创造了众多优美的艺术形象，发展和提高了京剧旦脚的演唱和表演艺术，形成一个具有独特风格的艺术流派，世称"梅派"。\n梅兰芳出生于梨园世家。祖父梅巧玲为京剧名旦。伯父梅雨田是与谭鑫培长期合作的著名琴师。梅兰芳父母早亡，由伯父梅雨田抚养成人。8岁开始学戏，9岁从名旦吴菱仙学唱青衣。光绪三十年（1904）农历七月初七第一次登台，在应节戏《天河配》中串演昆曲《长生殿•密誓》的织女。1908年，搭喜连成班演出。1913年，梅兰芳首次应邀到上海演出，王凤卿为头牌（领衔），他为二牌。初次压台演出的剧目为茹莱卿传授的《穆柯寨》，受到上海观众的热烈赞赏。在上海期间，他曾观摩以表现近代和当代题材为主的"新戏"，还参观了新式舞台的灯光、一些演员的化装方法以及服装式样的设计。返京后，排出他的第一部时装新戏《孽海波澜》。1914年秋，再次应邀赴上海演出。两次南下演出，对他的艺术思想产生了积极的影响，由此开始了大量新剧目的排演和艺术上的革新。从1915年4月至1916年9月，排演了时装戏《宦海潮》《邓霞姑》《一缕麻》，古装新戏《牢狱鸳鸯》《嫦娥奔月》《黛玉葬花》《千金一笑》，还有昆曲传统戏《思凡》《春香闹学》《佳期》《拷红》以及《风筝误》的《惊丑》《前亲》《逼婚》《后亲》等。在此后数年中，又继续排演了大量古装新戏，如《廉锦枫》《霸王别姬》《天女散花》《麻姑献寿》等，并整理演出了传统剧目《宇宙锋》《贵妃醉酒》《断桥》《审头刺汤》等。\n梅兰芳在艺术上的卓越成就引起国外人士的重视，1919、1924年，两次应邀去日本演出，均受到日本人民的友好欢迎，特别是文化艺术界人士对他的表演反应强烈。1929年底，梅兰芳应邀赴美国，1930年初演出，受到美国各界人士的热烈欢迎与高度评价，结识了不少美国知名的艺术家。美国波莫纳学院和南加利福尼亚大学均授予梅兰芳名誉文学博士学位。\n1931年九一八事变后，东北沦陷，梅兰芳自北平移居上海，在上海排演了《抗金兵》《生死恨》等剧，倾注了他的爱国热情。1935年，应全苏对外文化协会的邀请去苏联，在莫斯科与列宁格勒两地演出时，受到苏联观众及文艺界的热烈欢迎，结识了K.S.斯坦尼斯拉夫斯基、S.M.爱森斯坦、V.I.聂米罗维奇–丹钦科、V.E.梅耶荷德以及B.布莱希特等艺术家。他们对梅兰芳的表演艺术甚为推崇，认为给了他们有益的借鉴和启示。\n1937年卢沟桥事变后，梅兰芳身居沦陷区，不为敌、伪的威胁利诱所屈服，毅然蓄须明志，拒绝演出，坚持到抗战胜利。这种崇高的民族气节，受到全国人民的赞扬。\n1949年，梅兰芳应邀参加第一届全国文学艺术工作者代表大会，并在中华人民共和国建立前夕，同程砚秋、周信芳、袁雪芬一起应邀参加第一届中国人民政治协商会议。中华人民共和国建立后，先后当选为中国文学艺术界联合会副主席与中国戏剧家协会副主席，曾任中国戏曲研究院、中国戏曲学院、中国京剧院院长。1952年，在第一届全国戏曲观摩演出大会上，中央人民政府文化部授予梅兰芳荣誉奖。1953年，梅兰芳参加中国人民赴朝慰问团，任副总团长，并曾多次作慰问演出。1955年，中华人民共和国文化部、中国文学艺术界联合会、中国戏剧家协会联合为梅兰芳、周信芳举办舞台生活50年纪念活动。1956年5月，梅兰芳率中国京剧代表团访日演出。1957年7月，国际舞蹈协会授予梅兰芳荣誉奖章。1959年，为向国庆10周年献礼，排演了新戏《穆桂英挂帅》。\n梅兰芳的艺术成就，对中国戏曲艺术的发展起了承前启后的作用。梅兰芳创造的众多性格鲜明的艺术形象，体现了中国妇女各种美好的品德与个性，有的端庄淑静，有的英武豪放，有的娇憨活泼，有的聪慧机敏……这一切个性特征，又融化在美的形象之中。梅兰芳善于运用歌唱、念白、身段、舞蹈等技巧，把人物的心理状态刻画入微。他善于表现人物细腻的感情，运用艺术手段自然、和谐，富有节奏感，在质朴中见俏丽、妩媚中显大方。著名戏剧家欧阳予倩曾誉之为"伟大的演员、美的化身"。'
+            }
+        };
+
+        // 加载CSV数据
+        async function loadCSVData() {
+            try {
+                const response = await fetch('data2.csv');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                
+                console.log('=== CSV文件已加载 ===');
+                console.log('文件内容长度:', text.length);
+                console.log('文件前200字符:', text.substring(0, 200));
+                
+                // 使用正则表达式解析CSV（支持引号内的逗号和换行）
+                const rows = parseCSV(text);
+                
+                console.log('解析到的行数:', rows.length);
+                console.log('第一行（标题）:', rows[0]);
+                if (rows.length > 1) {
+                    console.log('第二行（数据）:', rows[1]);
+                }
+                
+                // 第一行是标题
+                const headers = rows[0];
+                
+                // 处理数据行（CSV有4列：类型,标题,出处,介绍）
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    console.log(`处理第${i}行:`, row);
+                    console.log(`  字段数: ${row.length}`);
+                    
+                    if (row.length >= 4) {
+                        const type = row[0] ? row[0].trim() : '';
+                        const title = row[1] ? row[1].trim() : '';
+                        const source = row[2] ? row[2].trim() : '';
+                        const introduction = row[3] ? row[3].trim() : '';
+                        
+                        console.log(`  类型: "${type}", 标题: "${title}"`);
+                        console.log(`  出处长度: ${source.length}, 介绍长度: ${introduction.length}`);
+                        
+                        if (title) {
+                            // 使用标题作为键
+                            detailData[title] = {
+                                type: type,
+                                title: title,
+                                source: source,
+                                introduction: introduction
+                            };
+                            
+                            console.log('✓ 成功加载:', title);
+                        }
+                    } else {
+                        console.log('✗ 跳过无效行，字段数不足:', row.length);
+                    }
+                }
+                
+                console.log('=== CSV数据加载完成！===');
+                console.log('总记录数:', Object.keys(detailData).length);
+                console.log('可用的标题:', Object.keys(detailData));
+            } catch (error) {
+                console.error('!!! 加载CSV数据失败 !!!', error);
+            }
+        }
+
+        // 解析CSV（支持引号、换行、逗号）
+        function parseCSV(text) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i + 1];
+                
+                if (char === '"') {
+                    if (inQuotes && nextChar === '"') {
+                        // 双引号转义
+                        currentField += '"';
+                        i++; // 跳过下一个引号
+                    } else {
+                        // 切换引号状态
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    // 字段分隔符（只在引号外有效）
+                    currentRow.push(currentField);
+                    currentField = '';
+                } else if (char === '\n' && !inQuotes) {
+                    // 行结束（只在引号外有效）
+                    currentRow.push(currentField);
+                    if (currentRow.length > 0) {
+                        rows.push(currentRow);
+                    }
+                    currentRow = [];
+                    currentField = '';
+                } else if (char === '\r') {
+                    // 处理回车符
+                    if (!inQuotes) {
+                        // 在引号外，跳过\r，让\n来处理行结束（如果是\r\n）
+                        // 或者当作行结束符（如果只有\r）
+                        if (nextChar !== '\n') {
+                            // 只有\r的情况，当作行结束符
+                            currentRow.push(currentField);
+                            if (currentRow.length > 0) {
+                                rows.push(currentRow);
+                            }
+                            currentRow = [];
+                            currentField = '';
+                        }
+                        // 如果是\r\n，则跳过\r，让\n的逻辑处理
+                    } else {
+                        // 引号内保留换行
+                        currentField += char;
+                    }
+                } else {
+                    // 普通字符（包括引号内的换行）
+                    currentField += char;
+                }
+            }
+            
+            // 处理最后一个字段和行
+            if (currentField || currentRow.length > 0) {
+                currentRow.push(currentField);
+                if (currentRow.length > 0) {
+                    rows.push(currentRow);
+                }
+            }
+            
+            return rows;
+        }
+
+        // 显示详细信息
+        async function showDetail(name) {
+            const modal = document.getElementById('detailModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            console.log('尝试显示详细信息:', name);
+            
+            // 确保数据已加载
+            if (Object.keys(detailData).length === 0) {
+                console.log('数据未加载，开始加载...');
+                await loadCSVData();
+            }
+            
+            console.log('当前可用数据:', Object.keys(detailData));
+            console.log('查找的名称:', name);
+            
+            const data = detailData[name];
+            console.log('找到的数据:', data);
+            
+            if (data) {
+                modalTitle.textContent = data.title;
+                
+                // 格式化内容 - 传统书卷风格
+                let content = '';
+                
+                // 显示出处 - 传统印章样式
+                if (data.source) {
+                    content += `<div class="modal-source">【${data.source}】</div>`;
+                }
+                
+                // 显示介绍 - 传统书卷排版
+                if (data.introduction) {
+                    content += `<div class="modal-introduction">`;
+                    
+                    // 将介绍文本按换行符分割成段落
+                    const paragraphs = data.introduction.split('\n').filter(p => p.trim());
+                    
+                    paragraphs.forEach((p, index) => {
+                        if (p.trim()) {
+                            // 所有段落使用统一的段落样式
+                            content += `<p>${p.trim()}</p>`;
+                        }
+                    });
+                    
+                    content += `</div>`;
+                }
+                
+                modalBody.innerHTML = content;
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            } else {
+                console.error('未找到数据:', name);
+                console.error('所有可用的键:', Object.keys(detailData));
+                modalTitle.textContent = '未找到信息';
+                modalBody.innerHTML = `<p style="text-align: center; color: #999;">暂无"${name}"的详细信息</p>
+                    <p style="text-align: center; color: #999; font-size: 12px;">可用数据: ${Object.keys(detailData).join(', ')}</p>`;
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // 页面加载时预加载CSV数据
+        window.addEventListener('load', () => {
+            loadCSVData();
+        });
+
+        // 关闭弹窗
+        function closeDetailModal() {
+            const modal = document.getElementById('detailModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 点击弹窗外部关闭
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('detailModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeDetailModal();
+                    }
+                });
+            }
+        });
+
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDetailModal();
+            }
+        });
+    </script>
+</body>
+</html>
